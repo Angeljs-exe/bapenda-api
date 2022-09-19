@@ -6,11 +6,32 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {fonts, ImgBgSalut, LgGoogle} from '../../assets';
 import {Button, CheckBoxx, Password, TextInput} from '../../components';
 
+import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
+import {firebaseConfig} from '../../../firebase-config';
+
 const Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const submitLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        userCredential.user;
+        navigation.replace('Dashboard');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <ImageBackground source={ImgBgSalut} style={styles.page}>
       <SafeAreaView>
@@ -20,10 +41,17 @@ const Login = ({navigation}) => {
             Silahkan masuk dengan akun yang sudah anda buat
           </Text>
           <View style={styles.wrapperContent}>
-            <TextInput title={'Email'} placeholder={'Masukan email anda'} />
+            <TextInput
+              title={'Email'}
+              placeholder={'Masukan email anda'}
+              value={email}
+              onChangeText={text => setEmail(text)}
+            />
             <Password
               title={'Kata Sandi'}
               placeholder={'Masukkan kata sandi'}
+              value={password}
+              onChangeText={text => setPassword(text)}
             />
             <View style={styles.checkBoxContainer}>
               <CheckBoxx />
@@ -35,10 +63,7 @@ const Login = ({navigation}) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <Button
-              title={'Masuk'}
-              onPress={() => navigation.replace('Dashboard')}
-            />
+            <Button title={'Masuk'} onPress={submitLogin} />
           </View>
           <View style={styles.orContainer}>
             <View style={styles.line} />
@@ -154,7 +179,7 @@ const styles = StyleSheet.create({
   wrapperDaftar: {
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
-    color: '#2E2E2E',
+    color: '#000000',
   },
   textDaftar: {
     fontFamily: fonts.Poppins.semibold,

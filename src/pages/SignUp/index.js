@@ -6,12 +6,36 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {fonts} from '../../assets';
 import {Button, Password, TextInput} from '../../components';
 import InputNumberPhone from './InputNumberPhone';
 
+import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
+import {firebaseConfig} from '../../../firebase-config';
+
 const SignUp = ({navigation}) => {
+  const [nik, setNik] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [noPhone, setNoPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const submitCreateAccount = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+        userCredential.user;
+        navigation.replace('Otp');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.page}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -25,27 +49,34 @@ const SignUp = ({navigation}) => {
           <TextInput
             title={'NIK E-KTP'}
             placeholder={'Masukkan NIK E-KTP Anda '}
+            value={nik}
+            onChangeText={text => setNik(text)}
           />
           <TextInput
             title={'Nama Sesuai E-KTP'}
             placeholder={'Masukkan Nama Anda'}
+            value={name}
+            onChangeText={text => setName(text)}
           />
           <TextInput
             title={'Alamat Email​ '}
             placeholder={'Masukkan Alamat Email Anda'}
+            value={email}
+            onChangeText={text => setEmail(text)}
           />
           <InputNumberPhone
             title={'Nomor Telepon'}
             placeholder={'Masukkan Nomor Telepon Anda'}
+            value={noPhone}
+            onChangeText={text => setNoPhone(text)}
           />
           <Password
             title={'Password'}
             placeholder={'Masukkan Kata Sandi Anda'}
+            value={password}
+            onChangeText={text => setPassword(text)}
           />
-          <Button
-            title={'Selanjutnya'}
-            onPress={() => navigation.replace('Otp')}
-          />
+          <Button title={'Selanjutnya'} onPress={submitCreateAccount} />
         </View>
         <View style={styles.wrapperDoneContainer}>
           <Text style={styles.wrapperDone}>Sudah memiliki akun?</Text>

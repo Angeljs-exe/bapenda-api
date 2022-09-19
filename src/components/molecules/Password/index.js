@@ -8,7 +8,7 @@ import {
 import React, {useState} from 'react';
 import {fonts, IconEye, IconEyeOff} from '../../../assets';
 
-const Password = ({title, placeholder}) => {
+const Password = ({title, placeholder, onChangeText, value}) => {
   const [showPass, setShowPass] = useState(false);
 
   const touchEye = () => {
@@ -22,6 +22,8 @@ const Password = ({title, placeholder}) => {
         <TextInput
           style={styles.inputPassword}
           placeholder={placeholder}
+          onChangeText={onChangeText}
+          value={value}
           secureTextEntry={showPass ? false : true}
         />
         <TouchableOpacity onPress={() => touchEye()}>

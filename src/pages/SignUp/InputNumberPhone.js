@@ -9,7 +9,7 @@ import React, {useState} from 'react';
 import {fonts} from '../../assets';
 import CountryCode from '../../assets/CountryCode';
 
-const InputNumberPhone = ({title, placeholder}) => {
+const InputNumberPhone = ({title, placeholder, onChangeText, value}) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
@@ -22,7 +22,12 @@ const InputNumberPhone = ({title, placeholder}) => {
           <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
         </TouchableOpacity>
         <View style={styles.inputStyle}>
-          <TextInput placeholder={placeholder} keyboardType="number-pad" />
+          <TextInput
+            placeholder={placeholder}
+            keyboardType="number-pad"
+            onChangeText={onChangeText}
+            value={value}
+          />
         </View>
       </View>
     </View>
