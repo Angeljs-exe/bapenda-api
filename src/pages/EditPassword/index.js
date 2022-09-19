@@ -1,11 +1,17 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Button, Header, Password} from '../../components';
 import {fonts} from '../../assets';
 
 const EditPassword = ({navigation}) => {
   return (
-    <View style={styles.page}>
+    <SafeAreaView style={styles.page}>
       <Header
         title="Kata Sandi"
         onBack={() => navigation.navigate('Profile')}
@@ -21,7 +27,7 @@ const EditPassword = ({navigation}) => {
           <Button title="Simpan" />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

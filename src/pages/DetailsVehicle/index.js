@@ -1,5 +1,6 @@
 import React, {useCallback, useRef, useState} from 'react';
 import {
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -26,42 +27,52 @@ const DetailsVehicle = ({navigation}) => {
   }, []);
 
   return (
-    <GestureHandlerRootView style={styles.page}>
-      {/* {backgroundColor: isOpen ? '#75757580' : '#FFFFFF'} */}
-      <Header
-        title="Detail Kendaraan"
-        onBack={() => navigation.navigate('Dashboard')}
-      />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.detailsVehicleContainer}>
-          <View style={styles.wrapperDetailsVehicle}>
-            <TextInput style={styles.inputTitle} placeholder="Nama Kendaraan" />
-            <TouchableOpacity activeOpacity={0.5}>
-              <IconEditRename />
-            </TouchableOpacity>
+    <SafeAreaView style={styles.page}>
+      <GestureHandlerRootView style={styles.page}>
+        {/* {backgroundColor: isOpen ? '#75757580' : '#FFFFFF'} */}
+        <Header
+          title="Detail Kendaraan"
+          onBack={() => navigation.navigate('Dashboard')}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.detailsVehicleContainer}>
+            <View style={styles.wrapperDetailsVehicle}>
+              <TextInput
+                style={styles.inputTitle}
+                placeholder="Nama Kendaraan"
+              />
+              <TouchableOpacity activeOpacity={0.5}>
+                <IconEditRename />
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              <AddImageVehicle title={'Tambah Foto Depan'} />
+              <AddImageVehicle title={'Tambah Foto Belakang'} />
+              <AddImageVehicle title={'Tambah Foto Samping Kanan'} />
+              <AddImageVehicle title={'Tambah Foto Samping Kiri'} />
+            </ScrollView>
+            <DetailsContainer />
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <AddImageVehicle title={'Tambah Foto Depan'} />
-            <AddImageVehicle title={'Tambah Foto Belakang'} />
-            <AddImageVehicle title={'Tambah Foto Samping Kanan'} />
-            <AddImageVehicle title={'Tambah Foto Samping Kiri'} />
-          </ScrollView>
-          <DetailsContainer />
-        </View>
-        <View style={styles.button}>
-          <Button title="Lihat Kode Bayar" onPress={() => handleSnapPress(1)} />
-        </View>
-      </ScrollView>
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-        onClose={() => setIsOpen(false)}>
-        <BottomSheetView>
-          <PaymentCode />
-        </BottomSheetView>
-      </BottomSheet>
-    </GestureHandlerRootView>
+          <View style={styles.button}>
+            <Button
+              title="Lihat Kode Bayar"
+              onPress={() => handleSnapPress(1)}
+            />
+          </View>
+        </ScrollView>
+        <BottomSheet
+          ref={sheetRef}
+          snapPoints={snapPoints}
+          enablePanDownToClose={true}
+          onClose={() => setIsOpen(false)}>
+          <BottomSheetView>
+            <PaymentCode />
+          </BottomSheetView>
+        </BottomSheet>
+      </GestureHandlerRootView>
+    </SafeAreaView>
   );
 };
 
