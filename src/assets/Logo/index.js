@@ -6,6 +6,7 @@ import LgSatlantas from './LogoSatlantas.png';
 import LgBSG from './LogoBSG.png';
 import LgFIK from './LogoFIK.png';
 import LgUnklab from './LogoUnklab.png';
+import LgApple from './LgApple.svg';
 
 export {
   LgGoogle,
@@ -16,4 +17,5 @@ export {
   LgBSG,
   LgFIK,
   LgUnklab,
+  LgApple,
 };

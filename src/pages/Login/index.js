@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {fonts, ImgBgSalut, LgGoogle} from '../../assets';
+import {fonts, ImgBgSalut, LgApple, LgGoogle} from '../../assets';
 import {Button, CheckBoxx, Password, TextInput} from '../../components';
 
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
@@ -70,18 +70,28 @@ const Login = ({navigation}) => {
             <Text style={styles.titleOr}>Atau</Text>
             <View style={styles.line} />
           </View>
-          <TouchableOpacity activeOpacity={0.5}>
-            <View style={styles.wrapperButtonGoogle}>
-              <View style={styles.containerLgGoogle}>
-                <LgGoogle />
-                <View style={styles.titleGoogleContainer}>
-                  <Text style={styles.titleGoogle}>
-                    Masuk Dengan Akun Google
-                  </Text>
+          <View style={styles.googleAppleContainer}>
+            <TouchableOpacity activeOpacity={0.5}>
+              <View style={styles.wrapperButtonGoogle}>
+                <View style={styles.containerLgGoogle}>
+                  <LgGoogle />
+                  <View style={styles.titleGoogleContainer}>
+                    <Text style={styles.titleGoogle}>Google</Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.5}>
+              <View style={styles.wrapperButtonGoogle}>
+                <View style={styles.containerLgGoogle}>
+                  <LgApple />
+                  <View style={styles.titleGoogleContainer}>
+                    <Text style={styles.titleGoogle}>Apple</Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
           <View style={styles.wrapperDaftarContainer}>
             <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
             <TouchableOpacity
@@ -149,9 +159,15 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.semibold,
     color: '#999EA1',
   },
+  googleAppleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   wrapperButtonGoogle: {
     backgroundColor: '#FFFFFF',
     borderColor: '#C6C6C6',
+    width: 150,
+    height: 44,
     borderWidth: 1,
     borderRadius: 10,
     paddingVertical: 6,
