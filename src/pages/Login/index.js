@@ -42,7 +42,7 @@ const Login = ({navigation}) => {
           </Text>
           <View style={styles.wrapperContent}>
             <TextInput
-              title={'Email'}
+              title={'Email atau No.Telepon'}
               placeholder={'Masukan email anda'}
               value={email}
               onChangeText={text => setEmail(text)}
