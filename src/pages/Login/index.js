@@ -58,7 +58,7 @@ const Login = ({navigation}) => {
               <View style={styles.forgetPassContainer}>
                 <TouchableOpacity
                   activeOpacity={0.5}
-                  onPress={() => navigation.navigate('ForgetPassword')}>
+                  onPress={() => navigation.replace('ForgetPassword')}>
                   <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
                 </TouchableOpacity>
               </View>
