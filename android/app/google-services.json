@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "92751038746",
+    "firebase_url": "https://bapenda-2c454-default-rtdb.firebaseio.com",
+    "project_id": "bapenda-2c454",
+    "storage_bucket": "bapenda-2c454.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92751038746:android:d1ffff102de1191d05c4a3",
+        "android_client_info": {
+          "package_name": "com.bapendamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92751038746-u13ol92on4svusgqr97hs3g8k6jtcq84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bapendamobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFQYOHZsijcdkQn5bouLfLkdghJPO3L0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "92751038746-mcuqkhbbgfti767kl8h6sqfp0u14paa2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bapendaMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

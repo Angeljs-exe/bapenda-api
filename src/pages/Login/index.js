@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts, ImgBgSalut, LgGoogle} from '../../assets';
 import {Button, CheckBoxx, Password, TextInput} from '../../components';
 
@@ -14,15 +14,47 @@ import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import {firebaseConfig} from '../../../firebase-config';
 
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
 const Login = ({navigation}) => {
+  const [useData, setUserData] = useState({});
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
+    });
+  },[])
+
+  const googleSignIn = async () => {
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+  
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await auth().signOut();
+      console.log("Sign out success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const Auth = getAuth(app);
 
   const submitLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(Auth, email, password)
       .then(userCredential => {
         userCredential.user;
         navigation.replace('Dashboard');
@@ -70,7 +102,15 @@ const Login = ({navigation}) => {
             <Text style={styles.titleOr}>Atau</Text>
             <View style={styles.line} />
           </View>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} 
+          onPress={() =>
+            googleSignIn()
+            .then(res=> {
+            console.log(res.user);
+            setUserData(res.user);
+            })
+            .catch(error=> console.log(error))
+            }>
             <View style={styles.wrapperButtonGoogle}>
               <View style={styles.containerLgGoogle}>
                 <LgGoogle />
@@ -82,6 +122,21 @@ const Login = ({navigation}) => {
               </View>
             </View>
           </TouchableOpacity>
+
+          {/* <TouchableOpacity activeOpacity={0.5} 
+          onPress={signOut}>
+            <View style={styles.wrapperButtonGoogle}>
+              <View style={styles.containerLgGoogle}>
+                <LgGoogle />
+                <View style={styles.titleGoogleContainer}>
+                  <Text style={styles.titleGoogle}>
+                    Keluar Dari Akun Google
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity> */}
+
           <View style={styles.wrapperDaftarContainer}>
             <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
             <TouchableOpacity
