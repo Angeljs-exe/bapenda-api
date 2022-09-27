@@ -1,5 +1,4 @@
 import {
-  ImageBackground,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -7,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import {fonts, ImgBgSalut, LgApple, LgGoogle} from '../../assets';
+import {fonts, LgApple, LgGoogle, LgPhone} from '../../assets';
 import {Button, CheckBoxx, Password, TextInput} from '../../components';
 
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
@@ -33,76 +32,78 @@ const Login = ({navigation}) => {
   };
 
   return (
-    <ImageBackground source={ImgBgSalut} style={styles.page}>
-      <SafeAreaView>
-        <View style={styles.titleWelcomeContainer}>
-          <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-          <Text style={styles.subText}>
-            Silahkan masuk dengan akun yang sudah anda buat
-          </Text>
-          <View style={styles.wrapperContent}>
-            <TextInput
-              title={'Email atau No.Telepon'}
-              placeholder={'Masukan email anda'}
-              value={email}
-              onChangeText={text => setEmail(text)}
-            />
-            <Password
-              title={'Kata Sandi'}
-              placeholder={'Masukkan kata sandi'}
-              value={password}
-              onChangeText={text => setPassword(text)}
-            />
-            <View style={styles.checkBoxContainer}>
-              <CheckBoxx />
-              <View style={styles.forgetPassContainer}>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => navigation.replace('ForgetPassword')}>
-                  <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
-                </TouchableOpacity>
-              </View>
+    <SafeAreaView style={styles.page}>
+      <View style={styles.titleWelcomeContainer}>
+        <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
+        <Text style={styles.subText}>
+          Silahkan masuk dengan akun yang sudah anda buat
+        </Text>
+        <View style={styles.wrapperContent}>
+          <TextInput
+            title={'Email atau No.Telepon'}
+            placeholder={'Masukan email anda'}
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
+          <Password
+            title={'Kata Sandi'}
+            placeholder={'Masukkan kata sandi'}
+            value={password}
+            onChangeText={text => setPassword(text)}
+          />
+          <View style={styles.checkBoxContainer}>
+            <CheckBoxx />
+            <View style={styles.forgetPassContainer}>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => navigation.replace('ForgetPassword')}>
+                <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
+              </TouchableOpacity>
             </View>
-            <Button title={'Masuk'} onPress={submitLogin} />
           </View>
-          <View style={styles.orContainer}>
-            <View style={styles.line} />
-            <Text style={styles.titleOr}>Atau</Text>
-            <View style={styles.line} />
-          </View>
-          <View style={styles.googleAppleContainer}>
-            <TouchableOpacity activeOpacity={0.5}>
-              <View style={styles.wrapperButtonGoogle}>
-                <View style={styles.containerLgGoogle}>
-                  <LgGoogle />
-                  <View style={styles.titleGoogleContainer}>
-                    <Text style={styles.titleGoogle}>Google</Text>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.5}>
-              <View style={styles.wrapperButtonGoogle}>
-                <View style={styles.containerLgGoogle}>
-                  <LgApple />
-                  <View style={styles.titleGoogleContainer}>
-                    <Text style={styles.titleGoogle}>Apple</Text>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.wrapperDaftarContainer}>
-            <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => navigation.replace('SignUp')}>
-              <Text style={styles.textDaftar}> Daftar</Text>
-            </TouchableOpacity>
-          </View>
+          <Button title={'Masuk'} onPress={submitLogin} />
         </View>
-      </SafeAreaView>
-    </ImageBackground>
+        <View style={styles.orContainer}>
+          <View style={styles.line} />
+          <Text style={styles.titleOr}>Atau</Text>
+          <View style={styles.line} />
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Otp')}>
+          <View style={styles.signInContainer}>
+            <View style={styles.wrapperSignIn}>
+              <LgPhone />
+              <Text style={styles.titleSignIn}>Masuk dengan nomor telepon</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5}>
+          <View style={styles.signInContainer}>
+            <View style={styles.wrapperSignIn}>
+              <LgGoogle />
+              <Text style={styles.titleSignIn}>Masuk Dengan Google</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5}>
+          <View style={styles.signInContainer}>
+            <View style={styles.wrapperSignIn}>
+              <LgApple />
+              <Text style={styles.titleSignIn}>Masuk Dengan Apple</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.wrapperDaftarContainer}>
+          <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => navigation.replace('SignUp')}>
+            <Text style={styles.textDaftar}> Daftar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     color: '#242424',
   },
   subText: {
-    fontSize: 8.5,
+    fontSize: 12,
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
@@ -159,38 +160,31 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.semibold,
     color: '#999EA1',
   },
-  googleAppleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  wrapperButtonGoogle: {
+  signInContainer: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#C6C6C6',
-    width: 150,
-    height: 44,
     borderWidth: 1,
     borderRadius: 10,
-    paddingVertical: 6,
+    borderColor: '#C6C6C6',
+    width: '100%',
+    height: 44,
+    justifyContent: 'center',
     marginTop: 15,
   },
-  containerLgGoogle: {
+  wrapperSignIn: {
     flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  titleGoogleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  titleGoogle: {
+  titleSignIn: {
     fontSize: 14,
     fontFamily: fonts.Poppins.medium,
     color: '#242424',
-    marginLeft: 8,
+    marginLeft: 10,
   },
   wrapperDaftarContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 170,
+    marginTop: 130 / 2,
   },
   wrapperDaftar: {
     fontSize: 14,

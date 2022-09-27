@@ -7,6 +7,7 @@ import LgBSG from './LogoBSG.png';
 import LgFIK from './LogoFIK.png';
 import LgUnklab from './LogoUnklab.png';
 import LgApple from './LgApple.svg';
+import LgPhone from './LgPhone.svg';
 
 export {
   LgGoogle,
@@ -18,4 +19,5 @@ export {
   LgFIK,
   LgUnklab,
   LgApple,
+  LgPhone,
 };

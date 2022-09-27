@@ -20,6 +20,7 @@ import {
   EditPassword,
   FAQs,
   ForgetPassword,
+  VerivicationCodeOTP,
 } from '../pages';
 
 const Stack = createNativeStackNavigator();
@@ -111,6 +112,11 @@ const Router = () => {
       <Stack.Screen
         name="ForgetPassword"
         component={ForgetPassword}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="VerivicationCodeOTP"
+        component={VerivicationCodeOTP}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

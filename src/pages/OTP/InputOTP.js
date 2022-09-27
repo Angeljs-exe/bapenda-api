@@ -1,100 +1,84 @@
 import {
+  Keyboard,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {Button} from '../../components';
 import {fonts} from '../../assets';
 
-const InputOTP = () => {
-  const [touchNumber, setTouchNumber] = useState(false);
+const inputs = Array(6).fill('');
+let newInputIndex = 0;
 
-  const touchOTPSubmit = () => {
-    setTouchNumber(true);
+// const isObjValid = obj => {
+//   return Object.values(obj).every(val => val.trim());
+// };
+
+const InputOTP = ({onChangeText, onPress}) => {
+  const input = useRef();
+  const [otp, setOtp] = useState({0: '', 1: '', 2: '', 3: '', 4: '', 5: ''});
+  const [nextInputIndex, setNextInputIndex] = useState(0);
+
+  const handleChangeText = (text, index) => {
+    const newOTP = {...otp};
+    newOTP[index] = text;
+    setOtp(newOTP);
+
+    Keyboard.dismiss();
+
+    const lastInputIndex = inputs.length - 1;
+    if (!text) {
+      newInputIndex = index === 0 ? 0 : index - 1;
+    } else {
+      newInputIndex = index === lastInputIndex ? lastInputIndex : index + 1;
+    }
+    setNextInputIndex(newInputIndex);
   };
 
-  const oneInput = useRef();
-  const twoInput = useRef();
-  const threeInput = useRef();
-  const fourInput = useRef();
-  const fivetInput = useRef();
+  // const submitOTP = () => {
+  //   Keyboard.dismiss();
+
+  //   if (isObjValid(otp)) {
+  //     let val = '';
+
+  //     Object.values(otp).forEach(v => {
+  //       val += v;
+  //     });
+  //   }
+  // };
+
+  useEffect(() => {
+    input.current.focus();
+  }, [nextInputIndex]);
 
   return (
     <>
-      <View style={styles.bgOTPContainer}>
-        <TouchableOpacity activeOpacity={0.5} onPress={touchOTPSubmit}>
-          {touchNumber && (
-            <TextInput
-              style={styles.inputOtp}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={oneInput}
-              onChangeText={text => {
-                text && twoInput.current.focus();
-              }}
-            />
-          )}
-          {!touchNumber && <View style={styles.bgOTP} />}
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={touchOTPSubmit}>
-          {touchNumber && (
-            <TextInput
-              style={styles.inputOtp}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={twoInput}
-              onChangeText={text => {
-                text ? threeInput.current.focus() : oneInput.current.focus();
-              }}
-            />
-          )}
-          {!touchNumber && <View style={styles.bgOTP} />}
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={touchOTPSubmit}>
-          {touchNumber && (
-            <TextInput
-              style={styles.inputOtp}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={threeInput}
-              onChangeText={text => {
-                text ? fourInput.current.focus() : twoInput.current.focus();
-              }}
-            />
-          )}
-          {!touchNumber && <View style={styles.bgOTP} />}
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={touchOTPSubmit}>
-          {touchNumber && (
-            <TextInput
-              style={styles.inputOtp}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={fourInput}
-              onChangeText={text => {
-                text ? fivetInput.current.focus() : threeInput.current.focus();
-              }}
-            />
-          )}
-          {!touchNumber && <View style={styles.bgOTP} />}
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5} onPress={touchOTPSubmit}>
-          {touchNumber && (
-            <TextInput
-              style={styles.inputOtp}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={fivetInput}
-              onChangeText={text => {
-                !text && fourInput.current.focus();
-              }}
-            />
-          )}
-          {!touchNumber && <View style={styles.bgOTP} />}
-        </TouchableOpacity>
-      </View>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.inputContainer}>
+          {inputs.map((inp, index) => {
+            return (
+              <View key={index.toString()} style={styles.inputOtpContainer}>
+                <TextInput
+                  value={otp[index]}
+                  key={index.toString()}
+                  placeholder="-"
+                  keyboardType="numeric"
+                  maxLength={1}
+                  onChangeText={text =>
+                    handleChangeText(text, index, onChangeText)
+                  }
+                  ref={newInputIndex === index ? input : null}
+                  style={styles.inputOtp}
+                />
+              </View>
+            );
+          })}
+        </View>
+      </KeyboardAvoidingView>
       <View style={styles.wrapperCodeOTP}>
         <Text style={styles.wrapperCode}>
           Belum menerima konfirmasi kode OTP ?{' '}
@@ -103,6 +87,9 @@ const InputOTP = () => {
           <Text style={styles.sendAgain}> Kirim Ulang</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Konfirmasi" onPress={onPress} />
+      </View>
     </>
   );
 };
@@ -110,30 +97,31 @@ const InputOTP = () => {
 export default InputOTP;
 
 const styles = StyleSheet.create({
-  bgOTPContainer: {
+  container: {
+    flex: 1,
+  },
+  inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  inputOtp: {
-    width: 60,
-    height: 74,
-    fontSize: 38,
-    borderRadius: 5,
-    borderWidth: 1,
+  inputOtpContainer: {
+    width: 50,
+    height: 64,
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: '#000000',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  bgOTP: {
-    width: 60,
-    height: 74,
-    backgroundColor: '#D9D9D9',
-    borderRadius: 5,
+  inputOtp: {
+    textAlign: 'center',
+    fontSize: 30,
   },
-
   wrapperCodeOTP: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 12,
+    marginTop: 80,
   },
   wrapperCode: {
     fontSize: 12,
@@ -144,5 +132,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: fonts.Poppins.semibold,
     color: '#00ADF8',
+  },
+  buttonContainer: {
+    marginTop: 80 / 2,
   },
 });
