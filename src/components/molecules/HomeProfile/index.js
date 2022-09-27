@@ -2,13 +2,14 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Button} from '../../atoms';
 import {fonts} from '../../../assets';
+import Login from '../../../pages/Login';
 
 const HomeProfile = ({onPress}) => {
   return (
     <View style={styles.profileContainer}>
       <Button click="iconOnly" icon="iconProfile" onPress={onPress} />
       <View style={styles.profileNameContainer}>
-        <Text style={styles.profileName}>Halo, John Doe!</Text>
+        <Text style={styles.profileName}>Halo,</Text>
         <Text style={styles.userEmail}>johndoe@gmail.com</Text>
       </View>
     </View>

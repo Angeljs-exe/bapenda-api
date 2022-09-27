@@ -28,8 +28,8 @@ const Otp = ({navigation}) => {
     phoneProvider
       .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
       .then(() => {
-        setVerivicationId('');
-        // navigation.navigate('VerivicationCodeOTP', {phoneNumber});
+        setVerivicationId();
+        navigation.navigate('VerivicationCodeOTP', {phoneNumber});
       })
       .catch(error => {
         console.log(error);
