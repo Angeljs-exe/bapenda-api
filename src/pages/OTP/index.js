@@ -1,48 +1,39 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {fonts} from '../../assets';
 import {Button} from '../../components';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 
-import {FirebaseRecaptchaVerifierModal} from 'expo-firebase-recaptcha';
-import {firebaseConfig} from '../../../firebase-config';
-import firebase from 'firebase/compat/app';
+import auth from '@react-native-firebase/auth';
+import {storeData} from '../../utils';
 
 const Otp = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
 
-  const [confirmCode, setConfirmCode] = useState(false);
-
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [verivicationId, setVerivicationId] = useState(null);
-  const recaptchaVerifier = useRef(null);
-  // console.log(phoneNumber);
 
-  const sendCodeAuth = () => {
-    setConfirmCode(!confirmCode);
-    const phoneProvider = new firebase.auth.PhoneAuthProvider();
-    phoneProvider
-      .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
-      .then(() => {
-        setVerivicationId();
-        navigation.navigate('VerivicationCodeOTP', {phoneNumber});
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    setPhoneNumber('');
+  const signInWithPhoneNumber = async () => {
+    storeData('user', phoneNumber);
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      confirmation;
+      const data = {
+        phoneNumber: phoneNumber,
+      };
+
+      storeData('user', data);
+      navigation.navigate('VerificationCodeOTP', {phoneNumber, confirmation});
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   return (
     <SafeAreaView style={styles.page}>
-      <FirebaseRecaptchaVerifierModal
-        ref={recaptchaVerifier}
-        firebaseConfig={firebaseConfig}
-      />
       <View style={styles.phoneContainer}>
         <View style={styles.inputPhoneContainer}>
           <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
@@ -55,14 +46,20 @@ const Otp = ({navigation}) => {
               <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
             </TouchableOpacity>
             <InputNumberPhone
-              title="Nomor Telepon"
               placeholder={'Masukkan Nomor Telepon Anda'}
               onChangeText={text =>
                 setPhoneNumber(selectedCountry?.dial_code + text)
               }
             />
           </View>
-          <Button title="Masuk" onPress={() => sendCodeAuth()} />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Masuk"
+              onPress={() => {
+                signInWithPhoneNumber();
+              }}
+            />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -122,7 +119,6 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   buttonContainer: {
-    paddingHorizontal: 25,
-    marginTop: 80 / 2,
+    marginTop: 158,
   },
 });

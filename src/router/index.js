@@ -20,7 +20,8 @@ import {
   EditPassword,
   FAQs,
   ForgetPassword,
-  VerivicationCodeOTP,
+  VerificationCodeOTP,
+  PersonalData,
 } from '../pages';
 
 const Stack = createNativeStackNavigator();
@@ -115,8 +116,13 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="VerivicationCodeOTP"
-        component={VerivicationCodeOTP}
+        name="VerificationCodeOTP"
+        component={VerificationCodeOTP}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PersonalData"
+        component={PersonalData}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

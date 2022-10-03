@@ -17,14 +17,12 @@ import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [useData, setUserData] = useState({});
 
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
-    });
-  }, []);
+  const app = initializeApp(firebaseConfig);
+  const Auth = getAuth(app);
 
   const googleSignIn = async () => {
     // Get the users ID token
@@ -37,21 +35,15 @@ const Login = ({navigation}) => {
     return auth().signInWithCredential(googleCredential);
   };
 
-  const signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await auth().signOut();
-      console.log('Sign out success');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const app = initializeApp(firebaseConfig);
-  const Auth = getAuth(app);
+  // const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.revokeAccess();
+  //     await auth().signOut();
+  //     console.log('Sign out success');
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const submitLogin = () => {
     signInWithEmailAndPassword(Auth, email, password)
@@ -63,6 +55,13 @@ const Login = ({navigation}) => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
+    });
+  }, []);
 
   return (
     <SafeAreaView style={styles.page}>
@@ -116,8 +115,8 @@ const Login = ({navigation}) => {
           onPress={() =>
             googleSignIn()
               .then(res => {
-                console.log(res.user);
                 setUserData(res.user);
+                navigation.replace('Dashboard');
               })
               .catch(error => console.log(error))
           }>
@@ -155,15 +154,7 @@ const Login = ({navigation}) => {
           <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => navigation.replace('SignUp')}>
-            <Text style={styles.textDaftar}> Daftar</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.wrapperDaftarContainer}>
-          <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => navigation.replace('SignUp')}>
+            onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.textDaftar}> Daftar</Text>
           </TouchableOpacity>
         </View>
@@ -184,8 +175,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   textWelcome: {
-    fontSize: 17,
-    fontFamily: fonts.Poppins.medium,
+    fontSize: 24,
+    fontFamily: fonts.Poppins.semibold,
     color: '#242424',
   },
   subText: {
@@ -249,7 +240,7 @@ const styles = StyleSheet.create({
   wrapperDaftarContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 130 / 2,
+    marginTop: 125 / 2,
   },
   wrapperDaftar: {
     fontSize: 14,
