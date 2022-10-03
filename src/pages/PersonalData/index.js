@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts} from '../../assets';
 import {Button, TextInput} from '../../components';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
+import axios from 'axios';
+import {getData} from '../../utils';
 
 const PersonalData = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -20,9 +22,25 @@ const PersonalData = ({navigation}) => {
   const [name, setName] = useState('');
   const [numberPhone, setNumberPhone] = useState('');
 
-  // const [useData, setUseData] = useState({
-  //   phoneNumber: '',
-  // });
+  const submitAPI = () => {
+    axios
+      .post('http://10.0.2.2:3000/api/posts/', {
+        nama: `${name}`,
+        nik: `${nik}`,
+        email: `${useData.email}`,
+        noTlp: `${numberPhone}`,
+      })
+      .then(response => {
+        console.log('hehe', response.data);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
+
+  const [useData, setUseData] = useState({
+    email: '',
+  });
 
   // const [showNumber, setShowNumber] = useState(false);
 
@@ -34,19 +52,17 @@ const PersonalData = ({navigation}) => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   navigation.addListener('focus', () => {
-  //     getDataUser();
-  //   });
-  // }, [navigation]);
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getDataUser();
+    });
+  }, [navigation]);
 
-  // const getDataUser = () => {
-  //   getData('user').then(res => {
-  //     // console.log('data user:', res);
-  //     setUseData(res);
-  //     // setShowNumber(true);
-  //   });
-  // };
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setUseData(res);
+    });
+  };
 
   return (
     <SafeAreaView style={styles.page}>
@@ -68,8 +84,17 @@ const PersonalData = ({navigation}) => {
             value={name}
             onChangeText={text => setName(text)}
           />
-          <TextInput title={'Alamat Email'} placeholder={'nama@gmail.com'} />
-          <Text style={styles.titlePhone}>No Telepon</Text>
+          {/* <TextInput
+            title={'Alamat Email'}
+            placeholder={'nama@gmail.com'}
+            value={email}
+            onChangeText={text => setEmail(text)}
+          /> */}
+          <Text style={styles.textPersonalData}>Email</Text>
+          <View style={styles.emailContainer}>
+            <Text style={styles.titleEmail}>{useData.email}</Text>
+          </View>
+          <Text style={styles.textPersonalData}>No Telepon</Text>
           {/* {showNumber ? (
             <View style={styles.numberPhoneContainer}>
               <Text style={styles.titleNumberPhone}>{useData.phoneNumber}</Text>
@@ -118,7 +143,7 @@ const PersonalData = ({navigation}) => {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button title={'Selanjutnya'} />
+          <Button title={'Selanjutnya'} onPress={() => submitAPI()} />
         </View>
       </View>
     </SafeAreaView>
@@ -146,13 +171,13 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
-  titlePhone: {
+  textPersonalData: {
     fontSize: 14,
     fontFamily: fonts.Poppins.medium,
     color: '#242424',
     marginTop: 15,
   },
-  numberPhoneContainer: {
+  emailContainer: {
     backgroundColor: '#C6C6C6',
     borderWidth: 1,
     borderRadius: 10,
@@ -162,11 +187,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
   },
-  titleNumberPhone: {
+  titleEmail: {
     fontSize: 14,
     fontFamily: fonts.Poppins.medium,
     color: '#000000',
   },
+  // numberPhoneContainer: {
+  //   backgroundColor: '#C6C6C6',
+  //   borderWidth: 1,
+  //   borderRadius: 10,
+  //   borderColor: '#C6C6C6',
+  //   width: '100%',
+  //   height: 41,
+  //   justifyContent: 'center',
+  //   paddingHorizontal: 10,
+  // },
+  // titleNumberPhone: {
+  //   fontSize: 14,
+  //   fontFamily: fonts.Poppins.medium,
+  //   color: '#000000',
+  // },
   wrapperContent: {
     flexDirection: 'row',
   },

@@ -17,7 +17,6 @@ const Otp = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const signInWithPhoneNumber = async () => {
-    storeData('user', phoneNumber);
     try {
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       confirmation;

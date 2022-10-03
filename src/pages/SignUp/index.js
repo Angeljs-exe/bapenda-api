@@ -53,12 +53,12 @@ const SignUp = ({navigation}) => {
       .then(userCredential => {
         userCredential.user;
         setForm('reset');
-        navigation.replace('PersonalData');
         const data = {
           email: form.email,
         };
 
         storeData('user', data);
+        navigation.replace('PersonalData', form.email);
       })
       .catch(error => {
         console.log(error);

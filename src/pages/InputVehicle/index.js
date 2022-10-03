@@ -15,7 +15,6 @@ const InputVehicle = ({navigation}) => {
         <TextInput title="NOMOR MESIN" placeholder="HGAI-7588976" />
         <TextInput title="TAHUN PEMBUATAN" placeholder="2016" />
         <TextInput title="TIPE" placeholder="HSDG" />
-        <TextInput title="SERI" placeholder="HGA163" />
         <TextInput title="NOMOR POLISI" placeholder="DB 5848 C" />
         <TextInput title="MASA BERLAKU" placeholder="25 AGUSTUS 2023" />
         <Button
