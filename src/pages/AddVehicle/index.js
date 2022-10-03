@@ -1,9 +1,75 @@
 import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Header} from '../../components';
 import {fonts, IconAddVehicleVehicle} from '../../assets';
+import axios from 'axios';
 
 const AddVehicle = ({navigation}) => {
+  const [myValue, setMyValue] = useState('');
+  const [searchValue, setSearchValue] = useState([]);
+
+  const searchData = async () => {
+    await setSearchValue(myValue.split(' '));
+
+    // axios
+    //   .get('http://bapenda.sulutprov.go.id/derrpa/asmp22/_reminder.php', {
+    //     ws_id: 'rmdrBapenda',
+    //     ws_ps: '2pxtylswpq09wmmr8ixosl',
+    //     na: `${searchValue[0]}`,
+    //     nb: `${searchValue[1]}`,
+    //     nc: `${searchValue[2]}`,
+    //   })
+    //   .then(function (response) {
+    //     console.log('resp', response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log('err', error);
+    //   });
+
+    axios
+      .post('http://bapenda.sulutprov.go.id/derrpa/asmp22/_reminder.php', {
+        ws_id: 'rmdrBapenda',
+        ws_ps: '2pxtylswpq09wmmr8ixosl',
+        // na: `${searchValue[0]}`,
+        // nb: `${searchValue[1]}`,
+        // nc: `${searchValue[2]}`,
+        na: `${myValue.split(' ')[0]}`,
+        nb: `${myValue.split(' ')[1]}`,
+        nc: `${myValue.split(' ')[2]}`,
+      })
+      .then(resp => {
+        console.log('RESPONSE', resp);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    //   var myHeaders = new Headers();
+    //   myHeaders.append('Content-Type', 'application/json');
+
+    //   var raw = JSON.stringify({
+    //     ws_id: 'rmdrBapenda',
+    //     ws_ps: '2pxtylswpq09wmmr8ixosl',
+    //     na: `${searchValue[0]}`,
+    //     nb: `${searchValue[1]}`,
+    //     nc: `${searchValue[2]}`,
+    //   });
+
+    //   var requestOptions = {
+    //     method: 'POST',
+    //     headers: myHeaders,
+    //     body: raw,
+    //     // redirect: 'follow',
+    //   };
+
+    //   fetch(
+    //     'http://bapenda.sulutprov.go.id/derrpa/asmp22/_reminder.php',
+    //     requestOptions,
+    //   )
+    //     .then(result => console.log('result', result))
+    //     .catch(error => console.log('error', error));
+  };
+
   return (
     <SafeAreaView style={styles.page}>
       <Header
@@ -22,12 +88,14 @@ const AddVehicle = ({navigation}) => {
         <TextInput
           style={[styles.inputText, styles.evolution]}
           placeholder="Masukan nomor rangka kendaraan"
+          value={myValue}
+          //prettier-ignore
+          onChangeText={(value) =>setMyValue(value)}
+          maxLength={10}
         />
+        <Text>{JSON.stringify(myValue.split(' '))}</Text>
         <View style={styles.buttonAddVehicle}>
-          <Button
-            title="Selanjutnya"
-            onPress={() => navigation.replace('InputVehicle')}
-          />
+          <Button title="Selanjutnya" onPress={() => searchData()} />
         </View>
       </View>
     </SafeAreaView>
