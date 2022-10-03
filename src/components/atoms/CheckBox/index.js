@@ -2,7 +2,6 @@ import {Text, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
 import {fonts} from '../../../assets';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const CheckBoxx = () => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -12,6 +11,7 @@ const CheckBoxx = () => {
       <View style={styles.pageCekBox}>
         <View style={styles.cekBoxConatiner}>
           <CheckBox
+            style={styles.checkBox}
             disabled={false}
             value={toggleCheckBox}
             onValueChange={newValue => setToggleCheckBox(newValue)}
@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
   cekBoxConatiner: {
     flexDirection: 'row',
   },
+  checkBox: {
+    width: 20,
+    height: 20,
+  },
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: fonts.Poppins.regular,
     color: '#000C14BF',
-    marginLeft: 5,
+    marginLeft: 10,
   },
   forgetPassContainer: {
     alignItems: 'center',

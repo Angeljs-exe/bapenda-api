@@ -44,13 +44,11 @@ const ListVehicle = ({brandVehicle, numberPolice, dueDate, paymentStatus}) => (
           <Text style={styles.brandVehicle}>{brandVehicle}</Text>
           <Text style={styles.numberPolice}>{numberPolice}</Text>
           <View style={styles.line} />
-          <View>
-            <View style={styles.containerDatePayment}>
-              <Text style={styles.dueDate}>Jatuh Tempo {dueDate}</Text>
-              <Text style={styles.paymentStatus(paymentStatus)}>
-                {paymentStatus}
-              </Text>
-            </View>
+          <View style={styles.containerDatePayment}>
+            <Text style={styles.dueDate}>Jatuh Tempo {dueDate}</Text>
+            <Text style={styles.paymentStatus(paymentStatus)}>
+              {paymentStatus}
+            </Text>
           </View>
         </View>
       </View>

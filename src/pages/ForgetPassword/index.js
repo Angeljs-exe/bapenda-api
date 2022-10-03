@@ -1,25 +1,31 @@
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {fonts} from '../../assets';
-import InputNumberPhone from '../SignUp/InputNumberPhone';
-import {Button} from '../../components';
+import {Header} from '../../components';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ForgetPassword = ({navigation}) => {
   return (
     <SafeAreaView style={styles.page}>
+      <Header
+        title="Lupa Kata Sandi"
+        onBack={() => navigation.replace('Login')}
+      />
       <View style={styles.forgetPassContainer}>
-        <Text style={styles.titleForget}>Lupa Kata Sandi</Text>
         <Text style={styles.subTitleForget}>
-          Masukkan nomor telepon anda untuk memperbaiki masalah
+          Masukkan email atau nomor telepon anda untuk memperbaiki masalah
         </Text>
-        <View style={styles.inputNumber}>
-          <InputNumberPhone
-            title={'Nomor Telepon'}
-            placeholder={'Masukkan Nomor Telepon Anda'}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title={'Kirim'} onPress={() => navigation.navigate('Otp')} />
+        <View style={styles.emailPhoneContainer}>
+          <TouchableOpacity activeOpacity={0.5}>
+            <View style={styles.emailContainer}>
+              <Text style={styles.titleEmail}>Email</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.5}>
+            <View style={styles.phoneContainer}>
+              <Text style={styles.titlePhone}>No.Phone</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -35,7 +41,6 @@ const styles = StyleSheet.create({
   },
   forgetPassContainer: {
     paddingHorizontal: 25,
-    paddingTop: 91 / 2,
   },
   titleForget: {
     fontSize: 24,
@@ -47,10 +52,38 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
-  inputNumber: {
-    marginTop: 35,
+  emailPhoneContainer: {
+    marginTop: 50,
   },
-  button: {
-    marginTop: 269 / 2,
+  emailContainer: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#9C1C21',
+    width: '100%',
+    height: 41,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleEmail: {
+    fontSize: 16,
+    fontFamily: fonts.Poppins.medium,
+    color: '#000000',
+  },
+  phoneContainer: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#9C1C21',
+    width: '100%',
+    height: 41,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  titlePhone: {
+    fontSize: 16,
+    fontFamily: fonts.Poppins.medium,
+    color: '#000000',
   },
 });
