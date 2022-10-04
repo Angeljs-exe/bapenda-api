@@ -11,36 +11,51 @@ import {Button, TextInput} from '../../components';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
-import {getData} from '../../utils';
+import {getData, storeData, useForm} from '../../utils';
 
 const PersonalData = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
 
-  const [nik, setNik] = useState('');
-  const [name, setName] = useState('');
-  const [numberPhone, setNumberPhone] = useState('');
+  const [form, setForm] = useForm({
+    name: '',
+    nik: '',
+    numberPhone: '',
+  });
+
+  const [useEmail, setUseEmail] = useState({
+    email: '',
+  });
+
+  // const [nik, setNik] = useState('');
+  // const [name, setName] = useState('');
+  // const [numberPhone, setNumberPhone] = useState('');
 
   const submitAPI = () => {
     axios
       .post('http://10.0.2.2:3000/api/posts/', {
-        nama: `${name}`,
-        nik: `${nik}`,
-        email: `${useData.email}`,
-        noTlp: `${numberPhone}`,
+        nama: `${form.name}`,
+        nik: `${form.nik}`,
+        email: `${useEmail.email}`,
+        noTlp: `${form.numberPhone}`,
       })
       .then(response => {
+        setForm('reset');
+        const data = {
+          name: form.name,
+          nik: form.nik,
+          email: useEmail.email,
+          numberPhone: form.numberPhone,
+        };
+        storeData('user', data);
         console.log('hehe', response.data);
+        navigation.replace('Dashboard');
       })
       .catch(error => {
         console.log('error', error);
       });
   };
-
-  const [useData, setUseData] = useState({
-    email: '',
-  });
 
   // const [showNumber, setShowNumber] = useState(false);
 
@@ -60,7 +75,7 @@ const PersonalData = ({navigation}) => {
 
   const getDataUser = () => {
     getData('user').then(res => {
-      setUseData(res);
+      setUseEmail(res);
     });
   };
 
@@ -75,14 +90,14 @@ const PersonalData = ({navigation}) => {
           <TextInput
             title={'NIK E-KTP'}
             placeholder={'Masukkan NIK Anda'}
-            value={nik}
-            onChangeText={text => setNik(text)}
+            value={form.nik}
+            onChangeText={text => setForm('nik', text)}
           />
           <TextInput
             title={'Nama Sesuai E-KTP'}
             placeholder={'Masukkan Nama Anda'}
-            value={name}
-            onChangeText={text => setName(text)}
+            value={form.name}
+            onChangeText={text => setForm('name', text)}
           />
           {/* <TextInput
             title={'Alamat Email'}
@@ -92,7 +107,7 @@ const PersonalData = ({navigation}) => {
           /> */}
           <Text style={styles.textPersonalData}>Email</Text>
           <View style={styles.emailContainer}>
-            <Text style={styles.titleEmail}>{useData.email}</Text>
+            <Text style={styles.titleEmail}>{useEmail.email}</Text>
           </View>
           <Text style={styles.textPersonalData}>No Telepon</Text>
           {/* {showNumber ? (
@@ -137,7 +152,7 @@ const PersonalData = ({navigation}) => {
             <InputNumberPhone
               placeholder={'Masukkan Nomor Telepon Anda'}
               onChangeText={text =>
-                setNumberPhone(selectedCountry?.dial_code + text)
+                setForm('numberPhone', selectedCountry?.dial_code + text)
               }
             />
           </View>
@@ -178,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   emailContainer: {
-    backgroundColor: '#C6C6C6',
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#C6C6C6',
@@ -186,6 +201,7 @@ const styles = StyleSheet.create({
     height: 41,
     justifyContent: 'center',
     paddingHorizontal: 10,
+    paddingVertical: 9,
   },
   titleEmail: {
     fontSize: 14,

@@ -1,15 +1,16 @@
 import {StyleSheet, TextInput, View} from 'react-native';
 import React from 'react';
 
-const InputNumberPhone = ({placeholder, onChangeText, value}) => {
+const InputNumberPhone = ({placeholder, onChangeText, value, ...rest}) => {
   return (
     <>
       <View style={styles.inputStyle}>
         <TextInput
+          value={value}
           placeholder={placeholder}
           keyboardType="number-pad"
           onChangeText={onChangeText}
-          value={value}
+          {...rest}
         />
       </View>
     </>

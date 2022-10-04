@@ -5,24 +5,44 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import {Button, HomeProfile} from '../../components';
 import NewsSamsatCard from './NewsSamsatCard';
 import RegisterVehicleCard from './RegisterVehicleCard';
+import {getData} from '../../utils';
 
 const Dashboard = ({navigation}) => {
   const [touchAdd, setTouchAdd] = useState(false);
+  const [profile, setProfile] = useState({
+    name: '',
+    email: '',
+  });
 
   const touchAddSubmit = () => {
     setTouchAdd(true);
   };
 
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setProfile(res);
+    });
+  };
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getDataUser();
+    });
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.page}>
       <View style={styles.pageDashboard}>
         <View style={styles.profileContainer}>
-          <HomeProfile onPress={() => navigation.navigate('Profile')} />
+          <HomeProfile
+            profile={profile}
+            onPress={() => navigation.navigate('Profile')}
+          />
           <View>
             <Button
               click="iconOnly"
