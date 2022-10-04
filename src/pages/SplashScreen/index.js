@@ -11,11 +11,46 @@ import {
   LgUnklab,
 } from '../../assets';
 
+// import {getAuth} from 'firebase/auth';
+// import {initializeApp} from 'firebase/app';
+// import {firebaseConfig} from '../../../firebase-config';
+
+import auth from '@react-native-firebase/auth';
+
 const SplashScreen = ({navigation}) => {
+  // const app = initializeApp(firebaseConfig);
+  // const Auth = getAuth(app);
+
+  // const firebasePersistent = () => {
+  //   const unsubscribe = Auth.onAuthStateChanged(user => {
+  //     setTimeout(() => {
+  //       if (user) {
+  //         navigation.replace('Dashboard');
+  //       } else {
+  //         navigation.replace('Login');
+  //       }
+  //     }, 3000);
+  //   });
+
+  //   return () => unsubscribe();
+  // };
+
+  const rnFirebasePersistent = () => {
+    const subscriber = auth().onAuthStateChanged(user => {
+      setTimeout(() => {
+        if (user) {
+          navigation.replace('Dashboard');
+        } else {
+          // navigation.replace('Login');
+        }
+      }, 3000);
+    });
+    return subscriber;
+  };
+
   useEffect(() => {
-    setTimeout(() => {
-      navigation.replace('Login');
-    }, 3000);
+    // firebasePersistent();
+    rnFirebasePersistent();
   }, []);
 
   return (

@@ -39,6 +39,7 @@ const PersonalData = ({navigation}) => {
         nik: `${form.nik}`,
         email: `${useEmail.email}`,
         noTlp: `${form.numberPhone}`,
+        published: true,
       })
       .then(response => {
         setForm('reset');

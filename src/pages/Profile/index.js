@@ -9,7 +9,24 @@ import {
   IconProfilePhoto,
 } from '../../assets';
 
+import {getAuth, signOut} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
+import {firebaseConfig} from '../../../firebase-config';
+
 const Profile = ({navigation}) => {
+  const app = initializeApp(firebaseConfig);
+  const Auth = getAuth(app);
+
+  const submitLogout = () => {
+    signOut(Auth)
+      .then(() => {
+        navigation.navigate('Login');
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.page}>
       <Header title="Profile" onBack={() => navigation.navigate('Dashboard')} />
@@ -60,7 +77,7 @@ const Profile = ({navigation}) => {
         <View style={styles.line} />
       </View>
       <View style={styles.button}>
-        <Button title={'Keluar'} />
+        <Button title={'Keluar'} onPress={() => submitLogout()} />
       </View>
     </SafeAreaView>
   );
