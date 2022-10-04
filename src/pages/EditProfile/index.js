@@ -1,11 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Button, Header, TextInput} from '../../components';
 import {fonts, IconProfilePhoto} from '../../assets';
 
 const EditProfile = ({navigation}) => {
   return (
-    <View style={styles.page}>
+    <SafeAreaView style={styles.page}>
       <Header
         title="Edit Profile"
         onBack={() => navigation.navigate('Profile')}
@@ -23,7 +23,7 @@ const EditProfile = ({navigation}) => {
           <Button title="Simpan" />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

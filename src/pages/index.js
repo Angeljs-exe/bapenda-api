@@ -16,6 +16,9 @@ import EditPassword from './EditPassword';
 import EditProfile from './EditProfile';
 import FAQs from './FAQs';
 import ForgetPassword from './ForgetPassword';
+import VerificationCodeOTP from './VerificationCodeOTP';
+import PersonalData from './PersonalData';
+import RegisError from './RegisError';
 
 export {
   SplashScreen,
@@ -36,4 +39,7 @@ export {
   EditProfile,
   FAQs,
   ForgetPassword,
+  VerificationCodeOTP,
+  PersonalData,
+  RegisError,
 };

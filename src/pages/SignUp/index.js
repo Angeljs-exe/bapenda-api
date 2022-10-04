@@ -1,92 +1,164 @@
 import {
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {fonts} from '../../assets';
-import {Button, Password, TextInput} from '../../components';
-import InputNumberPhone from './InputNumberPhone';
+import {fonts, LgApple, LgGoogle, LgPhone} from '../../assets';
+import React, {useEffect, useState} from 'react';
+import {Button, CheckBoxx, Password, TextInput} from '../../components';
 
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import {firebaseConfig} from '../../../firebase-config';
 
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {storeData, useForm} from '../../utils';
+
 const SignUp = ({navigation}) => {
-  const [nik, setNik] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [noPhone, setNoPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useForm({
+    email: '',
+    password: '',
+  });
+  const [useData, setUserData] = useState({});
 
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const Auth = getAuth(app);
+
+  const googleSignIn = async () => {
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  };
+
+  // const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.revokeAccess();
+  //     await auth().signOut();
+  //     console.log('Sign out success');
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const submitCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(Auth, form.email, form.password)
       .then(userCredential => {
         userCredential.user;
-        navigation.replace('Otp');
+        setForm('reset');
+        navigation.replace('PersonalData');
+        const data = {
+          email: form.email,
+        };
+
+        storeData('user', data);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
+    });
+  }, []);
+
   return (
     <SafeAreaView style={styles.page}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.titleRegisContainer}>
-          <Text style={styles.textRegis}>Daftarkan Akun Anda</Text>
-          <Text style={styles.subTextRegis}>
-            Silahkan mengisi data anda dengan lengkap
-          </Text>
-        </View>
-        <View style={styles.inputContainer}>
+      <View style={styles.titleWelcomeContainer}>
+        <Text style={styles.textWelcome}>Daftarkan Akun Anda</Text>
+        <Text style={styles.subText}>Silahkan membuat akun anda</Text>
+        <View style={styles.wrapperContent}>
           <TextInput
-            title={'NIK E-KTP'}
-            placeholder={'Masukkan NIK E-KTP Anda '}
-            value={nik}
-            onChangeText={text => setNik(text)}
-          />
-          <TextInput
-            title={'Nama Sesuai E-KTP'}
-            placeholder={'Masukkan Nama Anda'}
-            value={name}
-            onChangeText={text => setName(text)}
-          />
-          <TextInput
-            title={'Alamat Email​ '}
-            placeholder={'Masukkan Alamat Email Anda'}
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-          <InputNumberPhone
-            title={'Nomor Telepon'}
-            placeholder={'Masukkan Nomor Telepon Anda'}
-            value={noPhone}
-            onChangeText={text => setNoPhone(text)}
+            title={'Email'}
+            placeholder={'Masukan email anda'}
+            value={form.email}
+            onChangeText={text => setForm('email', text)}
           />
           <Password
-            title={'Password'}
-            placeholder={'Masukkan Kata Sandi Anda'}
-            value={password}
-            onChangeText={text => setPassword(text)}
+            title={'Kata Sandi'}
+            placeholder={'Masukkan kata sandi'}
+            value={form.password}
+            onChangeText={text => setForm('password', text)}
           />
-          <Button title={'Selanjutnya'} onPress={submitCreateAccount} />
+          <View style={styles.checkBoxContainer}>
+            <CheckBoxx />
+          </View>
+          <Button title={'Daftar'} onPress={() => submitCreateAccount()} />
         </View>
-        <View style={styles.wrapperDoneContainer}>
-          <Text style={styles.wrapperDone}>Sudah memiliki akun?</Text>
+        <View style={styles.orContainer}>
+          <View style={styles.line} />
+          <Text style={styles.titleOr}>Atau</Text>
+          <View style={styles.line} />
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Otp')}>
+          <View style={styles.signInContainer}>
+            <View style={styles.wrapperSignIn}>
+              <LgPhone />
+              <Text style={styles.titleSignIn}>Masuk dengan nomor telepon</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() =>
+            googleSignIn()
+              .then(res => {
+                setUserData(res.user);
+                navigation.replace('Dashboard');
+              })
+              .catch(error => console.log(error))
+          }>
+          <View style={styles.signInContainer}>
+            <View style={styles.wrapperSignIn}>
+              <LgGoogle />
+              <Text style={styles.titleSignIn}>Masuk Dengan Google</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5}>
+          <View style={styles.signInContainer}>
+            <View style={styles.wrapperSignIn}>
+              <LgApple />
+              <Text style={styles.titleSignIn}>Masuk Dengan Apple</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity activeOpacity={0.5} 
+          onPress={signOut}>
+            <View style={styles.wrapperButtonGoogle}>
+              <View style={styles.containerLgGoogle}>
+                <LgGoogle />
+                <View style={styles.titleGoogleContainer}>
+                  <Text style={styles.titleGoogle}>
+                    Keluar Dari Akun Google
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity> */}
+
+        <View style={styles.wrapperLoginContainer}>
+          <Text style={styles.wrapperLogin}>Sudah memiliki akun?</Text>
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => navigation.replace('Login')}>
-            <Text style={styles.textLogin}> Login</Text>
+            onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.textLogin}> Masuk</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -98,33 +170,82 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  titleRegisContainer: {
-    marginTop: 60,
+  titleWelcomeContainer: {
+    paddingVertical: 50,
     paddingHorizontal: 25,
   },
-  textRegis: {
+  textWelcome: {
     fontSize: 24,
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
   },
-  subTextRegis: {
+  subText: {
     fontSize: 12,
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
-  inputContainer: {
-    paddingHorizontal: 25,
+  wrapperContent: {
     marginTop: 40,
   },
-  wrapperDoneContainer: {
+  checkBoxContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 13,
+  },
+  titleForgetPass: {
+    fontSize: 12,
+    fontFamily: fonts.Poppins.medium,
+    textDecorationLine: 'underline',
+    color: '#3F96CD',
+  },
+  orContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 30,
+  },
+  line: {
+    borderTopWidth: 0.5,
+    borderColor: '#000000',
+    width: 140,
+    paddingHorizontal: 25,
+    marginTop: 10,
+  },
+  titleOr: {
+    fontSize: 14,
+    fontFamily: fonts.Poppins.semibold,
+    color: '#999EA1',
+  },
+  signInContainer: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#C6C6C6',
+    width: '100%',
+    height: 44,
+    justifyContent: 'center',
+    marginTop: 15,
+  },
+  wrapperSignIn: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 60,
+    alignItems: 'center',
   },
-  wrapperDone: {
+  titleSignIn: {
+    fontSize: 14,
+    fontFamily: fonts.Poppins.medium,
+    color: '#242424',
+    marginLeft: 10,
+  },
+  wrapperLoginContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 130 / 2,
+  },
+  wrapperLogin: {
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
-    color: '#2E2E2E',
+    color: '#000000',
   },
   textLogin: {
     fontFamily: fonts.Poppins.semibold,

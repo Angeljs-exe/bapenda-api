@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Button, Header} from '../../components';
 import {
@@ -11,7 +11,7 @@ import {
 
 const Profile = ({navigation}) => {
   return (
-    <View style={styles.page}>
+    <SafeAreaView style={styles.page}>
       <Header title="Profile" onBack={() => navigation.navigate('Dashboard')} />
       <View style={styles.profileContainer}>
         <IconProfilePhoto />
@@ -62,7 +62,7 @@ const Profile = ({navigation}) => {
       <View style={styles.button}>
         <Button title={'Keluar'} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
