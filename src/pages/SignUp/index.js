@@ -149,7 +149,8 @@ const SignUp = ({navigation}) => {
               </View>
             </View>
           </TouchableOpacity> */}
-
+      </View>
+      <View style={styles.loginContainer}>
         <View style={styles.wrapperLoginContainer}>
           <Text style={styles.wrapperLogin}>Sudah memiliki akun?</Text>
           <TouchableOpacity
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   titleWelcomeContainer: {
-    paddingVertical: 50,
+    paddingVertical: 60,
     paddingHorizontal: 25,
   },
   textWelcome: {
@@ -237,10 +238,12 @@ const styles = StyleSheet.create({
     color: '#242424',
     marginLeft: 10,
   },
+  loginContainer: {
+    flex: 1,
+  },
   wrapperLoginContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 130 / 2,
   },
   wrapperLogin: {
     fontSize: 14,
