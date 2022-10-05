@@ -10,14 +10,12 @@ import {
 } from '../../assets';
 
 import auth from '@react-native-firebase/auth';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Profile = ({navigation}) => {
   const submitLogout = () => {
     auth()
       .signOut()
       .then(() => {
-        GoogleSignin.revokeAccess();
         navigation.navigate('Login');
       })
       .catch(error => {

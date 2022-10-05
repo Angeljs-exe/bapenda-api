@@ -17,14 +17,16 @@ const SplashScreen = ({navigation}) => {
   const rnFirebasePersistent = () => {
     const subscriber = auth().onAuthStateChanged(user => {
       setTimeout(() => {
-        if (user) {
+        const routes = navigation.getState()?.routes;
+        const prevRoute = routes[routes.length - 1];
+        if (user && prevRoute.name !== 'PersonalData') {
           navigation.replace('Dashboard');
-        } else {
+        } else if (!user) {
           navigation.replace('Login');
         }
       }, 3000);
     });
-    return subscriber;
+    return () => subscriber();
   };
 
   useEffect(() => {

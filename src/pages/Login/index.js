@@ -53,7 +53,7 @@ const Login = ({navigation}) => {
   const submitLogin = () => {
     setLoading(true);
     auth()
-      .signInAnonymously(form.email, form.password)
+      .signInWithEmailAndPassword(form.email, form.password)
       .then(() => {
         setLoading(false);
         navigation.replace('Dashboard');
