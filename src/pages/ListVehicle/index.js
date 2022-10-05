@@ -11,7 +11,7 @@ import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 
 const ListVehicle = ({navigation}) => {
-  const [touchRegister, setTouchRegister] = useState(false);
+  const [touchRegister, setTouchRegister] = useState(true);
 
   const touchRegisterSumbit = () => {
     setTouchRegister(true);

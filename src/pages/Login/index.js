@@ -30,6 +30,7 @@ const Login = ({navigation}) => {
 
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    console.log(idToken);
 
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
@@ -116,6 +117,7 @@ const Login = ({navigation}) => {
             googleSignIn()
               .then(res => {
                 setUserData(res.user);
+                console.log(res);
                 navigation.replace('Dashboard');
               })
               .catch(error => console.log(error))

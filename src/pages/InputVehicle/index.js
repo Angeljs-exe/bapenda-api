@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Header, TextInput} from '../../components';
 import {fonts} from '../../assets';
 import {getData} from '../../utils';
+import axios from 'axios';
 
 const InputVehicle = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState({
@@ -24,6 +25,24 @@ const InputVehicle = ({navigation}) => {
       getDataVehicle();
     });
   }, [navigation]);
+
+  const insertVehicle = () => {
+    axios
+      .post('http://10.0.2.2:3000/api/posts/vehicle/63354d8760a110d189f8efa5', {
+        NomorMesin: dataVehicle.NomorMesin,
+        TahunBuat: dataVehicle.TahunBuat,
+        TipeKendaraan: dataVehicle.TipeKendaraan,
+        NRKB: dataVehicle.NRKB,
+        JTPajak: dataVehicle.JTPajak,
+      })
+      .then(function (response) {
+        console.log(response);
+        navigation.replace('RegisCompleted');
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <SafeAreaView style={styles.page}>
@@ -58,10 +77,7 @@ const InputVehicle = ({navigation}) => {
           placeholder="25 AGUSTUS 2023"
           value={dataVehicle.JTPajak}
         />
-        <Button
-          title="Tambah"
-          onPress={() => navigation.replace('RegisCompleted')}
-        />
+        <Button title="Tambah" onPress={() => insertVehicle()} />
       </View>
     </SafeAreaView>
   );
