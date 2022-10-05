@@ -1,5 +1,6 @@
 import {
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -7,22 +8,26 @@ import {
 } from 'react-native';
 import {fonts, LgApple, LgGoogle, LgPhone} from '../../assets';
 import React, {useEffect, useState} from 'react';
-import {Button, CheckBoxx, Password, TextInput} from '../../components';
-
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-import {initializeApp} from 'firebase/app';
-import {firebaseConfig} from '../../../firebase-config';
+import {
+  Button,
+  CheckBoxx,
+  Loading,
+  Password,
+  TextInput,
+} from '../../components';
 
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useForm} from '../../utils';
 
 const Login = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [useData, setUserData] = useState({});
+  const [form, setForm] = useForm({
+    email: '',
+    password: '',
+  });
+  const [useData, setUseData] = useState({});
 
-  const app = initializeApp(firebaseConfig);
-  const Auth = getAuth(app);
+  const [loading, setLoading] = useState(false);
 
   const googleSignIn = async () => {
     // Get the users ID token
@@ -46,12 +51,15 @@ const Login = ({navigation}) => {
   // };
 
   const submitLogin = () => {
-    signInWithEmailAndPassword(Auth, email, password)
-      .then(userCredential => {
-        userCredential.user;
+    setLoading(true);
+    auth()
+      .signInWithEmailAndPassword(form.email, form.password)
+      .then(() => {
+        setLoading(false);
         navigation.replace('Dashboard');
       })
       .catch(error => {
+        setLoading(false);
         console.log(error);
       });
   };
@@ -64,79 +72,83 @@ const Login = ({navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.page}>
-      <View style={styles.titleWelcomeContainer}>
-        <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-        <Text style={styles.subText}>
-          Silahkan masuk dengan akun yang sudah anda buat
-        </Text>
-        <View style={styles.wrapperContent}>
-          <TextInput
-            title={'Email'}
-            placeholder={'Masukan email anda'}
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-          <Password
-            title={'Kata Sandi'}
-            placeholder={'Masukkan kata sandi'}
-            value={password}
-            onChangeText={text => setPassword(text)}
-          />
-          <View style={styles.checkBoxContainer}>
-            <CheckBoxx />
-            <View style={styles.forgetPassContainer}>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => navigation.replace('ForgetPassword')}>
-                <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
-              </TouchableOpacity>
+    <>
+      <SafeAreaView style={styles.page}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.titleWelcomeContainer}>
+            <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
+            <Text style={styles.subText}>
+              Silahkan masuk dengan akun yang sudah anda buat
+            </Text>
+            <View style={styles.wrapperContent}>
+              <TextInput
+                title={'Email'}
+                placeholder={'Masukan email anda'}
+                value={form.email}
+                onChangeText={text => setForm('email', text)}
+              />
+              <Password
+                title={'Kata Sandi'}
+                placeholder={'Masukkan kata sandi'}
+                value={form.password}
+                onChangeText={text => setForm('password', text)}
+              />
+              <View style={styles.checkBoxContainer}>
+                <CheckBoxx />
+                <View style={styles.forgetPassContainer}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => navigation.replace('ForgetPassword')}>
+                    <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Button title={'Masuk'} onPress={submitLogin} />
             </View>
-          </View>
-          <Button title={'Masuk'} onPress={submitLogin} />
-        </View>
-        <View style={styles.orContainer}>
-          <View style={styles.line} />
-          <Text style={styles.titleOr}>Atau</Text>
-          <View style={styles.line} />
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('Otp')}>
-          <View style={styles.signInContainer}>
-            <View style={styles.wrapperSignIn}>
-              <LgPhone />
-              <Text style={styles.titleSignIn}>Masuk dengan nomor telepon</Text>
+            <View style={styles.orContainer}>
+              <View style={styles.line} />
+              <Text style={styles.titleOr}>Atau</Text>
+              <View style={styles.line} />
             </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() =>
-            googleSignIn()
-              .then(res => {
-                setUserData(res.user);
-                navigation.replace('Dashboard');
-              })
-              .catch(error => console.log(error))
-          }>
-          <View style={styles.signInContainer}>
-            <View style={styles.wrapperSignIn}>
-              <LgGoogle />
-              <Text style={styles.titleSignIn}>Masuk Dengan Google</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.5}>
-          <View style={styles.signInContainer}>
-            <View style={styles.wrapperSignIn}>
-              <LgApple />
-              <Text style={styles.titleSignIn}>Masuk Dengan Apple</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => navigation.navigate('Otp')}>
+              <View style={styles.signInContainer}>
+                <View style={styles.wrapperSignIn}>
+                  <LgPhone />
+                  <Text style={styles.titleSignIn}>
+                    Masuk dengan nomor telepon
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() =>
+                googleSignIn()
+                  .then(res => {
+                    setUseData(res.user);
+                    navigation.replace('Dashboard');
+                  })
+                  .catch(error => console.log(error))
+              }>
+              <View style={styles.signInContainer}>
+                <View style={styles.wrapperSignIn}>
+                  <LgGoogle />
+                  <Text style={styles.titleSignIn}>Masuk Dengan Google</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.5}>
+              <View style={styles.signInContainer}>
+                <View style={styles.wrapperSignIn}>
+                  <LgApple />
+                  <Text style={styles.titleSignIn}>Masuk Dengan Apple</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
 
-        {/* <TouchableOpacity activeOpacity={0.5} 
+            {/* <TouchableOpacity activeOpacity={0.5} 
           onPress={signOut}>
             <View style={styles.wrapperButtonGoogle}>
               <View style={styles.containerLgGoogle}>
@@ -149,17 +161,21 @@ const Login = ({navigation}) => {
               </View>
             </View>
           </TouchableOpacity> */}
-
-        <View style={styles.wrapperDaftarContainer}>
-          <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.textDaftar}> Daftar</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+          </View>
+          <View style={styles.daftarContainer}>
+            <View style={styles.wrapperDaftarContainer}>
+              <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('SignUp')}>
+                <Text style={styles.textDaftar}> Daftar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      {loading && <Loading />}
+    </>
   );
 };
 
@@ -237,10 +253,12 @@ const styles = StyleSheet.create({
     color: '#242424',
     marginLeft: 10,
   },
+  daftarContainer: {
+    flex: 1,
+  },
   wrapperDaftarContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 125 / 2,
   },
   wrapperDaftar: {
     fontSize: 14,
