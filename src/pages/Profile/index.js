@@ -9,17 +9,15 @@ import {
   IconProfilePhoto,
 } from '../../assets';
 
-import {getAuth, signOut} from 'firebase/auth';
-import {initializeApp} from 'firebase/app';
-import {firebaseConfig} from '../../../firebase-config';
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Profile = ({navigation}) => {
-  const app = initializeApp(firebaseConfig);
-  const Auth = getAuth(app);
-
   const submitLogout = () => {
-    signOut(Auth)
+    auth()
+      .signOut()
       .then(() => {
+        GoogleSignin.revokeAccess();
         navigation.navigate('Login');
       })
       .catch(error => {

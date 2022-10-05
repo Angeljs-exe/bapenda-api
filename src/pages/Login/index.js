@@ -16,10 +16,6 @@ import {
   TextInput,
 } from '../../components';
 
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-import {initializeApp} from 'firebase/app';
-import {firebaseConfig} from '../../../firebase-config';
-
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useForm} from '../../utils';
@@ -32,9 +28,6 @@ const Login = ({navigation}) => {
   const [useData, setUseData] = useState({});
 
   const [loading, setLoading] = useState(false);
-
-  const app = initializeApp(firebaseConfig);
-  const Auth = getAuth(app);
 
   const googleSignIn = async () => {
     // Get the users ID token
@@ -59,11 +52,10 @@ const Login = ({navigation}) => {
 
   const submitLogin = () => {
     setLoading(true);
-    signInWithEmailAndPassword(Auth, form.email, form.password)
+    auth()
+      .signInAnonymously(form.email, form.password)
       .then(() => {
         setLoading(false);
-        // userCredential.user;
-        // console.log('sucess', res);
         navigation.replace('Dashboard');
       })
       .catch(error => {

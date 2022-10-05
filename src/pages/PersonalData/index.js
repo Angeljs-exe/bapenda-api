@@ -41,7 +41,7 @@ const PersonalData = ({navigation}) => {
         noTlp: `${form.numberPhone}`,
         published: true,
       })
-      .then(response => {
+      .then(() => {
         setForm('reset');
         const data = {
           name: form.name,
@@ -50,7 +50,6 @@ const PersonalData = ({navigation}) => {
           numberPhone: form.numberPhone,
         };
         storeData('user', data);
-        console.log('hehe', response.data);
         navigation.replace('Dashboard');
       })
       .catch(error => {
