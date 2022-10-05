@@ -9,10 +9,6 @@ import {fonts, LgApple, LgGoogle, LgPhone} from '../../assets';
 import React, {useEffect, useState} from 'react';
 import {Button, CheckBoxx, Password, TextInput} from '../../components';
 
-import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-import {initializeApp} from 'firebase/app';
-import {firebaseConfig} from '../../../firebase-config';
-
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {storeData, useForm} from '../../utils';
@@ -23,9 +19,6 @@ const SignUp = ({navigation}) => {
     password: '',
   });
   const [useData, setUserData] = useState({});
-
-  const app = initializeApp(firebaseConfig);
-  const Auth = getAuth(app);
 
   const googleSignIn = async () => {
     // Get the users ID token
@@ -49,9 +42,9 @@ const SignUp = ({navigation}) => {
   // };
 
   const submitCreateAccount = () => {
-    createUserWithEmailAndPassword(Auth, form.email, form.password)
-      .then(userCredential => {
-        userCredential.user;
+    auth()
+      .createUserWithEmailAndPassword(form.email, form.password)
+      .then(() => {
         setForm('reset');
         const data = {
           email: form.email,
