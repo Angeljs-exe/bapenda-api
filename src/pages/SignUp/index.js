@@ -15,6 +15,10 @@ import {
   TextInput,
 } from '../../components';
 
+import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
+import {firebaseConfig} from '../../../firebase-config';
+
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {storeData, useForm} from '../../utils';
