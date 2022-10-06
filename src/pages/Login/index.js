@@ -64,33 +64,38 @@ const Login = ({navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.page}>
-      <View style={styles.titleWelcomeContainer}>
-        <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-        <Text style={styles.subText}>
-          Silahkan masuk dengan akun yang sudah anda buat
-        </Text>
-        <View style={styles.wrapperContent}>
-          <TextInput
-            title={'Email'}
-            placeholder={'Masukan email anda'}
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-          <Password
-            title={'Kata Sandi'}
-            placeholder={'Masukkan kata sandi'}
-            value={password}
-            onChangeText={text => setPassword(text)}
-          />
-          <View style={styles.checkBoxContainer}>
-            <CheckBoxx />
-            <View style={styles.forgetPassContainer}>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => navigation.replace('ForgetPassword')}>
-                <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
-              </TouchableOpacity>
+    <>
+      <SafeAreaView style={styles.page}>
+        <View showsVerticalScrollIndicator={false}>
+          <View style={styles.titleWelcomeContainer}>
+            <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
+            <Text style={styles.subText}>
+              Silahkan masuk dengan akun yang sudah anda buat
+            </Text>
+            <View style={styles.wrapperContent}>
+              <TextInput
+                title={'Email'}
+                placeholder={'Masukan email anda'}
+                value={form.email}
+                onChangeText={text => setForm('email', text)}
+              />
+              <Password
+                title={'Kata Sandi'}
+                placeholder={'Masukkan kata sandi'}
+                value={form.password}
+                onChangeText={text => setForm('password', text)}
+              />
+              <View style={styles.checkBoxContainer}>
+                <CheckBoxx />
+                <View style={styles.forgetPassContainer}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => navigation.replace('ForgetPassword')}>
+                    <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Button title={'Masuk'} onPress={() => submitLogin()} />
             </View>
           </View>
           <Button title={'Masuk'} onPress={submitLogin} />
@@ -158,7 +163,6 @@ const Login = ({navigation}) => {
             <Text style={styles.textDaftar}> Daftar</Text>
           </TouchableOpacity>
         </View>
-      </View>
     </SafeAreaView>
   );
 };
