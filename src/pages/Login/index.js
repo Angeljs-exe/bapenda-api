@@ -103,7 +103,7 @@ const Login = ({navigation}) => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Button title={'Masuk'} onPress={submitLogin} />
+              <Button title={'Masuk'} onPress={() => submitLogin()} />
             </View>
             <View style={styles.orContainer}>
               <View style={styles.line} />
