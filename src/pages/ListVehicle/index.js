@@ -25,7 +25,6 @@ const ListVehicle = ({navigation}) => {
       .then(function (response) {
         console.log('response ', response);
         setListDetail(response.data);
-        console.log('fix ', listDetail);
       })
       .catch(function (error) {
         console.log(error);
