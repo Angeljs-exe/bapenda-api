@@ -11,6 +11,7 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Loading} from '../../components';
 import {fonts} from '../../assets';
+import {storeData} from '../../utils';
 
 const inputs = Array(6).fill('');
 let newInputIndex = 0;
@@ -59,7 +60,12 @@ const VerificationCodeOTP = ({
       try {
         setLoading(false);
         await confirmation.confirm(val, code);
-        navigation.replace('Dashboard');
+        const data = {
+          phoneNumber: phoneNumber,
+        };
+        storeData('user', data);
+        const email = '';
+        navigation.replace('PersonalData', {phoneNumber, email});
       } catch (error) {
         setLoading(false);
         console.log(error);
