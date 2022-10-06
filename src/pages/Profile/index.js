@@ -9,20 +9,7 @@ import {
   IconProfilePhoto,
 } from '../../assets';
 
-import auth from '@react-native-firebase/auth';
-
 const Profile = ({navigation}) => {
-  const submitLogout = () => {
-    auth()
-      .signOut()
-      .then(() => {
-        navigation.navigate('Login');
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
-  };
-
   return (
     <SafeAreaView style={styles.page}>
       <Header title="Profile" onBack={() => navigation.navigate('Dashboard')} />
@@ -73,7 +60,7 @@ const Profile = ({navigation}) => {
         <View style={styles.line} />
       </View>
       <View style={styles.button}>
-        <Button title={'Keluar'} onPress={() => submitLogout()} />
+        <Button title={'Keluar'} />
       </View>
     </SafeAreaView>
   );

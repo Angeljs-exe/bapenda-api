@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {fonts} from '../../assets';
-import {Button, Loading} from '../../components';
+import {Button} from '../../components';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 
@@ -15,10 +15,8 @@ const Otp = ({navigation}) => {
   );
 
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const signInWithPhoneNumber = async () => {
-    setLoading(true);
     try {
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       confirmation;
@@ -27,48 +25,43 @@ const Otp = ({navigation}) => {
       };
 
       storeData('user', data);
-      setLoading(false);
       navigation.navigate('VerificationCodeOTP', {phoneNumber, confirmation});
     } catch (error) {
       console.log('error', error);
-      setLoading(false);
     }
   };
 
   return (
-    <>
-      <SafeAreaView style={styles.page}>
-        <View style={styles.phoneContainer}>
-          <View style={styles.inputPhoneContainer}>
-            <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-            <Text style={styles.subText}>
-              Silahkan masuk dengan akun yang sudah anda buat
-            </Text>
-            <Text style={styles.titlePhone}>No Telepon</Text>
-            <View style={styles.wrapperContent}>
-              <TouchableOpacity style={styles.codePhoneIndo}>
-                <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
-              </TouchableOpacity>
-              <InputNumberPhone
-                placeholder={'Masukkan Nomor Telepon Anda'}
-                onChangeText={text =>
-                  setPhoneNumber(selectedCountry?.dial_code + text)
-                }
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Masuk"
-                onPress={() => {
-                  signInWithPhoneNumber();
-                }}
-              />
-            </View>
+    <SafeAreaView style={styles.page}>
+      <View style={styles.phoneContainer}>
+        <View style={styles.inputPhoneContainer}>
+          <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
+          <Text style={styles.subText}>
+            Silahkan masuk dengan akun yang sudah anda buat
+          </Text>
+          <Text style={styles.titlePhone}>No Telepon</Text>
+          <View style={styles.wrapperContent}>
+            <TouchableOpacity style={styles.codePhoneIndo}>
+              <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
+            </TouchableOpacity>
+            <InputNumberPhone
+              placeholder={'Masukkan Nomor Telepon Anda'}
+              onChangeText={text =>
+                setPhoneNumber(selectedCountry?.dial_code + text)
+              }
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Masuk"
+              onPress={() => {
+                signInWithPhoneNumber();
+              }}
+            />
           </View>
         </View>
-      </SafeAreaView>
-      {loading && <Loading />}
-    </>
+      </View>
+    </SafeAreaView>
   );
 };
 
