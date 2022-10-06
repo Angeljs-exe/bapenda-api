@@ -32,12 +32,7 @@ const SignUp = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [useData, setUserData] = useState({});
 
-<<<<<<< HEAD
-  const app = initializeApp(firebaseConfig);
-  const Auth = getAuth(app);
-=======
   const [loading, setLoading] = useState(false);
->>>>>>> 7fd7329 (Fixing sign in and sign up)
 
   const googleSignIn = async () => {
     // Get the users ID token
@@ -193,7 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   titleWelcomeContainer: {
-    paddingVertical: 50,
+    paddingVertical: 60,
     paddingHorizontal: 25,
   },
   textWelcome: {
@@ -259,10 +254,12 @@ const styles = StyleSheet.create({
     color: '#242424',
     marginLeft: 10,
   },
+  loginContainer: {
+    flex: 1,
+  },
   wrapperLoginContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 130 / 2,
   },
   wrapperLogin: {
     fontSize: 14,

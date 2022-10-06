@@ -9,6 +9,8 @@ import {
   IconProfilePhoto,
 } from '../../assets';
 
+import auth from '@react-native-firebase/auth';
+
 const Profile = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 

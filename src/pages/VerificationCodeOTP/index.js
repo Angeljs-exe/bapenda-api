@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {Button} from '../../components';
+import {Button, Loading} from '../../components';
 import {fonts} from '../../assets';
 import {storeData} from '../../utils';
 
@@ -30,6 +30,8 @@ const VerificationCodeOTP = ({
   const [code, setCode] = useState({0: '', 1: '', 2: '', 3: '', 4: '', 5: ''});
   const [nextInputIndex, setNextInputIndex] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   const handleChangeText = (text, index) => {
     const newOTP = {...code};
     newOTP[index] = text;
@@ -47,6 +49,7 @@ const VerificationCodeOTP = ({
   };
 
   const confirmCode = async () => {
+    setLoading(true);
     if (isObjValid(code)) {
       let val = '';
 
@@ -55,6 +58,7 @@ const VerificationCodeOTP = ({
       });
 
       try {
+        setLoading(false);
         await confirmation.confirm(val, code);
         const data = {
           phoneNumber: phoneNumber,
@@ -63,6 +67,7 @@ const VerificationCodeOTP = ({
         const email = '';
         navigation.replace('PersonalData', {phoneNumber, email});
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     }
@@ -73,48 +78,51 @@ const VerificationCodeOTP = ({
   }, [nextInputIndex]);
 
   return (
-    <SafeAreaView style={styles.page}>
-      <View style={styles.verificationContainer}>
-        <Text style={styles.numberPhone}>{phoneNumber}</Text>
-        <View style={styles.titleOTPContainer}>
-          <Text style={styles.subTitle}>
-            Masukkan 6-digit kode OTP yang telah dikirim pada SMS untuk
-            melengkapi registrasi akun anda
-          </Text>
+    <>
+      <SafeAreaView style={styles.page}>
+        <View style={styles.verificationContainer}>
+          <Text style={styles.numberPhone}>{phoneNumber}</Text>
+          <View style={styles.titleOTPContainer}>
+            <Text style={styles.subTitle}>
+              Masukkan 6-digit kode OTP yang telah dikirim pada SMS untuk
+              melengkapi registrasi akun anda
+            </Text>
+          </View>
         </View>
-      </View>
-      <KeyboardAvoidingView>
-        <View style={styles.inputContainer}>
-          {inputs.map((inp, index) => {
-            return (
-              <View key={index.toString()} style={styles.inputOtpContainer}>
-                <TextInput
-                  value={code[index]}
-                  key={index.toString()}
-                  placeholder="-"
-                  keyboardType="numeric"
-                  maxLength={1}
-                  onChangeText={text => handleChangeText(text, index)}
-                  ref={newInputIndex === index ? input : null}
-                  style={styles.inputOtp}
-                />
-              </View>
-            );
-          })}
-        </View>
-        <View style={styles.wrapperCodeOTP}>
-          <Text style={styles.wrapperCode}>
-            Belum menerima konfirmasi kode OTP ?{' '}
-          </Text>
-          <TouchableOpacity activeOpacity={0.5}>
-            <Text style={styles.sendAgain}> Kirim Ulang</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button title="Konfirmasi" onPress={() => confirmCode()} />
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <KeyboardAvoidingView>
+          <View style={styles.inputContainer}>
+            {inputs.map((inp, index) => {
+              return (
+                <View key={index.toString()} style={styles.inputOtpContainer}>
+                  <TextInput
+                    value={code[index]}
+                    key={index.toString()}
+                    placeholder="-"
+                    keyboardType="numeric"
+                    maxLength={1}
+                    onChangeText={text => handleChangeText(text, index)}
+                    ref={newInputIndex === index ? input : null}
+                    style={styles.inputOtp}
+                  />
+                </View>
+              );
+            })}
+          </View>
+          <View style={styles.wrapperCodeOTP}>
+            <Text style={styles.wrapperCode}>
+              Belum menerima konfirmasi kode OTP ?{' '}
+            </Text>
+            <TouchableOpacity activeOpacity={0.5}>
+              <Text style={styles.sendAgain}> Kirim Ulang</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button title="Konfirmasi" onPress={() => confirmCode()} />
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+      {loading && <Loading />}
+    </>
   );
 };
 
