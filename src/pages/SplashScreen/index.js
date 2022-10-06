@@ -11,26 +11,11 @@ import {
   LgUnklab,
 } from '../../assets';
 
-import auth from '@react-native-firebase/auth';
-
 const SplashScreen = ({navigation}) => {
-  const rnFirebasePersistent = () => {
-    const subscriber = auth().onAuthStateChanged(user => {
-      setTimeout(() => {
-        const routes = navigation.getState()?.routes;
-        const prevRoute = routes[routes.length - 1];
-        if (user && prevRoute.name !== 'PersonalData') {
-          navigation.replace('Dashboard');
-        } else if (!user) {
-          navigation.replace('Login');
-        }
-      }, 3000);
-    });
-    return () => subscriber();
-  };
-
   useEffect(() => {
-    rnFirebasePersistent();
+    setTimeout(() => {
+      navigation.replace('Login');
+    }, 3000);
   }, []);
 
   return (

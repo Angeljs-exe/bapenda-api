@@ -39,9 +39,8 @@ const PersonalData = ({navigation}) => {
         nik: `${form.nik}`,
         email: `${useEmail.email}`,
         noTlp: `${form.numberPhone}`,
-        published: true,
       })
-      .then(() => {
+      .then(response => {
         setForm('reset');
         const data = {
           name: form.name,
@@ -50,6 +49,7 @@ const PersonalData = ({navigation}) => {
           numberPhone: form.numberPhone,
         };
         storeData('user', data);
+        console.log('hehe', response.data);
         navigation.replace('Dashboard');
       })
       .catch(error => {

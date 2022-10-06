@@ -30,10 +30,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: fonts.Poppins.medium,
     color: '#242424',
-    textTransform: 'capitalize',
   },
   userEmail: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
