@@ -2,38 +2,6 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {fonts, ImageList} from '../../assets';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    brandVehicle: 'Honda CB150R',
-    numberPolice: 'DB 5848 C',
-    dueDate: '26 Agt 2022',
-    paymentStatus: 'Belum dibayar',
-  },
-];
-//   {
-//     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bs',
-//     brandVehicle: 'Honda CB250R',
-//     numberPolice: 'DB 6534 C',
-//     dueDate: '30 Sept 2022',
-//     paymentStatus: 'Lunas',
-//   },
-//   {
-//     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bk',
-//     brandVehicle: 'Honda CB250R',
-//     numberPolice: 'DB 6539 C',
-//     dueDate: '30 Sept 2022',
-//     paymentStatus: 'Lunas',
-//   },
-//   {
-//     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bp',
-//     brandVehicle: 'Honda CB150R',
-//     numberPolice: 'DB 5448 C',
-//     dueDate: '26 Jan 2023',
-//     paymentStatus: 'Belum dibayar',
-//   },
-// ];
-
 const ListVehicleCard = ({item}) => (
   <View style={styles.wrapperListVehicle}>
     <View style={styles.listVehicleContainer}>
@@ -58,27 +26,6 @@ const ListVehicleCard = ({item}) => (
     </View>
   </View>
 );
-
-// const ListVehicleCard = () => {
-//   const renderItem = ({item}) => (
-//     <ListVehicle
-//       brandVehicle={item.brandVehicle}
-//       numberPolice={item.numberPolice}
-//       dueDate={item.dueDate}
-//       paymentStatus={item.paymentStatus}
-//     />
-//   );
-
-//   return (
-//     <View style={styles.page}>
-//       <FlatList
-//         data={DATA}
-//         renderItem={renderItem}
-//         keyExtractor={item => item.id}
-//       />
-//     </View>
-//   );
-// };
 
 export default ListVehicleCard;
 
