@@ -13,6 +13,7 @@ import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
 import {getData, storeData, useForm} from '../../utils';
+import {baseUrl} from '../../utils/config';
 
 const PersonalData = ({
   route: {
@@ -33,7 +34,7 @@ const PersonalData = ({
 
   const submitAPI = () => {
     axios
-      .post('http://10.0.2.2:3000/api/posts/', {
+      .post(`${baseUrl}/api/posts/`, {
         nama: `${form.name}`,
         nik: `${form.nik}`,
         email: `${form.email ? form.email : email ? email : Ggmail}`,
