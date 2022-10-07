@@ -2,38 +2,7 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {fonts, ImageList} from '../../assets';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    brandVehicle: 'Honda CB150R',
-    numberPolice: 'DB 5848 C',
-    dueDate: '26 Agt 2022',
-    paymentStatus: 'Belum dibayar',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bs',
-    brandVehicle: 'Honda CB250R',
-    numberPolice: 'DB 6534 C',
-    dueDate: '30 Sept 2022',
-    paymentStatus: 'Lunas',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bk',
-    brandVehicle: 'Honda CB250R',
-    numberPolice: 'DB 6539 C',
-    dueDate: '30 Sept 2022',
-    paymentStatus: 'Lunas',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bp',
-    brandVehicle: 'Honda CB150R',
-    numberPolice: 'DB 5448 C',
-    dueDate: '26 Jan 2023',
-    paymentStatus: 'Belum dibayar',
-  },
-];
-
-const ListVehicle = ({brandVehicle, numberPolice, dueDate, paymentStatus}) => (
+const ListVehicleCard = ({item}) => (
   <View style={styles.wrapperListVehicle}>
     <View style={styles.listVehicleContainer}>
       <View style={styles.listVehicle}>
@@ -41,41 +10,22 @@ const ListVehicle = ({brandVehicle, numberPolice, dueDate, paymentStatus}) => (
           <ImageList />
         </View>
         <View>
-          <Text style={styles.brandVehicle}>{brandVehicle}</Text>
-          <Text style={styles.numberPolice}>{numberPolice}</Text>
+          <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
+          <Text style={styles.numberPolice}>{item.NRKB}</Text>
           <View style={styles.line} />
-          <View style={styles.containerDatePayment}>
-            <Text style={styles.dueDate}>Jatuh Tempo {dueDate}</Text>
-            <Text style={styles.paymentStatus(paymentStatus)}>
-              {paymentStatus}
-            </Text>
+          <View>
+            <View style={styles.containerDatePayment}>
+              <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
+              {/* <Text style={styles.paymentStatus(paymentStatus)}>
+                {paymentStatus}
+              </Text> */}
+            </View>
           </View>
         </View>
       </View>
     </View>
   </View>
 );
-
-const ListVehicleCard = () => {
-  const renderItem = ({item}) => (
-    <ListVehicle
-      brandVehicle={item.brandVehicle}
-      numberPolice={item.numberPolice}
-      dueDate={item.dueDate}
-      paymentStatus={item.paymentStatus}
-    />
-  );
-
-  return (
-    <View style={styles.page}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
-    </View>
-  );
-};
 
 export default ListVehicleCard;
 
@@ -140,9 +90,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#000000',
   },
-  paymentStatus: paymentStatus => ({
-    fontSize: 10,
-    fontFamily: fonts.Poppins.medium,
-    color: paymentStatus === 'Belum dibayar' ? '#CA0B00' : '#34A853',
-  }),
+  // paymentStatus: paymentStatus => ({
+  //   fontSize: 10,
+  //   fontFamily: fonts.Poppins.medium,
+  //   color: paymentStatus === 'Belum dibayar' ? '#CA0B00' : '#34A853',
+  // }),
 });

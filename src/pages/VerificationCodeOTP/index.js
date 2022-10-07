@@ -1,5 +1,4 @@
 import {
-  Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
   StyleSheet,
@@ -12,6 +11,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, Loading} from '../../components';
 import {fonts} from '../../assets';
 import {storeData} from '../../utils';
+
+import auth from '@react-native-firebase/auth';
 
 const inputs = Array(6).fill('');
 let newInputIndex = 0;
@@ -37,8 +38,6 @@ const VerificationCodeOTP = ({
     newOTP[index] = text;
     setCode(newOTP);
 
-    Keyboard.dismiss();
-
     const lastInputIndex = inputs.length - 1;
     if (!text) {
       newInputIndex = index === 0 ? 0 : index - 1;
@@ -62,10 +61,11 @@ const VerificationCodeOTP = ({
         await confirmation.confirm(val, code);
         const data = {
           phoneNumber: phoneNumber,
+          uid: auth().currentUser.uid,
         };
         storeData('user', data);
         const email = '';
-        navigation.replace('PersonalData', {phoneNumber, email});
+        navigation.replace('PersonalData', data, {phoneNumber, email});
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -98,6 +98,7 @@ const VerificationCodeOTP = ({
                     value={code[index]}
                     key={index.toString()}
                     placeholder="-"
+                    placeholderTextColor="#D9D9D9"
                     keyboardType="numeric"
                     maxLength={1}
                     onChangeText={text => handleChangeText(text, index)}
@@ -171,6 +172,7 @@ const styles = StyleSheet.create({
   inputOtp: {
     textAlign: 'center',
     fontSize: 30,
+    color: '#242424',
   },
   wrapperCodeOTP: {
     flexDirection: 'row',
