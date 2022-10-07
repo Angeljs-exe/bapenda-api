@@ -23,6 +23,7 @@ const Password = ({title, placeholder, onChangeText, value}) => {
           style={styles.inputPassword}
           placeholder={placeholder}
           onChangeText={onChangeText}
+          placeholderTextColor="#D9D9D9"
           value={value}
           secureTextEntry={showPass ? false : true}
         />
@@ -58,5 +59,6 @@ const styles = StyleSheet.create({
   },
   inputPassword: {
     flex: 1,
+    color: '#242424',
   },
 });

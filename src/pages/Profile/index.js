@@ -20,7 +20,7 @@ const Profile = ({navigation}) => {
       .signOut()
       .then(() => {
         setLoading(false);
-        // navigation.replace('Login');
+        navigation.replace('Login');
       })
       .catch(error => {
         setLoading(false);
