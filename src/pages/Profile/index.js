@@ -1,6 +1,6 @@
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {Button, Header} from '../../components';
+import React, {useState} from 'react';
+import {Button, Header, Loading} from '../../components';
 import {
   fonts,
   IconEditPass,
@@ -9,60 +9,84 @@ import {
   IconProfilePhoto,
 } from '../../assets';
 
+import auth from '@react-native-firebase/auth';
+
 const Profile = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
+
+  const submitLogout = () => {
+    setLoading(true);
+    auth()
+      .signOut()
+      .then(() => {
+        setLoading(false);
+        // navigation.replace('Login');
+      })
+      .catch(error => {
+        setLoading(false);
+        console.log('error', error);
+      });
+  };
+
   return (
-    <SafeAreaView style={styles.page}>
-      <Header title="Profile" onBack={() => navigation.navigate('Dashboard')} />
-      <View style={styles.profileContainer}>
-        <IconProfilePhoto />
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleName}>Name</Text>
-          <Text style={styles.titleLastPayment}>Last Payment</Text>
-        </View>
-      </View>
-      <View>
-        <View style={styles.line} />
-        <View style={styles.menuContainer}>
-          <IconEditProfile />
-          <View style={styles.textMenuContainer}>
-            <Text style={styles.titleMenu}>Edit Profil</Text>
-            <Button
-              click="iconOnly"
-              icon="iconArrow"
-              onPress={() => navigation.navigate('EditProfile')}
-            />
+    <>
+      <SafeAreaView style={styles.page}>
+        <Header
+          title="Profile"
+          onBack={() => navigation.navigate('Dashboard')}
+        />
+        <View style={styles.profileContainer}>
+          <IconProfilePhoto />
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleName}>Name</Text>
+            <Text style={styles.titleLastPayment}>Last Payment</Text>
           </View>
         </View>
-        <View style={styles.line} />
-        <View style={styles.menuContainer}>
-          <IconEditPass />
-          <View style={styles.textMenuContainer}>
-            <Text style={styles.titleMenu}>Pengaturan Kata Sandi</Text>
-            <Button
-              click="iconOnly"
-              icon="iconArrow"
-              onPress={() => navigation.navigate('EditPassword')}
-            />
+        <View>
+          <View style={styles.line} />
+          <View style={styles.menuContainer}>
+            <IconEditProfile />
+            <View style={styles.textMenuContainer}>
+              <Text style={styles.titleMenu}>Edit Profil</Text>
+              <Button
+                click="iconOnly"
+                icon="iconArrow"
+                onPress={() => navigation.navigate('EditProfile')}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.line} />
-        <View style={styles.menuContainer}>
-          <IconFAQs />
-          <View style={styles.textMenuContainer}>
-            <Text style={styles.titleMenu}>FAQs</Text>
-            <Button
-              click="iconOnly"
-              icon="iconArrow"
-              onPress={() => navigation.navigate('Faqs')}
-            />
+          <View style={styles.line} />
+          <View style={styles.menuContainer}>
+            <IconEditPass />
+            <View style={styles.textMenuContainer}>
+              <Text style={styles.titleMenu}>Pengaturan Kata Sandi</Text>
+              <Button
+                click="iconOnly"
+                icon="iconArrow"
+                onPress={() => navigation.navigate('EditPassword')}
+              />
+            </View>
           </View>
+          <View style={styles.line} />
+          <View style={styles.menuContainer}>
+            <IconFAQs />
+            <View style={styles.textMenuContainer}>
+              <Text style={styles.titleMenu}>FAQs</Text>
+              <Button
+                click="iconOnly"
+                icon="iconArrow"
+                onPress={() => navigation.navigate('Faqs')}
+              />
+            </View>
+          </View>
+          <View style={styles.line} />
         </View>
-        <View style={styles.line} />
-      </View>
-      <View style={styles.button}>
-        <Button title={'Keluar'} />
-      </View>
-    </SafeAreaView>
+        <View style={styles.button}>
+          <Button title={'Keluar'} onPress={() => submitLogout()} />
+        </View>
+      </SafeAreaView>
+      {loading && <Loading />}
+    </>
   );
 };
 

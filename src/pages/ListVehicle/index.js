@@ -21,10 +21,11 @@ const ListVehicle = ({navigation}) => {
 
   function getListDetail() {
     axios
-      .get('http://10.0.2.2:3000/api/posts/63354d8760a110d189f8efa5')
+      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72 ')
       .then(function (response) {
         console.log('response ', response);
         setListDetail(response.data);
+        console.log('ini kman ', listDetail);
       })
       .catch(function (error) {
         console.log(error);

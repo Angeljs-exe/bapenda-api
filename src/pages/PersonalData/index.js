@@ -1,126 +1,145 @@
 import {
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts} from '../../assets';
 import {Button, TextInput} from '../../components';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
+import axios from 'axios';
+import {getData, storeData, useForm} from '../../utils';
 
-const PersonalData = ({navigation}) => {
+const PersonalData = ({
+  route: {
+    params: {email, phoneNumber, Ggmail},
+  },
+  navigation,
+}) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
 
-  const [nik, setNik] = useState('');
-  const [name, setName] = useState('');
-  const [numberPhone, setNumberPhone] = useState('');
+  const [form, setForm] = useForm({
+    name: '',
+    nik: '',
+    email: '',
+    phoneNumber: '',
+  });
 
-  // const [useData, setUseData] = useState({
-  //   phoneNumber: '',
-  // });
+  const submitAPI = () => {
+    axios
+      .post('http://10.0.2.2:3000/api/posts/', {
+        nama: `${form.name}`,
+        nik: `${form.nik}`,
+        email: `${form.email ? form.email : email ? email : Ggmail}`,
+        noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
+        published: true,
+      })
+      .then(res => {
+        setForm('reset');
+        const data = {
+          name: form.name,
+          nik: form.nik,
+          email: form.email ? form.email : email ? email : Ggmail,
+          phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
+        };
+        storeData('user', data);
+        console.log('res', res);
+        navigation.replace('Dashboard', data);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
 
-  // const [showNumber, setShowNumber] = useState(false);
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getDataUser();
+    });
+  }, []);
 
-  // const getShowNumber = () => {
-  //   if (!showNumber) {
-  //     return setShowNumber(false);
-  //   } else {
-  //     return setShowNumber(true);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   navigation.addListener('focus', () => {
-  //     getDataUser();
-  //   });
-  // }, [navigation]);
-
-  // const getDataUser = () => {
-  //   getData('user').then(res => {
-  //     // console.log('data user:', res);
-  //     setUseData(res);
-  //     // setShowNumber(true);
-  //   });
-  // };
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setForm(res);
+    });
+  };
 
   return (
     <SafeAreaView style={styles.page}>
-      <View style={styles.personalDataContainer}>
-        <Text style={styles.titlePersonalData}>Lengkapi Data Diri Anda</Text>
-        <Text style={styles.subTitlePersonalData}>
-          Silahkan mengisi data anda dengan lengkap
-        </Text>
-        <View>
-          <TextInput
-            title={'NIK E-KTP'}
-            placeholder={'Masukkan NIK Anda'}
-            value={nik}
-            onChangeText={text => setNik(text)}
-          />
-          <TextInput
-            title={'Nama Sesuai E-KTP'}
-            placeholder={'Masukkan Nama Anda'}
-            value={name}
-            onChangeText={text => setName(text)}
-          />
-          <TextInput title={'Alamat Email'} placeholder={'nama@gmail.com'} />
-          <Text style={styles.titlePhone}>No Telepon</Text>
-          {/* {showNumber ? (
-            <View style={styles.numberPhoneContainer}>
-              <Text style={styles.titleNumberPhone}>{useData.phoneNumber}</Text>
-            </View>
-          ) : (
-            <View style={styles.wrapperContent}>
-              <TouchableOpacity style={styles.codePhoneIndo}>
-                <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
-              </TouchableOpacity>
-              <InputNumberPhone
-                placeholder={'Masukkan Nomor Telepon Anda'}
-                onChangeText={text =>
-                  setNumberPhone(selectedCountry?.dial_code + text)
-                }
-              />
-            </View>
-          )} */}
-          {/* {showNumber && (
-            <View style={styles.numberPhoneContainer}>
-              <Text style={styles.titleNumberPhone}>{useData.phoneNumber}</Text>
-            </View>
-          )}
-          {!showNumber && (
-            <View style={styles.wrapperContent}>
-              <TouchableOpacity style={styles.codePhoneIndo}>
-                <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
-              </TouchableOpacity>
-              <InputNumberPhone
-                placeholder={'Masukkan Nomor Telepon Anda'}
-                onChangeText={text =>
-                  setNumberPhone(selectedCountry?.dial_code + text)
-                }
-              />
-            </View>
-          )} */}
-          <View style={styles.wrapperContent}>
-            <TouchableOpacity style={styles.codePhoneIndo}>
-              <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
-            </TouchableOpacity>
-            <InputNumberPhone
-              placeholder={'Masukkan Nomor Telepon Anda'}
-              onChangeText={text =>
-                setNumberPhone(selectedCountry?.dial_code + text)
-              }
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.personalDataContainer}>
+          <Text style={styles.titlePersonalData}>Lengkapi Data Diri Anda</Text>
+          <Text style={styles.subTitlePersonalData}>
+            Silahkan mengisi data anda dengan lengkap
+          </Text>
+          <View>
+            <TextInput
+              title={'NIK E-KTP'}
+              placeholder={'Masukkan NIK Anda'}
+              value={form.nik}
+              onChangeText={text => setForm('nik', text)}
             />
+            <TextInput
+              title={'Nama Sesuai E-KTP'}
+              placeholder={'Masukkan Nama Anda'}
+              value={form.name}
+              onChangeText={text => setForm('name', text)}
+            />
+            {email.length > 0 && (
+              <View style={styles.wrapperEmail}>
+                <Text style={styles.titleEmail}>Alamat Email</Text>
+                <View style={styles.emailContainer}>
+                  <Text style={styles.titleEmail}>
+                    {email ? email : Ggmail}
+                  </Text>
+                </View>
+              </View>
+            )}
+            {email.length === 0 && (
+              <TextInput
+                title={'Alamat Email'}
+                placeholder={'nama@gmail.com'}
+                value={form.email}
+                onChangeText={text => setForm('email', text)}
+              />
+            )}
+            {phoneNumber.length > 0 && (
+              <View style={styles.wrapperEmail}>
+                <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
+                <View style={styles.numberPhoneContainer}>
+                  <Text style={styles.titleNumberPhone}>{phoneNumber}</Text>
+                </View>
+              </View>
+            )}
+            {phoneNumber.length === 0 && (
+              <View style={styles.wrapperNumberPhone}>
+                <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
+                <View style={styles.wrapperContent}>
+                  <TouchableOpacity style={styles.codePhoneIndo}>
+                    <Text style={styles.textCode}>
+                      {selectedCountry.dial_code}
+                    </Text>
+                  </TouchableOpacity>
+                  <InputNumberPhone
+                    placeholder={'Masukkan Nomor Telepon Anda'}
+                    onChangeText={text =>
+                      setForm('phoneNumber', selectedCountry?.dial_code + text)
+                    }
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button title={'Selanjutnya'} onPress={() => submitAPI()} />
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button title={'Selanjutnya'} />
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -146,14 +165,22 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
-  titlePhone: {
+  textPersonalData: {
     fontSize: 14,
     fontFamily: fonts.Poppins.medium,
     color: '#242424',
     marginTop: 15,
   },
-  numberPhoneContainer: {
-    backgroundColor: '#C6C6C6',
+  wrapperEmail: {
+    marginTop: 15,
+  },
+  titleEmail: {
+    fontSize: 14,
+    fontFamily: fonts.Poppins.medium,
+    color: '#000000',
+  },
+  emailContainer: {
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#C6C6C6',
@@ -161,6 +188,21 @@ const styles = StyleSheet.create({
     height: 41,
     justifyContent: 'center',
     paddingHorizontal: 10,
+    paddingVertical: 9,
+  },
+  wrapperNumberPhone: {
+    marginTop: 15,
+  },
+  numberPhoneContainer: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#C6C6C6',
+    width: '100%',
+    height: 41,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 9,
   },
   titleNumberPhone: {
     fontSize: 14,
