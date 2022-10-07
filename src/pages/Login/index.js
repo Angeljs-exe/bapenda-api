@@ -18,7 +18,7 @@ import {
 
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useForm} from '../../utils';
+import {storeData, useForm} from '../../utils';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -126,9 +126,9 @@ const Login = ({navigation}) => {
               activeOpacity={0.5}
               onPress={() =>
                 googleSignIn()
-                  .then(res => {
-                    setUseData(res.user);
-                    navigation.replace('Dashboard');
+                  .then(google => {
+                    setUseData(google.user.email);
+                    // navigation.replace('PersonalData', data);
                   })
                   .catch(error => console.log(error))
               }>
