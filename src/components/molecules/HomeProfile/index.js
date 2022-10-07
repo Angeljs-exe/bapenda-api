@@ -8,8 +8,8 @@ const HomeProfile = ({onPress, profile}) => {
     <View style={styles.profileContainer}>
       <Button click="iconOnly" icon="iconProfile" onPress={onPress} />
       <View style={styles.profileNameContainer}>
-        <Text style={styles.profileName}>{profile.name}</Text>
-        <Text style={styles.userEmail}>{profile.email}</Text>
+        <Text style={styles.profileName}>{profile?.name}</Text>
+        <Text style={styles.userEmail}>{profile?.email}</Text>
       </View>
     </View>
   );
