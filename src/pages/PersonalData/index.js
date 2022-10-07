@@ -13,6 +13,7 @@ import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
 import {getData, storeData, useForm} from '../../utils';
+import {baseUrl} from '../../utils/config';
 
 const PersonalData = ({
   route: {

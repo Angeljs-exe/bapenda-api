@@ -4,6 +4,7 @@ import {Button, Header, TextInput} from '../../components';
 import {fonts} from '../../assets';
 import {getData} from '../../utils';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const InputVehicle = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState({
@@ -28,7 +29,7 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     axios
-      .post('http://10.0.2.2:3000/api/posts/vehicle/63354d8760a110d189f8efa5', {
+      .post(`${baseUrl}/api/posts/vehicle/63354d8760a110d189f8efa5`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,
