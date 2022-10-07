@@ -17,16 +17,12 @@ import {
 
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {storeData, useForm} from '../../utils';
+import {storeData} from '../../utils';
 
 const SignUp = ({navigation}) => {
-  // const [form, setForm] = useForm({
-  //   email: '',
-  //   password: '',
-  // });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [useData, setUserData] = useState({});
+  const [useData, setUseData] = useState({});
 
   const [loading, setLoading] = useState(false);
 
@@ -55,15 +51,18 @@ const SignUp = ({navigation}) => {
     setLoading(true);
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then(google => {
+        setEmail(google.user.uid);
         setLoading(false);
         const data = {
           email: email,
+          uid: google.user.uid,
         };
 
         const phoneNumber = '';
         storeData('user', data);
-        navigation.replace('PersonalData', {email, phoneNumber});
+        console.log('res: ', data);
+        navigation.replace('PersonalData', data, {email, phoneNumber});
       })
       .catch(error => {
         setLoading(false);
@@ -123,10 +122,17 @@ const SignUp = ({navigation}) => {
             activeOpacity={0.5}
             onPress={() =>
               googleSignIn()
-                .then(res => {
-                  setUserData(res.user);
-                  console.log('res user: ', res);
-                  navigation.replace('Dashboard');
+                .then(google => {
+                  setUseData(google.user.email);
+                  // console.log('res user', res.user.email);
+                  const data = {
+                    gEmail: google.user.email,
+                    uid: google.user.uid,
+                  };
+                  storeData('user', data);
+                  // console.log('data', data);
+                  // console.log('nav', navigation);
+                  navigation.replace('PersonalData', data);
                 })
                 .catch(error => console.log(error))
             }>

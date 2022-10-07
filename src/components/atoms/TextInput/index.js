@@ -10,6 +10,7 @@ const TextInput = ({title, placeholder, onChangeText, value, ...rest}) => {
         style={styles.inputText}
         value={value}
         placeholder={placeholder}
+        placeholderTextColor="#D9D9D9"
         onChangeText={onChangeText}
         {...rest}
       />
@@ -34,5 +35,6 @@ const styles = StyleSheet.create({
     borderColor: '#C6C6C6',
     borderRadius: 10,
     marginTop: 5,
+    color: '#242424',
   },
 });
