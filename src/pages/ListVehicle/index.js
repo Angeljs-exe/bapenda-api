@@ -4,18 +4,37 @@ import {
   Text,
   TouchableOpacity,
   View,
+  FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Header} from '../../components';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
+import axios from 'axios';
 
 const ListVehicle = ({navigation}) => {
-  const [touchRegister, setTouchRegister] = useState(false);
+  const [listDetail, setListDetail] = useState();
 
-  const touchRegisterSumbit = () => {
-    setTouchRegister(true);
-  };
+  useEffect(() => {
+    getListDetail();
+  }, []);
+
+  function getListDetail() {
+    axios
+      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72 ')
+      .then(function (response) {
+        console.log('response ', response);
+        setListDetail(response.data);
+        console.log('ini kman ', listDetail);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  if (!listDetail) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.page}>
@@ -23,27 +42,15 @@ const ListVehicle = ({navigation}) => {
         title="Daftar Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
       />
-      {touchRegister && <ListVehicleCard />}
-      {!touchRegister && (
-        <View style={styles.wrapperRegister}>
-          <IconVehicleDashboard />
-          <View style={styles.titleListContainer}>
-            <Text style={styles.textListVehicle}>
-              Tidak ada kendaraan yang didaftarkan
-            </Text>
-            <View style={styles.wrapperDaftarContainer}>
-              <Text style={styles.wrapperDaftar}>
-                Silahkan daftarkan kendaraan anda.{' '}
-              </Text>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={touchRegisterSumbit}>
-                <Text style={styles.textDaftar}>Daftar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      )}
+      <View>
+        <FlatList
+          data={listDetail.kendaraan}
+          keyExtractor={(item, index) => 'key' + index}
+          renderItem={({item}) => {
+            return <ListVehicleCard item={item} />;
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
