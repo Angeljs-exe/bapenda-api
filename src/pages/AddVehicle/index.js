@@ -64,8 +64,9 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.inputText, styles.evolution]}
+          style={[styles.inputText]}
           placeholder="Masukan nomor rangka kendaraan"
+          placeholderTextColor="#D9D9D9"
           value={myValue}
           //prettier-ignore
           onChangeText={(value) =>setMyValue(value)}
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     textTransform: 'uppercase',
+    color: '#242424',
   },
   buttonAddVehicle: {
     marginTop: 62.5,
