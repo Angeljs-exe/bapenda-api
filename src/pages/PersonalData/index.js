@@ -17,7 +17,7 @@ import {baseUrl} from '../../utils/config';
 
 const PersonalData = ({
   route: {
-    params: {email, phoneNumber, Ggmail},
+    params: {email, uid, phoneNumber, gEmail},
   },
   navigation,
 }) => {
@@ -34,24 +34,26 @@ const PersonalData = ({
 
   const submitAPI = () => {
     axios
-      .post(`${baseUrl}/api/posts/`, {
+      .post('http://10.0.2.2:3000/api/posts/create', {
         nama: `${form.name}`,
         nik: `${form.nik}`,
-        email: `${form.email ? form.email : email ? email : Ggmail}`,
+        email: `${form.email ? form.email : email}`,
         noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
         published: true,
+        uid: `${uid}`,
       })
       .then(res => {
         setForm('reset');
         const data = {
           name: form.name,
           nik: form.nik,
-          email: form.email ? form.email : email ? email : Ggmail,
+          email: form.email ? form.email : email,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
+          uid: uid,
         };
         storeData('user', data);
         console.log('res', res);
-        navigation.replace('Dashboard', data);
+        // navigation.replace('Dashboard', data);
       })
       .catch(error => {
         console.log('error', error);
@@ -69,6 +71,8 @@ const PersonalData = ({
       setForm(res);
     });
   };
+  console.log('email', email);
+  console.log('phone', phoneNumber);
 
   return (
     <SafeAreaView style={styles.page}>
@@ -91,25 +95,24 @@ const PersonalData = ({
               value={form.name}
               onChangeText={text => setForm('name', text)}
             />
-            {email.length > 0 && (
+            {email?.length > 0 && (
               <View style={styles.wrapperEmail}>
                 <Text style={styles.titleEmail}>Alamat Email</Text>
                 <View style={styles.emailContainer}>
-                  <Text style={styles.titleEmail}>
-                    {email ? email : Ggmail}
-                  </Text>
+                  <Text style={styles.titleEmail}>{email}</Text>
                 </View>
               </View>
             )}
-            {email.length === 0 && (
-              <TextInput
-                title={'Alamat Email'}
-                placeholder={'nama@gmail.com'}
-                value={form.email}
-                onChangeText={text => setForm('email', text)}
-              />
-            )}
-            {phoneNumber.length > 0 && (
+            {email?.length === 0 ||
+              (!email && (
+                <TextInput
+                  title={'Alamat Email'}
+                  placeholder={'nama@gmail.com'}
+                  value={form.email}
+                  onChangeText={text => setForm('email', text)}
+                />
+              ))}
+            {phoneNumber?.length > 0 && (
               <View style={styles.wrapperEmail}>
                 <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
                 <View style={styles.numberPhoneContainer}>
@@ -117,24 +120,28 @@ const PersonalData = ({
                 </View>
               </View>
             )}
-            {phoneNumber.length === 0 && (
-              <View style={styles.wrapperNumberPhone}>
-                <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
-                <View style={styles.wrapperContent}>
-                  <TouchableOpacity style={styles.codePhoneIndo}>
-                    <Text style={styles.textCode}>
-                      {selectedCountry.dial_code}
-                    </Text>
-                  </TouchableOpacity>
-                  <InputNumberPhone
-                    placeholder={'Masukkan Nomor Telepon Anda'}
-                    onChangeText={text =>
-                      setForm('phoneNumber', selectedCountry?.dial_code + text)
-                    }
-                  />
+            {phoneNumber?.length === 0 ||
+              (!phoneNumber && (
+                <View style={styles.wrapperNumberPhone}>
+                  <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
+                  <View style={styles.wrapperContent}>
+                    <TouchableOpacity style={styles.codePhoneIndo}>
+                      <Text style={styles.textCode}>
+                        {selectedCountry.dial_code}
+                      </Text>
+                    </TouchableOpacity>
+                    <InputNumberPhone
+                      placeholder={'Masukkan Nomor Telepon Anda'}
+                      onChangeText={text =>
+                        setForm(
+                          'phoneNumber',
+                          selectedCountry?.dial_code + text,
+                        )
+                      }
+                    />
+                  </View>
                 </View>
-              </View>
-            )}
+              ))}
           </View>
           <View style={styles.buttonContainer}>
             <Button title={'Selanjutnya'} onPress={() => submitAPI()} />
