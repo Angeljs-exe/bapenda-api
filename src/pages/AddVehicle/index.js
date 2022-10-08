@@ -69,7 +69,7 @@ const AddVehicle = ({navigation}) => {
           placeholderTextColor="#D9D9D9"
           value={myValue}
           //prettier-ignore
-          onChangeText={(value) =>setMyValue(value)}
+          onChangeText={(value) => setMyValue(value)}
           maxLength={10}
         />
         <View style={styles.buttonAddVehicle}>

@@ -53,7 +53,7 @@ const PersonalData = ({
         };
         storeData('user', data);
         console.log('res', res);
-        // navigation.replace('Dashboard', data);
+        navigation.replace('Dashboard', data);
       })
       .catch(error => {
         console.log('error', error);
@@ -71,8 +71,6 @@ const PersonalData = ({
       setForm(res);
     });
   };
-  console.log('email', email);
-  console.log('phone', phoneNumber);
 
   return (
     <SafeAreaView style={styles.page}>
