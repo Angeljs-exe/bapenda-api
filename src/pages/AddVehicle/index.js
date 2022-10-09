@@ -1,4 +1,11 @@
-import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Button, Header} from '../../components';
 import {fonts, IconAddVehicleVehicle} from '../../assets';
@@ -49,7 +56,10 @@ const AddVehicle = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.page}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={100}
+      style={styles.page}>
       <Header
         title="Tambah Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
@@ -75,7 +85,7 @@ const AddVehicle = ({navigation}) => {
           <Button title="Selanjutnya" onPress={() => searchData()} />
         </View>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
