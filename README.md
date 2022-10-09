@@ -1,3 +1,3 @@
 # bapenda-mobile-dev
 
-Android : [![Build status](https://build.appcenter.ms/v0.1/apps/77e4d49e-e46a-416b-9c26-dff54cb8251c/branches/development/badge)](https://appcenter.ms)
+Android : [![Build status](https://build.appcenter.ms/v0.1/apps/b1f2817a-3233-46aa-b5d8-ffae056c9930/branches/development/badge)](https://appcenter.ms)
