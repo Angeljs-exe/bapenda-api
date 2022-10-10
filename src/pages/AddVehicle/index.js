@@ -46,7 +46,7 @@ const AddVehicle = ({navigation}) => {
             NRKB: myRepo.NRKB,
             JTPajak: myRepo.JTPajak,
           };
-          storeData('user', data);
+          storeData('vehicle', data);
           navigation.navigate('InputVehicle');
         }
       })
@@ -74,11 +74,12 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.inputText, styles.evolution]}
+          style={styles.inputText}
           placeholder="Masukan nomor rangka kendaraan"
           value={myValue}
           //prettier-ignore
-          onChangeText={(value) =>setMyValue(value)}
+          onChangeText={(value) => setMyValue(value)}
+          autoCapitalize="characters"
           maxLength={10}
         />
         <View style={styles.buttonAddVehicle}>
@@ -129,7 +130,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    textTransform: 'uppercase',
   },
   buttonAddVehicle: {
     marginTop: 62.5,

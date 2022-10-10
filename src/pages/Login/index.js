@@ -57,6 +57,10 @@ const Login = ({navigation}) => {
     auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(res => {
+        auth()
+          .currentUser.getIdToken()
+          .then(token => console.log('token', token));
+        console.log('uid', auth().currentUser.uid);
         setLoading(false);
         axios
           .post(`${baseUrl}/api/posts/`, {
@@ -69,6 +73,7 @@ const Login = ({navigation}) => {
               email: resp.data.email,
               phoneNumber: resp.data.noTlp,
               uid: resp.data.uid,
+              id: resp.data.id,
             };
             storeData('user', data);
             navigation.replace('Dashboard', data);
