@@ -26,7 +26,7 @@ export default AddImageVehicle;
 
 const styles = StyleSheet.create({
   addImageContainer: {
-    backgroundColor: '#75757580',
+    backgroundColor: '##7575751A',
     width: 310,
     height: 238,
     borderRadius: 8,

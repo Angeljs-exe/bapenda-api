@@ -8,9 +8,11 @@ const InputNumberPhone = ({placeholder, onChangeText, value, ...rest}) => {
         <TextInput
           value={value}
           placeholder={placeholder}
+          placeholderTextColor="#D9D9D9"
           keyboardType="number-pad"
           onChangeText={onChangeText}
           {...rest}
+          style={styles.inputText}
         />
       </View>
     </>
@@ -28,5 +30,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     flex: 1,
+  },
+  inputText: {
+    color: '#242424',
   },
 });
