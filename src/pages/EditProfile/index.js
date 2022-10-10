@@ -12,6 +12,8 @@ const EditProfile = ({navigation}) => {
     phoneNumber: '',
   });
 
+  console.log('res:', profile.phoneNumber);
+
   const getDataUser = () => {
     getData('user').then(res => {
       setProfile(res);
