@@ -144,7 +144,21 @@ const Login = ({navigation}) => {
                 googleSignIn()
                   .then(google => {
                     setUseData(google.user.email);
-                    // navigation.replace('PersonalData', data);
+                    axios
+                      .post('http://10.0.2.2:3000/api/posts/', {
+                        uid: `${google.user.uid}`,
+                      })
+                      .then(res => {
+                        const data = {
+                          name: res.data.nama,
+                          nik: res.data.nik,
+                          email: res.data.email,
+                          phoneNumber: res.data.phoneNumber,
+                          uid: res.data.uid,
+                        };
+                        storeData('user', data);
+                        navigation.replace('Dashboard', data);
+                      });
                   })
                   .catch(error => console.log(error))
               }>

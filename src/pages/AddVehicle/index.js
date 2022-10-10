@@ -64,8 +64,8 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.inputText]}
-          placeholder="Masukan nomor rangka kendaraan"
+          style={styles.inputText}
+          placeholder="Masukkan Nomor Polisi Kendaraan Anda"
           placeholderTextColor="#D9D9D9"
           value={myValue}
           //prettier-ignore
