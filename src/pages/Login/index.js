@@ -19,6 +19,8 @@ import {
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {storeData, useForm} from '../../utils';
+import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -54,9 +56,28 @@ const Login = ({navigation}) => {
     setLoading(true);
     auth()
       .signInWithEmailAndPassword(form.email, form.password)
-      .then(() => {
+      .then(res => {
+        auth()
+          .currentUser.getIdToken()
+          .then(token => console.log('token', token));
+        console.log('uid', auth().currentUser.uid);
         setLoading(false);
-        navigation.replace('Dashboard');
+        axios
+          .post(`${baseUrl}/api/posts/`, {
+            uid: `${res.user.uid}`,
+          })
+          .then(resp => {
+            const data = {
+              name: resp.data.nama,
+              nik: resp.data.nik,
+              email: resp.data.email,
+              phoneNumber: resp.data.noTlp,
+              uid: resp.data.uid,
+              id: resp.data.id,
+            };
+            storeData('user', data);
+            navigation.replace('Dashboard', data);
+          });
       })
       .catch(error => {
         setLoading(false);

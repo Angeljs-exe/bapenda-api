@@ -42,6 +42,9 @@ const Dashboard = ({navigation}) => {
           <HomeProfile
             profile={profile}
             onPress={() => navigation.navigate('Profile')}
+            // onPress={() =>
+            //   getData('vehicle').then(res => console.log('res', res))
+            // }
           />
           <View>
             <Button

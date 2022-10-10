@@ -1,4 +1,11 @@
-import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Button, Header} from '../../components';
 import {fonts, IconAddVehicleVehicle} from '../../assets';
@@ -39,7 +46,7 @@ const AddVehicle = ({navigation}) => {
             NRKB: myRepo.NRKB,
             JTPajak: myRepo.JTPajak,
           };
-          storeData('user', data);
+          storeData('vehicle', data);
           navigation.navigate('InputVehicle');
         }
       })
@@ -49,7 +56,10 @@ const AddVehicle = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={styles.page}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={100}
+      style={styles.page}>
       <Header
         title="Tambah Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
@@ -64,18 +74,19 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.inputText, styles.evolution]}
+          style={styles.inputText}
           placeholder="Masukan nomor rangka kendaraan"
           value={myValue}
           //prettier-ignore
-          onChangeText={(value) =>setMyValue(value)}
+          onChangeText={(value) => setMyValue(value)}
+          autoCapitalize="characters"
           maxLength={10}
         />
         <View style={styles.buttonAddVehicle}>
           <Button title="Selanjutnya" onPress={() => searchData()} />
         </View>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -119,7 +130,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    textTransform: 'uppercase',
   },
   buttonAddVehicle: {
     marginTop: 62.5,
