@@ -134,9 +134,10 @@ const SignUp = ({navigation}) => {
                     uid: google.user.uid,
                   };
                   storeData('user', data);
+                  const phoneNumber = '';
                   // console.log('data', data);
                   // console.log('nav', navigation);
-                  navigation.replace('PersonalData', data);
+                  navigation.replace('PersonalData', data, {phoneNumber});
                 })
                 .catch(error => console.log(error))
             }>
