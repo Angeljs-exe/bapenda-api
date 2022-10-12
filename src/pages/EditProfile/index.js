@@ -1,6 +1,6 @@
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Button, Header, TextInput} from '../../components';
+import {Header, TextInput} from '../../components';
 import {fonts, IconProfilePhoto} from '../../assets';
 import {getData} from '../../utils';
 
@@ -11,8 +11,6 @@ const EditProfile = ({navigation}) => {
     email: '',
     phoneNumber: '',
   });
-
-  console.log('res:', profile.phoneNumber);
 
   const getDataUser = () => {
     getData('user').then(res => {
@@ -25,6 +23,14 @@ const EditProfile = ({navigation}) => {
       getDataUser();
     });
   }, [navigation]);
+
+  // const changeEmail = () => {
+  //   auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       user.
+  //     }
+  //   })
+  // }
   return (
     <SafeAreaView style={styles.page}>
       <Header
@@ -60,9 +66,9 @@ const EditProfile = ({navigation}) => {
             placeholder={''}
           />
           {/* <TextInput title="Alamat" placeholder={''} /> */}
-          <View style={styles.button}>
+          {/* <View style={styles.button}>
             <Button title="Simpan" />
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </SafeAreaView>

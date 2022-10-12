@@ -59,7 +59,7 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.titleNumberContainer}>
         <Text style={styles.textNumberRangka}>
-          Masukkan Nomor Rangka Kendaraan Anda.
+          Masukkan Nomor Polisi Kendaraan Anda
         </Text>
       </View>
       <View style={styles.inputContainer}>
