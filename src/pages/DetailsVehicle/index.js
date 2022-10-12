@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  PermissionsAndroid,
 } from 'react-native';
 import {Button, Header} from '../../components';
 import {fonts, IconEditRename} from '../../assets';
@@ -14,6 +15,7 @@ import DetailsContainer from './DetailsContainer';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const DetailsVehicle = ({navigation}) => {
   const sheetRef = useRef(null);
@@ -25,6 +27,24 @@ const DetailsVehicle = ({navigation}) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpen(true);
   }, []);
+
+  const [galleryPhoto, setGalleryPhoto] = useState();
+
+  const options = {
+    saveToPhotos: true,
+    mediaType: 'photo',
+    includeBase64: true,
+  };
+
+  // const openGallery = async () => {
+  //   const result = await launchImageLibrary(options);
+  //   setGalleryPhoto(result.assets[0].uri);
+  //   // setGalleryPhoto(galleryPhoto);
+  // };
+
+  launchImageLibrary(options, response => {
+    console.log('response ', response);
+  });
 
   return (
     <SafeAreaView style={styles.page}>
@@ -48,7 +68,11 @@ const DetailsVehicle = ({navigation}) => {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}>
-              <AddImageVehicle title={'Tambah Foto Depan'} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => openGallery()}>
+                <AddImageVehicle title={'Tambah Foto Depan'} />
+              </TouchableOpacity>
               <AddImageVehicle title={'Tambah Foto Belakang'} />
               <AddImageVehicle title={'Tambah Foto Samping Kanan'} />
               <AddImageVehicle title={'Tambah Foto Samping Kiri'} />
