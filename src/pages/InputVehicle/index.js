@@ -15,10 +15,8 @@ const InputVehicle = ({navigation}) => {
     JTPajak: '',
   });
 
-  const [userId, setUserId] = useState('');
-
   const getDataVehicle = () => {
-    getData('vehicle').then(res => {
+    getData('user').then(res => {
       setDataVehicle(res);
     });
   };
@@ -27,13 +25,11 @@ const InputVehicle = ({navigation}) => {
     navigation.addListener('focus', () => {
       getDataVehicle();
     });
-    getData('user').then(res => setUserId(res.id));
   }, [navigation]);
 
   const insertVehicle = () => {
-    console.log('userId', userId);
     axios
-      .post(`${baseUrl}/api/posts/vehicle/${userId}`, {
+      .post(`${baseUrl}/api/posts/vehicle/63354d8760a110d189f8efa5`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,

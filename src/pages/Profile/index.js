@@ -10,14 +10,12 @@ import {
 } from '../../assets';
 
 import auth from '@react-native-firebase/auth';
-import {clearData} from '../../utils';
 
 const Profile = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 
   const submitLogout = () => {
     setLoading(true);
-    clearData();
     auth()
       .signOut()
       .then(() => {

@@ -259,7 +259,6 @@ android {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:30.4.1')
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
@@ -267,7 +266,7 @@ dependencies {
 
     implementation platform ('com.google.firebase:firebase-bom:29.0.2')
 
-    implementation 'com.google.firebase:firebase-analytics' // Push notification
+    implementation 'com.google.firebase:firebase-analytics'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     
@@ -319,7 +318,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-apply plugin: 'com.google.gms.google-services' // Push Notification
+
 
 def isNewArchitectureEnabled() {
     // To opt-in for the New Architecture, you can either:

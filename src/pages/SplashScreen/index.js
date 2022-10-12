@@ -24,7 +24,7 @@ const SplashScreen = ({navigation}) => {
         } else if (!user) {
           navigation.replace('Login');
         }
-      }, 3000);
+      }, 0);
     });
     return () => subscriber();
   };

@@ -20,7 +20,6 @@ import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {storeData, useForm} from '../../utils';
 import axios from 'axios';
-import {baseUrl} from '../../utils/config';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -57,13 +56,10 @@ const Login = ({navigation}) => {
     auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(res => {
-        auth()
-          .currentUser.getIdToken()
-          .then(token => console.log('token', token));
-        console.log('uid', auth().currentUser.uid);
         setLoading(false);
+
         axios
-          .post(`${baseUrl}/api/posts/`, {
+          .post('http://10.0.2.2:3000/api/posts/', {
             uid: `${res.user.uid}`,
           })
           .then(resp => {
@@ -73,7 +69,6 @@ const Login = ({navigation}) => {
               email: resp.data.email,
               phoneNumber: resp.data.noTlp,
               uid: resp.data.uid,
-              id: resp.data.id,
             };
             storeData('user', data);
             navigation.replace('Dashboard', data);
@@ -149,7 +144,21 @@ const Login = ({navigation}) => {
                 googleSignIn()
                   .then(google => {
                     setUseData(google.user.email);
-                    // navigation.replace('PersonalData', data);
+                    axios
+                      .post('http://10.0.2.2:3000/api/posts/', {
+                        uid: `${google.user.uid}`,
+                      })
+                      .then(res => {
+                        const data = {
+                          name: res.data.nama,
+                          nik: res.data.nik,
+                          email: res.data.email,
+                          phoneNumber: res.data.phoneNumber,
+                          uid: res.data.uid,
+                        };
+                        storeData('user', data);
+                        navigation.replace('Dashboard', data);
+                      });
                   })
                   .catch(error => console.log(error))
               }>
