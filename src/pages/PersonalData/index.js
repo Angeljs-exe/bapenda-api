@@ -13,7 +13,6 @@ import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
 import {getData, storeData, useForm} from '../../utils';
-import {baseUrl} from '../../utils/config';
 
 const PersonalData = ({
   route: {
@@ -37,7 +36,7 @@ const PersonalData = ({
       .post('http://10.0.2.2:3000/api/posts/create', {
         nama: `${form.name}`,
         nik: `${form.nik}`,
-        email: `${form.email ? form.email : email}`,
+        email: `${form.email ? form.email : gEmail}`,
         noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
         published: true,
         uid: `${uid}`,
@@ -47,13 +46,13 @@ const PersonalData = ({
         const data = {
           name: form.name,
           nik: form.nik,
-          email: form.email ? form.email : email,
+          email: form.email ? form.email : gEmail,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
         };
         storeData('user', data);
         console.log('res', res);
-        // navigation.replace('Dashboard', data);
+        navigation.replace('Dashboard', data);
       })
       .catch(error => {
         console.log('error', error);
@@ -71,8 +70,6 @@ const PersonalData = ({
       setForm(res);
     });
   };
-  console.log('email', email);
-  console.log('phone', phoneNumber);
 
   return (
     <SafeAreaView style={styles.page}>
@@ -95,16 +92,16 @@ const PersonalData = ({
               value={form.name}
               onChangeText={text => setForm('name', text)}
             />
-            {email?.length > 0 && (
+            {gEmail?.length > 0 && (
               <View style={styles.wrapperEmail}>
                 <Text style={styles.titleEmail}>Alamat Email</Text>
                 <View style={styles.emailContainer}>
-                  <Text style={styles.titleEmail}>{email}</Text>
+                  <Text style={styles.titleEmail}>{gEmail}</Text>
                 </View>
               </View>
             )}
-            {email?.length === 0 ||
-              (!email && (
+            {gEmail?.length === 0 ||
+              (!gEmail && (
                 <TextInput
                   title={'Alamat Email'}
                   placeholder={'nama@gmail.com'}

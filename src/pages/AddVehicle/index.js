@@ -64,11 +64,12 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          style={[styles.inputText, styles.evolution]}
-          placeholder="Masukan nomor rangka kendaraan"
+          style={styles.inputText}
+          placeholder="Masukkan Nomor Polisi Kendaraan Anda"
+          placeholderTextColor="#D9D9D9"
           value={myValue}
           //prettier-ignore
-          onChangeText={(value) =>setMyValue(value)}
+          onChangeText={(value) => setMyValue(value)}
           maxLength={10}
         />
         <View style={styles.buttonAddVehicle}>
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     textTransform: 'uppercase',
+    color: '#242424',
   },
   buttonAddVehicle: {
     marginTop: 62.5,
