@@ -21,7 +21,7 @@ const ListVehicle = ({navigation}) => {
 
   function getListDetail() {
     axios
-      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72 ')
+      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72')
       .then(function (response) {
         console.log('response ', response);
         setListDetail(response.data);

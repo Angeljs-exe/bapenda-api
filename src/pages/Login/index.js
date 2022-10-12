@@ -105,15 +105,30 @@ const Login = ({navigation}) => {
                       uid: `${google.user.uid}`,
                     })
                     .then(res => {
-                      const data = {
-                        name: res.data.nama,
-                        nik: res.data.nik,
-                        email: res.data.email,
-                        phoneNumber: res.data.noTlp,
-                        uid: res.data.uid,
-                      };
-                      storeData('user', data);
-                      navigation.replace('Dashboard', data);
+                      const googleData = res.data;
+                      if (googleData) {
+                        const DashboardData = {
+                          name: res.data.nama,
+                          nik: res.data.nik,
+                          email: res.data.email,
+                          phoneNumber: res.data.noTlp,
+                          uid: res.data.uid,
+                          id: res.data.id,
+                        };
+                        storeData('user', DashboardData);
+                        navigation.reset({
+                          index: 0,
+                          routes: [{name: 'Dashboard', DashboardData}],
+                        });
+                      } else if (!googleData) {
+                        const data = {
+                          gEmail: google.user.email,
+                          uid: google.user.uid,
+                        };
+                        // const phoneNumber = '';
+                        storeData('user', data);
+                        navigation.replace('PersonalData', data, {phoneNumber});
+                      }
                     });
                 })
                 .catch(error => console.log(error))
