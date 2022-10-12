@@ -22,7 +22,7 @@ const SplashScreen = ({navigation}) => {
         if (user && prevRoute.name !== 'PersonalData') {
           navigation.replace('Dashboard');
         } else if (!user) {
-          navigation.replace('Login');
+          navigation.reset({index: 0, routes: [{name: 'Login'}]});
         }
       }, 0);
     });

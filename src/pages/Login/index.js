@@ -1,34 +1,45 @@
 import {
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {fonts, LgApple, LgGoogle, LgPhone} from '../../assets';
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  CheckBoxx,
-  Loading,
-  Password,
-  TextInput,
-} from '../../components';
+import {fonts, LgGoogle} from '../../assets';
+import CountryCode from '../../assets/CountryCode';
+import InputNumberPhone from '../SignUp/InputNumberPhone';
+import {Button, Loading} from '../../components';
 
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {storeData, useForm} from '../../utils';
 import axios from 'axios';
+import {storeData} from '../../utils';
 
 const Login = ({navigation}) => {
-  const [form, setForm] = useForm({
-    email: '',
-    password: '',
-  });
+  const [selectedCountry, setSelectedCountry] = useState(
+    CountryCode.find(country => country.name === 'Indonesia'),
+  );
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [useData, setUseData] = useState({});
-
   const [loading, setLoading] = useState(false);
+
+  const signInWithPhoneNumber = async () => {
+    setLoading(true);
+    try {
+      setLoading(false);
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      const data = {
+        phoneNumber: phoneNumber,
+      };
+
+      storeData('user', data);
+      navigation.navigate('VerificationCodeOTP', {phoneNumber, confirmation});
+    } catch (error) {
+      setLoading(false);
+      console.log('error', error);
+    }
+  };
 
   const googleSignIn = async () => {
     // Get the users ID token
@@ -41,168 +52,88 @@ const Login = ({navigation}) => {
     return auth().signInWithCredential(googleCredential);
   };
 
-  // const signOut = async () => {
-  //   try {
-  //     await GoogleSignin.revokeAccess();
-  //     await auth().signOut();
-  //     console.log('Sign out success');
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  const submitLogin = () => {
-    setLoading(true);
-    auth()
-      .signInWithEmailAndPassword(form.email, form.password)
-      .then(res => {
-        setLoading(false);
-
-        axios
-          .post('http://10.0.2.2:3000/api/posts/', {
-            uid: `${res.user.uid}`,
-          })
-          .then(resp => {
-            const data = {
-              name: resp.data.nama,
-              nik: resp.data.nik,
-              email: resp.data.email,
-              phoneNumber: resp.data.noTlp,
-              uid: resp.data.uid,
-            };
-            storeData('user', data);
-            navigation.replace('Dashboard', data);
-          });
-      })
-      .catch(error => {
-        setLoading(false);
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
         '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
     });
   }, []);
-
   return (
     <>
       <SafeAreaView style={styles.page}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.titleWelcomeContainer}>
-            <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-            <Text style={styles.subText}>
-              Silahkan masuk dengan akun yang sudah anda buat
-            </Text>
-            <View style={styles.wrapperContent}>
-              <TextInput
-                title={'Email'}
-                placeholder={'Masukan email anda'}
-                value={form.email}
-                onChangeText={text => setForm('email', text)}
-              />
-              <Password
-                title={'Kata Sandi'}
-                placeholder={'Masukkan kata sandi'}
-                value={form.password}
-                onChangeText={text => setForm('password', text)}
-              />
-              <View style={styles.checkBoxContainer}>
-                <CheckBoxx />
-                <View style={styles.forgetPassContainer}>
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={() => navigation.replace('ForgetPassword')}>
-                    <Text style={styles.titleForgetPass}>Lupa Kata Sandi</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <Button title={'Masuk'} onPress={() => submitLogin()} />
-            </View>
-            <View style={styles.orContainer}>
-              <View style={styles.line} />
-              <Text style={styles.titleOr}>Atau</Text>
-              <View style={styles.line} />
-            </View>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => navigation.navigate('Otp')}>
-              <View style={styles.signInContainer}>
-                <View style={styles.wrapperSignIn}>
-                  <LgPhone />
-                  <Text style={styles.titleSignIn}>
-                    Masuk dengan nomor telepon
-                  </Text>
-                </View>
-              </View>
+        <View style={styles.titleWelcomeContainer}>
+          <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
+          <Text style={styles.subText}>
+            Silahkan masuk dengan akun yang sudah anda buat
+          </Text>
+          <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
+          <View style={styles.wrapperContentPhoneNumber}>
+            <TouchableOpacity style={styles.codePhoneIndo}>
+              <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() =>
-                googleSignIn()
-                  .then(google => {
-                    setUseData(google.user.email);
-                    axios
-                      .post('http://10.0.2.2:3000/api/posts/', {
-                        uid: `${google.user.uid}`,
-                      })
-                      .then(res => {
-                        const data = {
-                          name: res.data.nama,
-                          nik: res.data.nik,
-                          email: res.data.email,
-                          phoneNumber: res.data.phoneNumber,
-                          uid: res.data.uid,
-                        };
-                        storeData('user', data);
-                        navigation.replace('Dashboard', data);
-                      });
-                  })
-                  .catch(error => console.log(error))
-              }>
-              <View style={styles.signInContainer}>
-                <View style={styles.wrapperSignIn}>
-                  <LgGoogle />
-                  <Text style={styles.titleSignIn}>Masuk Dengan Google</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.5}>
-              <View style={styles.signInContainer}>
-                <View style={styles.wrapperSignIn}>
-                  <LgApple />
-                  <Text style={styles.titleSignIn}>Masuk Dengan Apple</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            {/* <TouchableOpacity activeOpacity={0.5} 
-          onPress={signOut}>
-            <View style={styles.wrapperButtonGoogle}>
-              <View style={styles.containerLgGoogle}>
+            <InputNumberPhone
+              placeholder={'Masukkan Nomor Telepon Anda'}
+              onChangeText={text =>
+                setPhoneNumber(selectedCountry?.dial_code + text)
+              }
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title={'Masuk'}
+              onPress={() => {
+                signInWithPhoneNumber();
+              }}
+            />
+          </View>
+          <View style={styles.orContainer}>
+            <View style={styles.line} />
+            <Text style={styles.titleOr}>Atau</Text>
+            <View style={styles.line} />
+          </View>
+        </View>
+        <View style={styles.wrapperContainer}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() =>
+              googleSignIn()
+                .then(google => {
+                  setLoading(true);
+                  setUseData(google.user.email);
+                  axios
+                    .post('http://10.0.2.2:3000/api/posts/', {
+                      uid: `${google.user.uid}`,
+                    })
+                    .then(res => {
+                      const data = {
+                        name: res.data.nama,
+                        nik: res.data.nik,
+                        email: res.data.email,
+                        phoneNumber: res.data.noTlp,
+                        uid: res.data.uid,
+                      };
+                      storeData('user', data);
+                      navigation.replace('Dashboard', data);
+                    });
+                })
+                .catch(error => console.log(error))
+            }>
+            <View style={styles.signInContainer}>
+              <View style={styles.wrapperSignIn}>
                 <LgGoogle />
-                <View style={styles.titleGoogleContainer}>
-                  <Text style={styles.titleGoogle}>
-                    Keluar Dari Akun Google
-                  </Text>
-                </View>
+                <Text style={styles.titleSignIn}>Masuk Dengan Google</Text>
               </View>
             </View>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
+          <View style={styles.wrapperDaftarContainer}>
+            <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.textDaftar}> Daftar</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.daftarContainer}>
-            <View style={styles.wrapperDaftarContainer}>
-              <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('SignUp')}>
-                <Text style={styles.textDaftar}> Daftar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
+        </View>
       </SafeAreaView>
       {loading && <Loading />}
     </>
@@ -217,8 +148,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   titleWelcomeContainer: {
-    paddingVertical: 60,
-    paddingHorizontal: 25,
+    paddingHorizontal: 26,
+    marginTop: 58,
   },
   textWelcome: {
     fontSize: 24,
@@ -230,20 +161,36 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#9E9E9E',
   },
-  wrapperContent: {
+  titleNumberPhone: {
+    fontSize: 14,
+    fontFamily: fonts.Poppins.medium,
+    color: '#242424',
     marginTop: 40,
   },
-  checkBoxContainer: {
+  wrapperContentPhoneNumber: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 13,
+    marginTop: 5,
   },
-  titleForgetPass: {
-    fontSize: 12,
+  codePhoneIndo: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    height: 41,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: '#C6C6C6',
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+  textCode: {
+    fontSize: 14,
     fontFamily: fonts.Poppins.medium,
-    textDecorationLine: 'underline',
-    color: '#3F96CD',
+    color: '#000000',
+  },
+  buttonContainer: {
+    marginTop: 149 / 2,
   },
   orContainer: {
     flexDirection: 'row',
@@ -261,6 +208,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.Poppins.semibold,
     color: '#999EA1',
+  },
+  wrapperContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingHorizontal: 26,
   },
   signInContainer: {
     backgroundColor: '#FFFFFF',
@@ -283,12 +235,10 @@ const styles = StyleSheet.create({
     color: '#242424',
     marginLeft: 10,
   },
-  daftarContainer: {
-    flex: 1,
-  },
   wrapperDaftarContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginBottom: 60,
   },
   wrapperDaftar: {
     fontSize: 14,
