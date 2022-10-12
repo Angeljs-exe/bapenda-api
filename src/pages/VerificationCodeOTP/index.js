@@ -73,6 +73,7 @@ const VerificationCodeOTP = ({
                 email: res.data.email,
                 phoneNumber: res.data.noTlp,
                 uid: res.data.uid,
+                id: res.data.id,
               };
               storeData('user', dataDashboard);
               navigation.reset({
