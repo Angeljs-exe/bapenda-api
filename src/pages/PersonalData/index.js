@@ -24,6 +24,7 @@ const PersonalData = ({
     CountryCode.find(country => country.name === 'Indonesia'),
   );
 
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useForm({
     name: '',
     nik: '',
@@ -51,7 +52,6 @@ const PersonalData = ({
           uid: uid,
         };
         storeData('user', data);
-        console.log('res', res);
         navigation.replace('Dashboard', data);
       })
       .catch(error => {
@@ -72,80 +72,84 @@ const PersonalData = ({
   };
 
   return (
-    <SafeAreaView style={styles.page}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.personalDataContainer}>
-          <Text style={styles.titlePersonalData}>Lengkapi Data Diri Anda</Text>
-          <Text style={styles.subTitlePersonalData}>
-            Silahkan mengisi data anda dengan lengkap
-          </Text>
-          <View>
-            <TextInput
-              title={'NIK E-KTP'}
-              placeholder={'Masukkan NIK Anda'}
-              value={form.nik}
-              onChangeText={text => setForm('nik', text)}
-            />
-            <TextInput
-              title={'Nama Sesuai E-KTP'}
-              placeholder={'Masukkan Nama Anda'}
-              value={form.name}
-              onChangeText={text => setForm('name', text)}
-            />
-            {gEmail?.length > 0 && (
-              <View style={styles.wrapperEmail}>
-                <Text style={styles.titleEmail}>Alamat Email</Text>
-                <View style={styles.emailContainer}>
-                  <Text style={styles.titleEmail}>{gEmail}</Text>
-                </View>
-              </View>
-            )}
-            {gEmail?.length === 0 ||
-              (!gEmail && (
-                <TextInput
-                  title={'Alamat Email'}
-                  placeholder={'nama@gmail.com'}
-                  value={form.email}
-                  onChangeText={text => setForm('email', text)}
-                />
-              ))}
-            {phoneNumber?.length > 0 && (
-              <View style={styles.wrapperEmail}>
-                <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
-                <View style={styles.numberPhoneContainer}>
-                  <Text style={styles.titleNumberPhone}>{phoneNumber}</Text>
-                </View>
-              </View>
-            )}
-            {phoneNumber?.length === 0 ||
-              (!phoneNumber && (
-                <View style={styles.wrapperNumberPhone}>
-                  <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
-                  <View style={styles.wrapperContent}>
-                    <TouchableOpacity style={styles.codePhoneIndo}>
-                      <Text style={styles.textCode}>
-                        {selectedCountry.dial_code}
-                      </Text>
-                    </TouchableOpacity>
-                    <InputNumberPhone
-                      placeholder={'Masukkan Nomor Telepon Anda'}
-                      onChangeText={text =>
-                        setForm(
-                          'phoneNumber',
-                          selectedCountry?.dial_code + text,
-                        )
-                      }
-                    />
+    <>
+      <SafeAreaView style={styles.page}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.personalDataContainer}>
+            <Text style={styles.titlePersonalData}>
+              Lengkapi Data Diri Anda
+            </Text>
+            <Text style={styles.subTitlePersonalData}>
+              Silahkan mengisi data anda dengan lengkap
+            </Text>
+            <View>
+              <TextInput
+                title={'NIK E-KTP'}
+                placeholder={'Masukkan NIK Anda'}
+                value={form.nik}
+                onChangeText={text => setForm('nik', text)}
+              />
+              <TextInput
+                title={'Nama Sesuai E-KTP'}
+                placeholder={'Masukkan Nama Anda'}
+                value={form.name}
+                onChangeText={text => setForm('name', text)}
+              />
+              {gEmail?.length > 0 && (
+                <View style={styles.wrapperEmail}>
+                  <Text style={styles.titleEmail}>Alamat Email</Text>
+                  <View style={styles.emailContainer}>
+                    <Text style={styles.titleEmail}>{gEmail}</Text>
                   </View>
                 </View>
-              ))}
+              )}
+              {gEmail?.length === 0 ||
+                (!gEmail && (
+                  <TextInput
+                    title={'Alamat Email'}
+                    placeholder={'nama@gmail.com'}
+                    value={form.email}
+                    onChangeText={text => setForm('email', text)}
+                  />
+                ))}
+              {phoneNumber?.length > 0 && (
+                <View style={styles.wrapperEmail}>
+                  <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
+                  <View style={styles.numberPhoneContainer}>
+                    <Text style={styles.titleNumberPhone}>{phoneNumber}</Text>
+                  </View>
+                </View>
+              )}
+              {phoneNumber?.length === 0 ||
+                (!phoneNumber && (
+                  <View style={styles.wrapperNumberPhone}>
+                    <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
+                    <View style={styles.wrapperContent}>
+                      <TouchableOpacity style={styles.codePhoneIndo}>
+                        <Text style={styles.textCode}>
+                          {selectedCountry.dial_code}
+                        </Text>
+                      </TouchableOpacity>
+                      <InputNumberPhone
+                        placeholder={'Masukkan Nomor Telepon Anda'}
+                        onChangeText={text =>
+                          setForm(
+                            'phoneNumber',
+                            selectedCountry?.dial_code + text,
+                          )
+                        }
+                      />
+                    </View>
+                  </View>
+                ))}
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title={'Selanjutnya'} onPress={() => submitAPI()} />
+            </View>
           </View>
-          <View style={styles.buttonContainer}>
-            <Button title={'Selanjutnya'} onPress={() => submitAPI()} />
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 

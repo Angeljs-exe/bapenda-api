@@ -27,17 +27,17 @@ const Login = ({navigation}) => {
   const signInWithPhoneNumber = async () => {
     setLoading(true);
     try {
+      setLoading(false);
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       const data = {
         phoneNumber: phoneNumber,
       };
 
       storeData('user', data);
-      setLoading(false);
       navigation.navigate('VerificationCodeOTP', {phoneNumber, confirmation});
     } catch (error) {
-      console.log('error', error);
       setLoading(false);
+      console.log('error', error);
     }
   };
 
@@ -98,6 +98,7 @@ const Login = ({navigation}) => {
             onPress={() =>
               googleSignIn()
                 .then(google => {
+                  setLoading(true);
                   setUseData(google.user.email);
                   axios
                     .post('http://10.0.2.2:3000/api/posts/', {

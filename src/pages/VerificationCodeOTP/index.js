@@ -49,7 +49,6 @@ const VerificationCodeOTP = ({
   };
 
   const confirmCode = async () => {
-    setLoading(true);
     if (isObjValid(code)) {
       let val = '';
 
@@ -58,13 +57,14 @@ const VerificationCodeOTP = ({
       });
 
       try {
-        setLoading(false);
+        setLoading(true);
         await confirmation.confirm(val, code);
         axios
           .post('http://10.0.2.2:3000/api/posts/', {
             uid: `${auth().currentUser.uid}`,
           })
           .then(res => {
+            setLoading(false);
             const myData = res.data;
             if (myData) {
               const dataDashboard = {

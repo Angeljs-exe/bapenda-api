@@ -1,19 +1,34 @@
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Header, Loading} from '../../components';
 import {
   fonts,
-  IconEditPass,
+  // IconEditPass,
   IconEditProfile,
   IconFAQs,
   IconProfilePhoto,
 } from '../../assets';
 
 import auth from '@react-native-firebase/auth';
-import {clearData} from '../../utils';
+import {clearData, getData} from '../../utils';
 
 const Profile = ({navigation}) => {
+  const [profile, setProfile] = useState({
+    name: '',
+  });
   const [loading, setLoading] = useState(false);
+
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setProfile(res);
+    });
+  };
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getDataUser();
+    });
+  }, [navigation]);
 
   const submitLogout = () => {
     setLoading(true);
@@ -40,7 +55,7 @@ const Profile = ({navigation}) => {
         <View style={styles.profileContainer}>
           <IconProfilePhoto />
           <View style={styles.titleContainer}>
-            <Text style={styles.titleName}>Name</Text>
+            <Text style={styles.titleName}>{profile.name}</Text>
             <Text style={styles.titleLastPayment}>Last Payment</Text>
           </View>
         </View>
@@ -111,6 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
+    textTransform: 'capitalize',
   },
   titleLastPayment: {
     fontSize: 12,
