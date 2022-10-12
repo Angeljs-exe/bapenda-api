@@ -13,6 +13,7 @@ import {fonts} from '../../assets';
 import {storeData} from '../../utils';
 
 import auth from '@react-native-firebase/auth';
+import axios from 'axios';
 
 const inputs = Array(6).fill('');
 let newInputIndex = 0;
@@ -48,7 +49,6 @@ const VerificationCodeOTP = ({
   };
 
   const confirmCode = async () => {
-    setLoading(true);
     if (isObjValid(code)) {
       let val = '';
 
@@ -57,15 +57,38 @@ const VerificationCodeOTP = ({
       });
 
       try {
-        setLoading(false);
+        setLoading(true);
         await confirmation.confirm(val, code);
-        const data = {
-          phoneNumber: phoneNumber,
-          uid: auth().currentUser.uid,
-        };
-        storeData('user', data);
-        const email = '';
-        navigation.replace('PersonalData', data, {phoneNumber, email});
+        axios
+          .post('http://10.0.2.2:3000/api/posts/', {
+            uid: `${auth().currentUser.uid}`,
+          })
+          .then(res => {
+            setLoading(false);
+            const myData = res.data;
+            if (myData) {
+              const dataDashboard = {
+                name: res.data.nama,
+                nik: res.data.nik,
+                email: res.data.email,
+                phoneNumber: res.data.noTlp,
+                uid: res.data.uid,
+              };
+              storeData('user', dataDashboard);
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Dashboard', dataDashboard}],
+              });
+            } else if (!myData) {
+              const data = {
+                phoneNumber: phoneNumber,
+                uid: auth().currentUser.uid,
+              };
+              const email = '';
+              storeData('user', data);
+              navigation.replace('PersonalData', data, {phoneNumber, email});
+            }
+          });
       } catch (error) {
         setLoading(false);
         console.log(error);

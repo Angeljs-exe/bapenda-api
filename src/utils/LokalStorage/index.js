@@ -19,3 +19,11 @@ export const getData = async key => {
     // error reading value
   }
 };
+
+export const clearData = () => {
+  try {
+    AsyncStorage.clear();
+  } catch (e) {
+    console.log('error clearing asyncStorage');
+  }
+};
