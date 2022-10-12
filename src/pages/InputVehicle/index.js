@@ -16,7 +16,7 @@ const InputVehicle = ({navigation}) => {
   });
 
   const getDataVehicle = () => {
-    getData('user').then(res => {
+    getData('userVehicle').then(res => {
       setDataVehicle(res);
     });
   };
@@ -29,7 +29,7 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     axios
-      .post(`${baseUrl}/api/posts/vehicle/63354d8760a110d189f8efa5`, {
+      .post('http://10.0.2.2:3000/api/posts/vehicle/633ed16aab5782e2c0670d72', {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,

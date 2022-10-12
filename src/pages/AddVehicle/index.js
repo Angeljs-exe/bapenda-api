@@ -39,7 +39,7 @@ const AddVehicle = ({navigation}) => {
             NRKB: myRepo.NRKB,
             JTPajak: myRepo.JTPajak,
           };
-          storeData('user', data);
+          storeData('userVehicle', data);
           navigation.navigate('InputVehicle');
         }
       })

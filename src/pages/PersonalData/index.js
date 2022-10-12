@@ -16,7 +16,7 @@ import {getData, storeData, useForm} from '../../utils';
 
 const PersonalData = ({
   route: {
-    params: {email, uid, phoneNumber, gEmail},
+    params: {uid, phoneNumber, gEmail},
   },
   navigation,
 }) => {
