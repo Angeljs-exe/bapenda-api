@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts} from '../../assets';
-import {Button, TextInput} from '../../components';
+import {Button, Loading, TextInput} from '../../components';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
@@ -33,6 +33,7 @@ const PersonalData = ({
   });
 
   const submitAPI = () => {
+    setLoading(true);
     axios
       .post('http://10.0.2.2:3000/api/posts/create', {
         nama: `${form.name}`,
@@ -42,8 +43,9 @@ const PersonalData = ({
         published: true,
         uid: `${uid}`,
       })
-      .then(res => {
+      .then(() => {
         setForm('reset');
+        setLoading(false);
         const data = {
           name: form.name,
           nik: form.nik,
@@ -55,6 +57,7 @@ const PersonalData = ({
         navigation.replace('Dashboard', data);
       })
       .catch(error => {
+        setLoading(false);
         console.log('error', error);
       });
   };
@@ -149,6 +152,7 @@ const PersonalData = ({
           </View>
         </ScrollView>
       </SafeAreaView>
+      {loading && <Loading />}
     </>
   );
 };
