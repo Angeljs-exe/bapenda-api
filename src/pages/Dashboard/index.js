@@ -43,14 +43,14 @@ const Dashboard = ({navigation}) => {
             profile={profile}
             onPress={() => navigation.navigate('Profile')}
           />
-          <View>
+          <View style={styles.nofication}>
             <Button
               click="iconOnly"
               icon="iconNotif"
               onPress={() => navigation.navigate('Notification')}
             />
             <View style={styles.notif}>
-              <Text style={styles.titleNotif}>3</Text>
+              <Text style={styles.titleNotif}>{}</Text>
             </View>
           </View>
         </View>
@@ -138,6 +138,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  nofication: {
+    width: 30,
+    height: 30,
+  },
   notif: {
     backgroundColor: '#ED1616',
     position: 'absolute',
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
     height: 15,
     borderRadius: 15,
     top: -5,
-    left: 10,
+    left: 14,
   },
   titleNotif: {
     fontSize: 12,

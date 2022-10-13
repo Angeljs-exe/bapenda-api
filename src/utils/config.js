@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl: 'https://dev.api.bapendasulut.com',
+  baseUrl: 'http://dev.api.bapendasulut.com',
 };

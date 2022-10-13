@@ -31,6 +31,9 @@ const PersonalData = ({
     email: '',
     phoneNumber: '',
   });
+  const [tokenUser, setTokenUser] = useState({
+    token: '',
+  });
 
   const submitAPI = () => {
     setLoading(true);
@@ -42,6 +45,7 @@ const PersonalData = ({
         noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
         published: true,
         uid: `${uid}`,
+        // token: `${tokenUser.token}`,
       })
       .then(() => {
         setForm('reset');
@@ -52,6 +56,7 @@ const PersonalData = ({
           email: form.email ? form.email : gEmail,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
+          // token: `${tokenUser.token}`,
         };
         storeData('user', data);
         navigation.replace('Dashboard', data);
@@ -62,9 +67,17 @@ const PersonalData = ({
       });
   };
 
+  const getUserToken = () => {
+    getData('dataToken').then(res => {
+      setTokenUser(res);
+      console.log('respt: ', res);
+    });
+  };
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       getDataUser();
+      getUserToken();
     });
   }, []);
 

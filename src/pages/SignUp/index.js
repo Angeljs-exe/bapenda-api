@@ -62,10 +62,8 @@ const SignUp = ({navigation}) => {
     <>
       <SafeAreaView style={styles.page}>
         <View style={styles.titleWelcomeContainer}>
-          <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-          <Text style={styles.subText}>
-            Silahkan masuk dengan akun yang sudah anda buat
-          </Text>
+          <Text style={styles.textWelcome}>Daftarkan Akun Anda</Text>
+          <Text style={styles.subText}>Silahkan membuat akun anda</Text>
           <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
           <View style={styles.wrapperContentPhoneNumber}>
             <TouchableOpacity style={styles.codePhoneIndo}>
@@ -112,7 +110,7 @@ const SignUp = ({navigation}) => {
                           email: res.data.email,
                           phoneNumber: res.data.noTlp,
                           uid: res.data.uid,
-                          data: res.data.id,
+                          id: res.data.id,
                         };
                         storeData('user', DashboardData);
                         navigation.reset({

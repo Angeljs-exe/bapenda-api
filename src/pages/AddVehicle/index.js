@@ -40,7 +40,7 @@ const AddVehicle = ({navigation}) => {
             JTPajak: myRepo.JTPajak,
           };
           storeData('userVehicle', data);
-          navigation.navigate('InputVehicle');
+          navigation.navigate('InputVehicle', data);
         }
       })
       .catch(function (error) {

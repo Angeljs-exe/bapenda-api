@@ -4,7 +4,6 @@ import {Button, Header, TextInput} from '../../components';
 import {fonts} from '../../assets';
 import {getData} from '../../utils';
 import axios from 'axios';
-import {baseUrl} from '../../utils/config';
 
 const InputVehicle = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState({
@@ -14,6 +13,9 @@ const InputVehicle = ({navigation}) => {
     NRKB: '',
     JTPajak: '',
   });
+  const [dataUser, setDataUser] = useState({
+    id: '',
+  });
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
@@ -21,15 +23,22 @@ const InputVehicle = ({navigation}) => {
     });
   };
 
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setDataUser(res);
+    });
+  };
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       getDataVehicle();
+      getDataUser();
     });
   }, [navigation]);
 
   const insertVehicle = () => {
     axios
-      .post('http://10.0.2.2:3000/api/posts/vehicle/633ed16aab5782e2c0670d72', {
+      .post(`http://10.0.2.2:3000/api/posts/vehicle/${dataUser.id}`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,

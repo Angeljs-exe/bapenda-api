@@ -14,7 +14,7 @@ import {Button, Loading} from '../../components';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
-import {storeData} from '../../utils';
+import {getData, storeData} from '../../utils';
 
 const Login = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -23,6 +23,9 @@ const Login = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [useData, setUseData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [tokenUser, setTokenUser] = useState({
+    token: '',
+  });
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -52,12 +55,22 @@ const Login = ({navigation}) => {
     return auth().signInWithCredential(googleCredential);
   };
 
+  const getUserToken = () => {
+    getData('dataToken').then(res => {
+      setTokenUser(res);
+      console.log('token', res);
+    });
+  };
+
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
         '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
     });
-  }, []);
+    navigation.addListener('focus', () => {
+      getUserToken();
+    });
+  }, [navigation]);
   return (
     <>
       <SafeAreaView style={styles.page}>
@@ -114,6 +127,7 @@ const Login = ({navigation}) => {
                           phoneNumber: res.data.noTlp,
                           uid: res.data.uid,
                           id: res.data.id,
+                          token: tokenUser.token,
                         };
                         storeData('user', DashboardData);
                         navigation.reset({
@@ -124,6 +138,7 @@ const Login = ({navigation}) => {
                         const data = {
                           gEmail: google.user.email,
                           uid: google.user.uid,
+                          token: tokenUser.token,
                         };
                         // const phoneNumber = '';
                         storeData('user', data);
