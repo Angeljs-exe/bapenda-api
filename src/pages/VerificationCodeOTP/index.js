@@ -14,6 +14,7 @@ import {storeData} from '../../utils';
 
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const inputs = Array(6).fill('');
 let newInputIndex = 0;
@@ -60,7 +61,7 @@ const VerificationCodeOTP = ({
         setLoading(true);
         await confirmation.confirm(val, code);
         axios
-          .post('http://10.0.2.2:3000/api/posts/', {
+          .post(`${baseUrl}/api/posts/`, {
             uid: `${auth().currentUser.uid}`,
           })
           .then(res => {

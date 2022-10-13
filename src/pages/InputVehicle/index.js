@@ -29,7 +29,7 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     axios
-      .post('http://10.0.2.2:3000/api/posts/vehicle/633ed16aab5782e2c0670d72', {
+      .post(`${baseUrl}/api/posts/vehicle/633ed16aab5782e2c0670d72`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,

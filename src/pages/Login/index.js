@@ -15,6 +15,7 @@ import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import {storeData} from '../../utils';
+import {baseUrl} from '../../utils/config';
 
 const Login = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -101,7 +102,7 @@ const Login = ({navigation}) => {
                   setLoading(true);
                   setUseData(google.user.email);
                   axios
-                    .post('http://10.0.2.2:3000/api/posts/', {
+                    .post(`${baseUrl}/api/posts/`, {
                       uid: `${google.user.uid}`,
                     })
                     .then(res => {

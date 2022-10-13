@@ -11,6 +11,7 @@ import {Header} from '../../components';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
@@ -21,7 +22,7 @@ const ListVehicle = ({navigation}) => {
 
   function getListDetail() {
     axios
-      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72')
+      .get(`${baseUrl}/api/posts/633ed16aab5782e2c0670d72`)
       .then(function (response) {
         console.log('response ', response);
         setListDetail(response.data);

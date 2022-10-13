@@ -1,3 +1,3 @@
-# bapenda-mobile-development
+# bapenda-mobile-testing
 
 Android : [![Build status](https://build.appcenter.ms/v0.1/apps/cd29bc50-1978-4669-860a-6109a709eb57/branches/testing/badge)](https://appcenter.ms)
