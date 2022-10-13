@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Header} from '../../components';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
@@ -21,7 +23,7 @@ const ListVehicle = ({navigation}) => {
 
   function getListDetail() {
     axios
-      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72 ')
+      .get(`${baseUrl}/api/posts/633ed16aab5782e2c0670d72`)
       .then(function (response) {
         console.log('response ', response);
         setListDetail(response.data);
@@ -37,7 +39,7 @@ const ListVehicle = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={styles.page}>
+    <View style={styles.page}>
       <Header
         title="Daftar Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
@@ -46,12 +48,13 @@ const ListVehicle = ({navigation}) => {
         <FlatList
           data={listDetail.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
+          scrollEnabled
           renderItem={({item}) => {
             return <ListVehicleCard item={item} />;
           }}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -54,12 +54,12 @@ const Dashboard = ({navigation}) => {
             </View>
           </View>
         </View>
-        <View style={styles.locationContainer}>
+        {/* <View style={styles.locationContainer}>
           <Button click="iconOnly" icon="iconLocation" />
           <Text style={styles.titleLocation}>
             Airmadidi, Minahasa Utara, Sulawesi Utara
           </Text>
-        </View>
+        </View> */}
         <View style={styles.registerVehicleContainer}>
           <View style={styles.wrapperRegister}>
             <Text style={styles.registerVehicleTitle}>Daftar Kendaraan</Text>

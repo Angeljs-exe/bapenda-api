@@ -5,19 +5,17 @@ import {fonts, IconAddPhoto, ImageNoBg} from '../../assets';
 const AddImageVehicle = ({title}) => {
   return (
     <>
-      <TouchableOpacity activeOpacity={0.5}>
-        <View style={styles.addImageContainer}>
-          <View style={styles.imageNoBg}>
-            <ImageNoBg />
-            <View style={styles.addPhotoContainer}>
-              <Text style={styles.titleAddPhoto}>{title}</Text>
-              <View style={styles.iconCamera}>
-                <IconAddPhoto />
-              </View>
+      <View style={styles.addImageContainer}>
+        <View style={styles.imageNoBg}>
+          <ImageNoBg />
+          <View style={styles.addPhotoContainer}>
+            <Text style={styles.titleAddPhoto}>{title}</Text>
+            <View style={styles.iconCamera}>
+              <IconAddPhoto />
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     </>
   );
 };

@@ -13,10 +13,21 @@ const InputVehicle = ({navigation}) => {
     TipeKendaraan: '',
     NRKB: '',
     JTPajak: '',
+    KodeBayar: '',
   });
 
-  const getDataVehicle = () => {
+  const [profile, setProfile] = useState({
+    id: '',
+  });
+
+  const getDataUser = () => {
     getData('user').then(res => {
+      setProfile(res);
+    });
+  };
+
+  const getDataVehicle = () => {
+    getData('userVehicle').then(res => {
       setDataVehicle(res);
     });
   };
@@ -29,12 +40,13 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     axios
-      .post(`${baseUrl}/api/posts/vehicle/63354d8760a110d189f8efa5`, {
+      .post(`${baseUrl}/api/posts/vehicle/633ed16aab5782e2c0670d72`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,
         NRKB: dataVehicle.NRKB,
         JTPajak: dataVehicle.JTPajak,
+        KodeBayar: dataVehicle.KODE_BAYAR,
       })
       .then(function (response) {
         console.log(response);

@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  PermissionsAndroid,
 } from 'react-native';
 import {Button, Header} from '../../components';
 import {fonts, IconEditRename} from '../../assets';
@@ -14,6 +16,7 @@ import DetailsContainer from './DetailsContainer';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const DetailsVehicle = ({navigation}) => {
   const sheetRef = useRef(null);
@@ -25,6 +28,31 @@ const DetailsVehicle = ({navigation}) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpen(true);
   }, []);
+
+  const [galleryPhoto, setGalleryPhoto] = useState();
+
+  const openGallery = () => {
+    const options = {
+      saveToPhotos: true,
+      mediaType: 'photo',
+      includeBase64: true,
+    };
+
+    launchImageLibrary(options, res => {
+      if (res.didCancel) {
+        console.log('user cancelled the picker');
+      } else if (res.errorCode) {
+        console.log(res.errorMessage);
+      } else {
+        const result = res.assets[0];
+        setGalleryPhoto(result);
+        console.log(result);
+      }
+    });
+  };
+
+  // // kondisi
+  // galleryPhoto != null && <Image source={{uri: galleryPhoto.uri}} />;
 
   return (
     <SafeAreaView style={styles.page}>
@@ -48,7 +76,11 @@ const DetailsVehicle = ({navigation}) => {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}>
-              <AddImageVehicle title={'Tambah Foto Depan'} />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => openGallery()}>
+                <AddImageVehicle title={'Tambah Foto Depan'} />
+              </TouchableOpacity>
               <AddImageVehicle title={'Tambah Foto Belakang'} />
               <AddImageVehicle title={'Tambah Foto Samping Kanan'} />
               <AddImageVehicle title={'Tambah Foto Samping Kiri'} />

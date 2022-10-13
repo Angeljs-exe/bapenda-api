@@ -13,6 +13,7 @@ const AddVehicle = ({navigation}) => {
     TipeKendaraan: '',
     NRKB: '',
     JTPajak: '',
+    KodeBayar: '',
   });
 
   const searchData = () => {
@@ -38,8 +39,9 @@ const AddVehicle = ({navigation}) => {
             TipeKendaraan: myRepo.TipeKendaraan,
             NRKB: myRepo.NRKB,
             JTPajak: myRepo.JTPajak,
+            KodeBayar: myRepo.KODE_BAYAR,
           };
-          storeData('user', data);
+          storeData('userVehicle', data);
           navigation.navigate('InputVehicle');
         }
       })
@@ -59,7 +61,7 @@ const AddVehicle = ({navigation}) => {
       </View>
       <View style={styles.titleNumberContainer}>
         <Text style={styles.textNumberRangka}>
-          Masukkan Nomor Rangka Kendaraan Anda.
+          Masukkan Nomor Polisi Kendaraan Anda
         </Text>
       </View>
       <View style={styles.inputContainer}>
@@ -71,6 +73,7 @@ const AddVehicle = ({navigation}) => {
           //prettier-ignore
           onChangeText={(value) => setMyValue(value)}
           maxLength={10}
+          autoCapitalize="characters"
         />
         <View style={styles.buttonAddVehicle}>
           <Button title="Selanjutnya" onPress={() => searchData()} />
@@ -120,7 +123,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    textTransform: 'uppercase',
     color: '#242424',
   },
   buttonAddVehicle: {
