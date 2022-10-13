@@ -13,7 +13,18 @@ const InputVehicle = ({navigation}) => {
     TipeKendaraan: '',
     NRKB: '',
     JTPajak: '',
+    KodeBayar: '',
   });
+
+  const [profile, setProfile] = useState({
+    id: '',
+  });
+
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setProfile(res);
+    });
+  };
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
@@ -35,6 +46,7 @@ const InputVehicle = ({navigation}) => {
         TipeKendaraan: dataVehicle.TipeKendaraan,
         NRKB: dataVehicle.NRKB,
         JTPajak: dataVehicle.JTPajak,
+        KodeBayar: dataVehicle.KODE_BAYAR,
       })
       .then(function (response) {
         console.log(response);

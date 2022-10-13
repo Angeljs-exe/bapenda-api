@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Header} from '../../components';
@@ -38,7 +39,7 @@ const ListVehicle = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={styles.page}>
+    <View style={styles.page}>
       <Header
         title="Daftar Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
@@ -47,12 +48,13 @@ const ListVehicle = ({navigation}) => {
         <FlatList
           data={listDetail.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
+          scrollEnabled
           renderItem={({item}) => {
             return <ListVehicleCard item={item} />;
           }}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

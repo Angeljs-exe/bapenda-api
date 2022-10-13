@@ -21,6 +21,7 @@ const Profile = ({navigation}) => {
   const getDataUser = () => {
     getData('user').then(res => {
       setProfile(res);
+      console.log('profil: ', profile);
     });
   };
 
