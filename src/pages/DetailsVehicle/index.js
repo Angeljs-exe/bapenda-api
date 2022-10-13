@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
   PermissionsAndroid,
 } from 'react-native';
 import {Button, Header} from '../../components';
@@ -30,21 +31,28 @@ const DetailsVehicle = ({navigation}) => {
 
   const [galleryPhoto, setGalleryPhoto] = useState();
 
-  const options = {
-    saveToPhotos: true,
-    mediaType: 'photo',
-    includeBase64: true,
+  const openGallery = () => {
+    const options = {
+      saveToPhotos: true,
+      mediaType: 'photo',
+      includeBase64: true,
+    };
+
+    launchImageLibrary(options, res => {
+      if (res.didCancel) {
+        console.log('user cancelled the picker');
+      } else if (res.errorCode) {
+        console.log(res.errorMessage);
+      } else {
+        const result = res.assets[0];
+        setGalleryPhoto(result);
+        console.log(result);
+      }
+    });
   };
 
-  // const openGallery = async () => {
-  //   const result = await launchImageLibrary(options);
-  //   setGalleryPhoto(result.assets[0].uri);
-  //   // setGalleryPhoto(galleryPhoto);
-  // };
-
-  launchImageLibrary(options, response => {
-    console.log('response ', response);
-  });
+  // // kondisi
+  // galleryPhoto != null && <Image source={{uri: galleryPhoto.uri}} />;
 
   return (
     <SafeAreaView style={styles.page}>
