@@ -13,6 +13,7 @@ import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
 import {getData, storeData, useForm} from '../../utils';
+import {baseUrl} from '../../utils/config';
 
 const PersonalData = ({
   route: {
@@ -30,7 +31,6 @@ const PersonalData = ({
     nik: '',
     email: '',
     phoneNumber: '',
-    id: '',
   });
   const [tokenUser, setTokenUser] = useState({
     token: '',
@@ -39,14 +39,13 @@ const PersonalData = ({
   const submitAPI = () => {
     setLoading(true);
     axios
-      .post('http://10.0.2.2:3000/api/posts/create', {
+      .post(`${baseUrl}/api/posts/create`, {
         nama: `${form.name}`,
         nik: `${form.nik}`,
         email: `${form.email ? form.email : gEmail}`,
         noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
         published: true,
         uid: `${uid}`,
-        id: `${form.id}`,
       })
       .then(() => {
         setForm('reset');
@@ -57,7 +56,6 @@ const PersonalData = ({
           email: form.email ? form.email : gEmail,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
-          id: form.id,
         };
         storeData('user', data);
         navigation.replace('Dashboard', data);

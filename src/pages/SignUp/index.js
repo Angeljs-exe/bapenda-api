@@ -15,6 +15,7 @@ import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import {storeData} from '../../utils';
+import {baseUrl} from '../../utils/config';
 
 const SignUp = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -62,10 +63,8 @@ const SignUp = ({navigation}) => {
     <>
       <SafeAreaView style={styles.page}>
         <View style={styles.titleWelcomeContainer}>
-          <Text style={styles.textWelcome}>Hai, Selamat Datang! 👋</Text>
-          <Text style={styles.subText}>
-            Silahkan masuk dengan akun yang sudah anda buat
-          </Text>
+          <Text style={styles.textWelcome}>Daftarkan akun anda</Text>
+          <Text style={styles.subText}>Silahkan membuat akun anda</Text>
           <Text style={styles.titleNumberPhone}>Nomor Telepon</Text>
           <View style={styles.wrapperContentPhoneNumber}>
             <TouchableOpacity style={styles.codePhoneIndo}>
@@ -100,7 +99,7 @@ const SignUp = ({navigation}) => {
                 .then(google => {
                   setUseData(google.user.email);
                   axios
-                    .post('http://10.0.2.2:3000/api/posts/', {
+                    .post(`${baseUrl}/api/posts/`, {
                       uid: `${google.user.uid}`,
                       token: `${google.user.token}`,
                     })

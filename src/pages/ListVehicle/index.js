@@ -13,6 +13,7 @@ import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
 import {getData} from '../../utils';
+import {baseUrl} from '../../utils/config';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
@@ -40,7 +41,7 @@ const ListVehicle = ({navigation}) => {
       profile_id = id;
       console.log('set profile:', profile_id);
       axios
-        .get(`http://dev.api.bapendasulut.com/api/posts/vehicle/${profile_id}`)
+        .get(`${baseUrl}/api/posts/vehicle/${profile_id}`)
         .then(function (response) {
           console.log('response listVehicle:', response.data);
           setListDetail(response.data);

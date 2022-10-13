@@ -17,6 +17,7 @@ const Dashboard = ({navigation}) => {
   const [profile, setProfile] = useState({
     name: '',
     email: '',
+    uid: '',
   });
 
   const touchAddSubmit = () => {

@@ -52,7 +52,7 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     axios
-      .post(`http://dev.api.bapendasulut.com/api/posts/vehicle/${profile.id}`, {
+      .post(`${baseUrl}/api/posts/vehicle/${profile.id}`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,
