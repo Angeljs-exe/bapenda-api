@@ -56,7 +56,7 @@ const Profile = ({navigation}) => {
         <View style={styles.profileContainer}>
           <IconProfilePhoto />
           <View style={styles.titleContainer}>
-            <Text style={styles.titleName}>{profile.name}</Text>
+            <Text style={styles.titleName}>{profile?.name}</Text>
             <Text style={styles.titleLastPayment}>Last Payment</Text>
           </View>
         </View>
