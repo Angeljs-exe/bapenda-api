@@ -5,53 +5,86 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Header} from '../../components';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
+import {getData} from '../../utils';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
+  let [profile, setProfile] = useState();
+  let profile_id = '';
+  const [dataVehicle, setDataVehicle] = useState({
+    NomorMesin: '',
+    TahunBuat: '',
+    TipeKendaraan: '',
+    NRKB: '',
+    JTPajak: '',
+  });
+
+  const getDataVehicle = () => {
+    getData('userVehicle').then(res => {
+      setDataVehicle(res);
+    });
+  };
+
+  const getDataUser = () => {
+    getData('user').then(res => {
+      const id = res.id;
+      console.log('id', id);
+      setProfile(id);
+      profile_id = id;
+      console.log('set profile:', profile_id);
+      axios
+        .get(`http://dev.api.bapendasulut.com/api/posts/vehicle/${profile_id}`)
+        .then(function (response) {
+          console.log('response listVehicle:', response.data);
+          setListDetail(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+  };
 
   useEffect(() => {
-    getListDetail();
-  }, []);
+    navigation.addListener('focus', () => {
+      getDataVehicle();
+      getDataUser();
+      // getListDetail();
+    });
+  }, [navigation]);
 
-  function getListDetail() {
-    axios
-      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72')
-      .then(function (response) {
-        console.log('response ', response);
-        setListDetail(response.data);
-        console.log('ini kman ', listDetail);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  // function getListDetail() {
 
-  if (!listDetail) {
-    return null;
-  }
+  // }
+
+  // if (!listDetail) {
+  //   return null;
+  // }
 
   return (
-    <SafeAreaView style={styles.page}>
+    <View style={styles.page}>
       <Header
         title="Daftar Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
       />
+      {/* <ScrollView> */}
       <View>
         <FlatList
-          data={listDetail.kendaraan}
+          data={listDetail}
           keyExtractor={(item, index) => 'key' + index}
           renderItem={({item}) => {
             return <ListVehicleCard item={item} />;
           }}
         />
       </View>
-    </SafeAreaView>
+      {/* </ScrollView> */}
+    </View>
   );
 };
 

@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {fonts, IconAddPhoto, ImageNoBg} from '../../assets';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const AddImageVehicle = ({title}) => {
   return (

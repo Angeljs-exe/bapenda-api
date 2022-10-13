@@ -7,12 +7,20 @@ import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 
 const InputVehicle = ({navigation}) => {
+  let [profile, setProfile] = useState({
+    id: '',
+  });
   const [dataVehicle, setDataVehicle] = useState({
     NomorMesin: '',
     TahunBuat: '',
     TipeKendaraan: '',
     NRKB: '',
     JTPajak: '',
+    KodeBayar: '',
+  });
+
+  const [tokenUser, setTokenUser] = useState({
+    token: '',
   });
 
   const getDataVehicle = () => {
@@ -21,23 +29,41 @@ const InputVehicle = ({navigation}) => {
     });
   };
 
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setProfile(res);
+    });
+  };
+
+  const getUserToken = () => {
+    getData('dataToken').then(res => {
+      setTokenUser(res);
+    });
+  };
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       getDataVehicle();
+      getDataUser();
+      getUserToken();
     });
+    console.log('profile id: ', profile);
   }, [navigation]);
 
   const insertVehicle = () => {
     axios
-      .post('http://10.0.2.2:3000/api/posts/vehicle/633ed16aab5782e2c0670d72', {
+      .post(`http://dev.api.bapendasulut.com/api/posts/vehicle/${profile.id}`, {
         NomorMesin: dataVehicle.NomorMesin,
         TahunBuat: dataVehicle.TahunBuat,
         TipeKendaraan: dataVehicle.TipeKendaraan,
         NRKB: dataVehicle.NRKB,
         JTPajak: dataVehicle.JTPajak,
+        KodeBayar: dataVehicle.KODE_BAYAR,
+        token: tokenUser.token,
       })
       .then(function (response) {
         console.log(response);
+        console.log('kode bayar', dataVehicle.KodeBayar);
         navigation.replace('RegisCompleted');
       })
       .catch(function (error) {

@@ -1,24 +1,67 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
+import {getData} from '../../utils';
 
 const RegisterVehicleCard = ({onPress}) => {
+  const [dataVehicle, setDataVehicle] = useState({
+    NamaKendaraan: '',
+    NomorMesin: '',
+    TipeKendaraan: '',
+    NRKB: '',
+    JTPajak: '',
+    KodeBayar: '',
+  });
+  let [ketBayar, setKetBayar] = useState('');
+
+  const getDataVehicle = () => {
+    getData('userVehicle').then(res => {
+      setDataVehicle(res);
+    });
+  };
+
+  const getDataUser = () => {
+    getData('user').then(res => {
+      setProfile(res);
+    });
+  };
+
+  const checkPayment = () => {
+    if (dataVehicle.KodeBayar == '-') {
+      setKetBayar('Belum Dibayar');
+    } else {
+      setKetBayar('Lunas');
+    }
+  };
+
+  useEffect(() => {
+    getDataVehicle();
+    // getDataUser();
+    // console.log(dataVehicle.fotoKendaraan);
+  });
+
   return (
     <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
       <View style={styles.imgContainer}>
         <View style={styles.WrapperImg}>
           <ImageNoBg />
+          <Image source={dataVehicle.fotoKendaraan} />
         </View>
         <View style={styles.dataVehicleContainer}>
           <View style={styles.wrapperDataVehicle}>
-            <Text style={styles.titleMerkVehicle}>Honda CB150R</Text>
+            <Text style={styles.titleMerkVehicle}>
+              {dataVehicle.NamaKendaraan}
+            </Text>
             <View style={styles.paymnetStatusContainer}>
-              <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
+              <Text style={styles.titlePaymentStatus}>{ketBayar}</Text>
             </View>
           </View>
           <View style={styles.wrapperSubdataVehicle}>
-            <Text style={styles.titleNumberPolice}>DB 5848 C</Text>
-            <Text style={styles.titlePayment}>Rp 312.000</Text>
+            <Text style={styles.titleNumberPolice}>
+              {dataVehicle.NRKB}
+              {''}
+            </Text>
+            <Text style={styles.titlePayment}>Rp -</Text>
           </View>
         </View>
       </View>

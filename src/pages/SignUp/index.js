@@ -102,6 +102,7 @@ const SignUp = ({navigation}) => {
                   axios
                     .post('http://10.0.2.2:3000/api/posts/', {
                       uid: `${google.user.uid}`,
+                      token: `${google.user.token}`,
                     })
                     .then(res => {
                       const googleData = res.data;
@@ -112,13 +113,15 @@ const SignUp = ({navigation}) => {
                           email: res.data.email,
                           phoneNumber: res.data.noTlp,
                           uid: res.data.uid,
-                          data: res.data.id,
+                          id: res.data.id,
+                          token: res.data.token,
                         };
                         storeData('user', DashboardData);
                         navigation.reset({
                           index: 0,
                           routes: [{name: 'Dashboard', DashboardData}],
                         });
+                        console.log('data signup', DashboardData);
                       } else if (!googleData) {
                         const data = {
                           gEmail: google.user.email,

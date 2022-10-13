@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,10 +16,12 @@ import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {getData} from '../../utils';
 
 const DetailsVehicle = ({navigation}) => {
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
+  const [galleryPhoto, setGalleryPhoto] = useState();
 
   const snapPoints = ['1%', '70%', '80%'];
 
@@ -28,22 +30,47 @@ const DetailsVehicle = ({navigation}) => {
     setIsOpen(true);
   }, []);
 
-  const [galleryPhoto, setGalleryPhoto] = useState();
+  const editPhoto = () => {};
 
-  const options = {
-    saveToPhotos: true,
-    mediaType: 'photo',
-    includeBase64: true,
+  const openGallery = () => {
+    const options = {
+      saveToPhotos: true,
+      mediaType: 'photo',
+      includeBase64: true,
+    };
+
+    launchImageLibrary(options, res => {
+      if (res.didCancel) {
+        console.log('user cancelled picker');
+      } else if (res.errorCode) {
+        console.log(res.errorMessage);
+      } else {
+        const result = res.assets[0];
+        setGalleryPhoto(result);
+        console.log(result);
+      }
+    });
+    // const result = launchImageLibrary(options);
+    // setGalleryPhoto(galleryPhoto);
+    // // setGalleryPhoto(galleryPhoto);
+    // launchImageLibrary(options, response => {
+    //   console.log('response photo', response);
+    // });
   };
 
-  // const openGallery = async () => {
-  //   const result = await launchImageLibrary(options);
-  //   setGalleryPhoto(result.assets[0].uri);
-  //   // setGalleryPhoto(galleryPhoto);
-  // };
+  const [dataVehicle, setDataVehicle] = useState({
+    NamaKendaraan: '',
+    KodeBayar: '',
+  });
 
-  launchImageLibrary(options, response => {
-    console.log('response ', response);
+  const getDataVehicle = () => {
+    getData('userVehicle').then(res => {
+      setDataVehicle(res);
+    });
+  };
+
+  useEffect(() => {
+    getDataVehicle();
   });
 
   return (
@@ -60,8 +87,9 @@ const DetailsVehicle = ({navigation}) => {
               <TextInput
                 style={styles.inputTitle}
                 placeholder="Nama Kendaraan"
+                value={dataVehicle.NamaKendaraan}
               />
-              <TouchableOpacity activeOpacity={0.5}>
+              <TouchableOpacity activeOpacity={0.5} onPress={editPhoto()}>
                 <IconEditRename />
               </TouchableOpacity>
             </View>

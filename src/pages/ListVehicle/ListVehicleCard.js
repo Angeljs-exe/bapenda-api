@@ -1,28 +1,37 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import {fonts, ImageList} from '../../assets';
 
 const ListVehicleCard = ({item}) => (
   <View style={styles.wrapperListVehicle}>
     <View style={styles.listVehicleContainer}>
-      <View style={styles.listVehicle}>
-        <View style={styles.imgBackground}>
-          <ImageList />
-        </View>
-        <View>
-          <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
-          <Text style={styles.numberPolice}>{item.NRKB}</Text>
-          <View style={styles.line} />
-          <View>
-            <View style={styles.containerDatePayment}>
-              <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
-              {/* <Text style={styles.paymentStatus(paymentStatus)}>
+      <TouchableOpacity>
+        <View style={styles.listVehicle}>
+          <View style={styles.imgBackground}>
+            <ImageList />
+          </View>
+          <View style={styles.vehicleBox}>
+            <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
+            <Text style={styles.numberPolice}>{item.NRKB}</Text>
+            <View style={styles.line} />
+            <View>
+              <View style={styles.containerDatePayment}>
+                <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
+                {/* <Text style={styles.paymentStatus(paymentStatus)}>
                 {paymentStatus}
               </Text> */}
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   </View>
 );
@@ -62,6 +71,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginRight: 12,
   },
+  vehicleBox: {
+    flex: 1,
+  },
   brandVehicle: {
     fontSize: 14,
     fontFamily: fonts.Poppins.medium,
@@ -76,7 +88,7 @@ const styles = StyleSheet.create({
   line: {
     borderWidth: 2,
     borderColor: '#A61E22',
-    width: 249,
+    width: '100%',
     alignItems: 'center',
     marginTop: 8,
   },

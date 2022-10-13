@@ -14,7 +14,7 @@ import {Button, Loading} from '../../components';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
-import {storeData} from '../../utils';
+import {getData, storeData} from '../../utils';
 
 const Login = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -23,6 +23,8 @@ const Login = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [useData, setUseData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [tokenUser, setTokenUser] = useState();
+  let [userId, setUserId] = useState('');
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -52,11 +54,20 @@ const Login = ({navigation}) => {
     return auth().signInWithCredential(googleCredential);
   };
 
+  const getUserToken = () => {
+    getData('dataToken').then(res => {
+      setTokenUser(res);
+    });
+  };
+
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
         '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
     });
+    // navigation.addListener('focus', () => {
+    getUserToken();
+    // });
   }, []);
   return (
     <>
@@ -105,6 +116,7 @@ const Login = ({navigation}) => {
                       uid: `${google.user.uid}`,
                     })
                     .then(res => {
+                      console.log('token user login:', tokenUser);
                       const googleData = res.data;
                       if (googleData) {
                         const DashboardData = {
@@ -114,8 +126,26 @@ const Login = ({navigation}) => {
                           phoneNumber: res.data.noTlp,
                           uid: res.data.uid,
                           id: res.data.id,
+                          token: tokenUser,
                         };
                         storeData('user', DashboardData);
+                        console.log('user login', DashboardData);
+                        axios
+                          .post(
+                            `http://10.0.2.2:3000/api/posts/${googleData.id}`,
+                            {
+                              token: `${tokenUser.token}`,
+                            },
+                          )
+                          .then(res => {
+                            console.log(
+                              'berhasil input token',
+                              tokenUser.token,
+                            );
+                          });
+                        console.log('token dari login: ', tokenUser.token);
+                        setUserId(googleData.id);
+                        console.log('Dashboard data', userId);
                         navigation.reset({
                           index: 0,
                           routes: [{name: 'Dashboard', DashboardData}],
@@ -130,6 +160,7 @@ const Login = ({navigation}) => {
                         navigation.replace('PersonalData', data, {phoneNumber});
                       }
                     });
+                  console.log('ini id  profile', userId.id);
                 })
                 .catch(error => console.log(error))
             }>

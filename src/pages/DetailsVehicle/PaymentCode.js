@@ -5,10 +5,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts, IconSalin} from '../../assets';
 import PaymentMethodATM from './PaymentMethod';
 import OfficePaymentMethod from './OfficePaymentMethod';
+import {getData} from '../../utils';
 
 let ATM = [
   {
@@ -61,6 +62,20 @@ let kantor = [
 ];
 
 const PaymentCode = () => {
+  const [dataVehicle, setDataVehicle] = useState({
+    KodeBayar: '',
+  });
+
+  const getDataVehicle = () => {
+    getData('userVehicle').then(res => {
+      setDataVehicle(res);
+    });
+  };
+
+  useEffect(() => {
+    getDataVehicle();
+  });
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nama Kendaraan</Text>
@@ -68,7 +83,9 @@ const PaymentCode = () => {
         <Text style={styles.titleCodePayment}>Kode Bayar</Text>
         <View style={styles.codePaymentContainer}>
           <View style={styles.codePayment}>
-            <Text style={styles.subTitleCodePayment}>14345FG</Text>
+            <Text style={styles.subTitleCodePayment}>
+              {dataVehicle.KodeBayar}
+            </Text>
             <TouchableOpacity activeOpacity={0.5}>
               <IconSalin />
             </TouchableOpacity>
@@ -76,7 +93,7 @@ const PaymentCode = () => {
         </View>
       </View>
       <ScrollView>
-        <Text style={styles.titlePaymentMethod}>Cara Pembayaran :</Text>
+        <Text style={styles.titlePaymentMethod}>Metode Pembayaran :</Text>
         <PaymentMethodATM data={ATM} />
         <OfficePaymentMethod data={kantor} />
       </ScrollView>
