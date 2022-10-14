@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -59,6 +60,9 @@ const PersonalData = ({
       })
       .catch(error => {
         setLoading(false);
+        Alert.alert('There is something wrong', error.message, [
+          {text: 'Close', onPress: () => console.log('OK Pressed')},
+        ]);
         console.log('error', error);
       });
   };

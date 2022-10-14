@@ -13,6 +13,7 @@ import RegisterVehicleCard from './RegisterVehicleCard';
 import {getData} from '../../utils';
 
 const Dashboard = ({navigation}) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [touchAdd, setTouchAdd] = useState(false);
   const [profile, setProfile] = useState({
     name: '',
@@ -25,7 +26,25 @@ const Dashboard = ({navigation}) => {
 
   const getDataUser = () => {
     getData('user').then(res => {
+      console.log('get data', res);
       setProfile(res);
+      if (!res.name && !res.email) {
+        // user login with email
+        const data = {
+          gEmail: res.gEmail,
+          uid: res.uid,
+          phoneNumber: res.phoneNumber,
+        };
+        navigation.replace('PersonalData', data);
+      } else if (res.name === '' && (!res.email || !res.gEmail)) {
+        // user login with phone number
+        const data = {
+          phoneNumber: res.phoneNumber,
+          uid: res.uid,
+        };
+        const email = '';
+        navigation.replace('PersonalData', data, {phoneNumber, email});
+      }
     });
   };
 
