@@ -28,8 +28,8 @@ const Login = ({navigation}) => {
   const signInWithPhoneNumber = async () => {
     setLoading(true);
     try {
-      setLoading(false);
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setLoading(false);
       const data = {
         phoneNumber: phoneNumber,
       };
@@ -50,7 +50,46 @@ const Login = ({navigation}) => {
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
     // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+    auth()
+      .signInWithCredential(googleCredential)
+      .then(google => {
+        setLoading(true);
+        axios
+          .post(`${baseUrl}/api/posts/`, {
+            uid: google.user.uid,
+          })
+          .then(res => {
+            if (
+              google.additionalUserInfo.isNewUser ||
+              !res ||
+              res.data?.status === 0
+            ) {
+              const data = {
+                gEmail: google.user.email,
+                uid: google.user.uid,
+              };
+              // const phoneNumber = '';
+              storeData('user', data);
+              navigation.replace('PersonalData', data, {phoneNumber});
+              setLoading(false);
+            } else {
+              const DashboardData = {
+                name: res.data.docs.nama,
+                nik: res.data.docs.nik,
+                email: res.data.docs.email,
+                phoneNumber: res.data.docs.noTlp,
+                uid: res.data.docs.uid,
+                id: res.data.docs.id,
+              };
+              storeData('user', DashboardData);
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Dashboard', DashboardData}],
+              });
+              setLoading(false);
+            }
+          });
+      });
   };
 
   useEffect(() => {
@@ -94,46 +133,7 @@ const Login = ({navigation}) => {
           </View>
         </View>
         <View style={styles.wrapperContainer}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() =>
-              googleSignIn()
-                .then(google => {
-                  setLoading(true);
-                  setUseData(google.user.email);
-                  axios
-                    .post(`${baseUrl}/api/posts/`, {
-                      uid: `${google.user.uid}`,
-                    })
-                    .then(res => {
-                      const googleData = res.data;
-                      if (googleData) {
-                        const DashboardData = {
-                          name: res.data.nama,
-                          nik: res.data.nik,
-                          email: res.data.email,
-                          phoneNumber: res.data.noTlp,
-                          uid: res.data.uid,
-                          id: res.data.id,
-                        };
-                        storeData('user', DashboardData);
-                        navigation.reset({
-                          index: 0,
-                          routes: [{name: 'Dashboard', DashboardData}],
-                        });
-                      } else if (!googleData) {
-                        const data = {
-                          gEmail: google.user.email,
-                          uid: google.user.uid,
-                        };
-                        // const phoneNumber = '';
-                        storeData('user', data);
-                        navigation.replace('PersonalData', data, {phoneNumber});
-                      }
-                    });
-                })
-                .catch(error => console.log(error))
-            }>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => googleSignIn()}>
             <View style={styles.signInContainer}>
               <View style={styles.wrapperSignIn}>
                 <LgGoogle />
