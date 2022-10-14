@@ -16,15 +16,15 @@ const InputVehicle = ({navigation}) => {
     KodeBayar: '',
   });
 
-  const [profile, setProfile] = useState({
-    id: '',
-  });
+  // const [userID, setUserID] = useState({
+  //   id: '',
+  // });
 
-  const getDataUser = () => {
-    getData('user').then(res => {
-      setProfile(res);
-    });
-  };
+  // const getDataUser = () => {
+  //   getData('user').then(res => {
+  //     setUserID(res);
+  //   });
+  // };
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
@@ -35,26 +35,29 @@ const InputVehicle = ({navigation}) => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       getDataVehicle();
+      // getDataUser();
     });
   }, [navigation]);
 
   const insertVehicle = () => {
-    axios
-      .post(`${baseUrl}/api/posts/vehicle/633ed16aab5782e2c0670d72`, {
-        NomorMesin: dataVehicle.NomorMesin,
-        TahunBuat: dataVehicle.TahunBuat,
-        TipeKendaraan: dataVehicle.TipeKendaraan,
-        NRKB: dataVehicle.NRKB,
-        JTPajak: dataVehicle.JTPajak,
-        KodeBayar: dataVehicle.KODE_BAYAR,
-      })
-      .then(function (response) {
-        console.log(response);
-        navigation.replace('RegisCompleted');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getData('user').then(res => {
+      axios
+        .post(`${baseUrl}/api/posts/vehicle/${res.id}`, {
+          NomorMesin: dataVehicle.NomorMesin,
+          TahunBuat: dataVehicle.TahunBuat,
+          TipeKendaraan: dataVehicle.TipeKendaraan,
+          NRKB: dataVehicle.NRKB,
+          JTPajak: dataVehicle.JTPajak,
+          // KodeBayar: dataVehicle.KODE_BAYAR,
+        })
+        .then(function (response) {
+          console.log(response);
+          navigation.replace('RegisCompleted');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
   };
 
   return (

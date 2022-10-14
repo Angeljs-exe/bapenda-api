@@ -68,6 +68,7 @@ const DetailsVehicle = ({navigation}) => {
               <TextInput
                 style={styles.inputTitle}
                 placeholder="Nama Kendaraan"
+                placeholderTextColor="#D9D9D9"
               />
               <TouchableOpacity activeOpacity={0.5}>
                 <IconEditRename />
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontSize: 24,
     fontFamily: fonts.Poppins.semibold,
-    color: '#000000',
+    color: '#242424',
   },
   button: {
     paddingHorizontal: 25,

@@ -22,7 +22,7 @@ const Login = ({navigation}) => {
     CountryCode.find(country => country.name === 'Indonesia'),
   );
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [useData, setUseData] = useState({});
+  // const [useData, setUseData] = useState({});
   const [loading, setLoading] = useState(false);
 
   const signInWithPhoneNumber = async () => {

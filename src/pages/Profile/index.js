@@ -10,7 +10,7 @@ import {
 } from '../../assets';
 
 import auth from '@react-native-firebase/auth';
-import {clearData, getData} from '../../utils';
+import {getData, storeData} from '../../utils';
 
 const Profile = ({navigation}) => {
   const [profile, setProfile] = useState({
@@ -21,7 +21,6 @@ const Profile = ({navigation}) => {
   const getDataUser = () => {
     getData('user').then(res => {
       setProfile(res);
-      console.log('profil: ', profile);
     });
   };
 
@@ -37,7 +36,7 @@ const Profile = ({navigation}) => {
       .signOut()
       .then(() => {
         setLoading(false);
-        clearData();
+        storeData('user', '');
         navigation.replace('Login');
       })
       .catch(error => {

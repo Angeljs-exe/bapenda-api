@@ -44,7 +44,7 @@ const PersonalData = ({
         published: true,
         uid: `${uid}`,
       })
-      .then(() => {
+      .then(res => {
         setForm('reset');
         setLoading(false);
         const data = {
@@ -53,6 +53,7 @@ const PersonalData = ({
           email: form.email ? form.email : gEmail,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
+          id: res.data.id,
         };
         storeData('user', data);
         navigation.replace('Dashboard', data);
