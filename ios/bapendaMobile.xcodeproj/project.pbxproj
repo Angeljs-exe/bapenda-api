@@ -11,9 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		154FD97295D26CEB2010D4E5 /* libPods-bapendaMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C57D7BB560466A234A0BA16F /* libPods-bapendaMobile.a */; };
+		22EC376228FD853B005AD098 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22EC376128FD853B005AD098 /* GoogleService-Info.plist */; };
+		7807C007C57BB50E061094E5 /* Pods_bapendaMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF09258F0140DDAF73CD94A /* Pods_bapendaMobile.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A30C21C91628E3B9B32D24D7 /* libPods-bapendaMobile-bapendaMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5F216DDDD6A94939DE279D /* libPods-bapendaMobile-bapendaMobileTests.a */; };
+		D46B77CA4D10CD693BB7D6DF /* Pods_bapendaMobile_bapendaMobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F71BFA5A81E1924D87C0E8 /* Pods_bapendaMobile_bapendaMobileTests.framework */; };
 		E3BEB74428D852DE005622F7 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEB73228D852DD005622F7 /* Poppins-BoldItalic.ttf */; };
 		E3BEB74528D852DE005622F7 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEB73328D852DD005622F7 /* Poppins-Italic.ttf */; };
 		E3BEB74628D852DE005622F7 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEB73428D852DD005622F7 /* Poppins-Medium.ttf */; };
@@ -55,12 +56,13 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = bapendaMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = bapendaMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = bapendaMobile/main.m; sourceTree = "<group>"; };
-		2B5F216DDDD6A94939DE279D /* libPods-bapendaMobile-bapendaMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-bapendaMobile-bapendaMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22EC376128FD853B005AD098 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		50DACF38ADD7B318EAC252B9 /* Pods-bapendaMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bapendaMobile.release.xcconfig"; path = "Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile.release.xcconfig"; sourceTree = "<group>"; };
+		74F71BFA5A81E1924D87C0E8 /* Pods_bapendaMobile_bapendaMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bapendaMobile_bapendaMobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		792355F90CE8777A0B49C377 /* Pods-bapendaMobile-bapendaMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bapendaMobile-bapendaMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = bapendaMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B4C29F43236A58955B182899 /* Pods-bapendaMobile-bapendaMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bapendaMobile-bapendaMobileTests.release.xcconfig"; path = "Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests.release.xcconfig"; sourceTree = "<group>"; };
-		C57D7BB560466A234A0BA16F /* libPods-bapendaMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-bapendaMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFF09258F0140DDAF73CD94A /* Pods_bapendaMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bapendaMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3BEB72028D8529C005622F7 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-MediumItalic.ttf"; path = "../src/assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		E3BEB72128D8529C005622F7 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Italic.ttf"; path = "../src/assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		E3BEB72228D8529C005622F7 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
@@ -105,7 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A30C21C91628E3B9B32D24D7 /* libPods-bapendaMobile-bapendaMobileTests.a in Frameworks */,
+				D46B77CA4D10CD693BB7D6DF /* Pods_bapendaMobile_bapendaMobileTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				154FD97295D26CEB2010D4E5 /* libPods-bapendaMobile.a in Frameworks */,
+				7807C007C57BB50E061094E5 /* Pods_bapendaMobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,8 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				C57D7BB560466A234A0BA16F /* libPods-bapendaMobile.a */,
-				2B5F216DDDD6A94939DE279D /* libPods-bapendaMobile-bapendaMobileTests.a */,
+				CFF09258F0140DDAF73CD94A /* Pods_bapendaMobile.framework */,
+				74F71BFA5A81E1924D87C0E8 /* Pods_bapendaMobile_bapendaMobileTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,6 +173,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				22EC376128FD853B005AD098 /* GoogleService-Info.plist */,
 				E3BEB74128D852DE005622F7 /* Poppins-Black.ttf */,
 				E3BEB73A28D852DD005622F7 /* Poppins-BlackItalic.ttf */,
 				E3BEB73828D852DD005622F7 /* Poppins-Bold.ttf */,
@@ -258,7 +261,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				B02A9E059E1B2708832FF506 /* [CP] Embed Pods Frameworks */,
-				5C59FF8CA5118115266CBF79 /* [CP] Copy Pods Resources */,
+				BFD5EF5D1694C6932ACB1143 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -281,8 +284,8 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				1D4000EFB2C9135B663F2945 /* [CP] Embed Pods Frameworks */,
-				26F731D49BC951B0362135FC /* [CP] Copy Pods Resources */,
 				A1FA6EBD72A34E8D4A96AB3A /* [CP-User] [RNFB] Core Configuration */,
+				D2C415C1B95D34ED872F1733 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -361,6 +364,7 @@
 				E3BEB75528D852DE005622F7 /* Poppins-Light.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				22EC376228FD853B005AD098 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,23 +404,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		26F731D49BC951B0362135FC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		49ED77A71174E3389C996413 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -437,23 +424,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5C59FF8CA5118115266CBF79 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A1FA6EBD72A34E8D4A96AB3A /* [CP-User] [RNFB] Core Configuration */ = {
@@ -506,6 +476,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BFD5EF5D1694C6932ACB1143 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile-bapendaMobileTests/Pods-bapendaMobile-bapendaMobileTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D2C415C1B95D34ED872F1733 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
