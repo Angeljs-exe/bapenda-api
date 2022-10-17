@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,8 +17,12 @@ import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {baseUrl} from '../../utils/config';
+import axios from 'axios';
+import {getData} from '../../utils';
 
 const DetailsVehicle = ({navigation}) => {
+  const [myValue, setMyValue] = useState('');
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
 
@@ -51,8 +55,25 @@ const DetailsVehicle = ({navigation}) => {
     });
   };
 
-  // // kondisi
-  // galleryPhoto != null && <Image source={{uri: galleryPhoto.uri}} />;
+  const updateName = () => {
+    getData('user').then(res => {
+      console.log(res.id);
+      axios
+        .get(`${baseUrl}/api/posts/vehicle/${res.id}`, {
+          // _id: `${res._id}`,
+          // NamaKendaraan: `${myValue}`,
+        })
+        .then(function (response) {
+          console.log('user', response.data[0]._id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+    // getData('user').then(res => {
+    //   console.log('userss', res);
+    // });
+  };
 
   return (
     <SafeAreaView style={styles.page}>
@@ -68,8 +89,13 @@ const DetailsVehicle = ({navigation}) => {
               <TextInput
                 style={styles.inputTitle}
                 placeholder="Nama Kendaraan"
+                value={myValue}
+                //prettier-ignore
+                onChangeText={(value) => setMyValue(value)}
               />
-              <TouchableOpacity activeOpacity={0.5}>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => updateName()}>
                 <IconEditRename />
               </TouchableOpacity>
             </View>

@@ -84,7 +84,9 @@ const Login = ({navigation}) => {
                 phoneNumber: res.data.docs.noTlp,
                 uid: res.data.docs.uid,
                 id: res.data.docs.id,
+                kendaraan: res.data.docs.kendaraan,
               };
+              console.log(res.data.docs.kendaraan);
               storeData('user', DashboardData);
               navigation.reset({
                 index: 0,
