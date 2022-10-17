@@ -1,49 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {fonts, ImageList} from '../../assets';
-import axios from 'axios';
-import {getData} from '../../utils';
 
 const CardNotificationPay = ({item}) => {
   const [changeColor, setChangeColor] = useState(false);
-  // const [dataVehicle, setDataVehicle] = useState();
-
-  // const getDataVehicle = () => {
-  //   getData
-  // }
 
   const colorSubmit = () => {
     setChangeColor(true);
   };
-
-  // useEffect(() => {
-  //   colorSubmit();
-  // }, []);
-
-  // const notifVehicle = () => {
-  //   getData('user').then(res => {
-  //     axios
-  //       .get(`http://10.0.2.2:3000/api/posts/vehicle/${res.id}`)
-  //       .then(resp => {
-  //         setDataVehicle(resp);
-  //         // console.log('resp: ', resp.data);
-  //         // getData('userVehicle').then(userV => {
-  //         //   // setDataVehicle(userV);
-  //         //   console.log('userVehicle: ', userV);
-  //         // });
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   notifVehicle();
-  // }, []);
-
-  // const getVehicle = () => {
-  // return dataVehicle?.data.map(elemen => {
   return (
     <>
       <View style={styles.line} />
@@ -72,10 +36,7 @@ const CardNotificationPay = ({item}) => {
       <View style={styles.line} />
     </>
   );
-  // });
 };
-// return <View>{getVehicle()}</View>;
-// };
 
 export default CardNotificationPay;
 

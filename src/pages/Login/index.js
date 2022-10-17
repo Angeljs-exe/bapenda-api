@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -38,6 +39,9 @@ const Login = ({navigation}) => {
       navigation.navigate('VerificationCodeOTP', {phoneNumber, confirmation});
     } catch (error) {
       setLoading(false);
+      Alert.alert('There is something wrong', error.message, [
+        {text: 'Close', onPress: () => console.log('OK Pressed')},
+      ]);
       console.log('error', error);
     }
   };

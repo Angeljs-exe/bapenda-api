@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -14,18 +15,20 @@ import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
 import {getData, storeData, useForm} from '../../utils';
 import {baseUrl} from '../../utils/config';
+import auth from '@react-native-firebase/auth';
 
 const PersonalData = ({
   route: {
-    params: {uid, phoneNumber, gEmail},
+    params: {phoneNumber, gEmail},
   },
   navigation,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
-
+  const uid = auth().currentUser.uid;
   const [loading, setLoading] = useState(false);
+  const [pushNotifToken, setPushNotifToken] = useState('');
   const [form, setForm] = useForm({
     name: '',
     nik: '',
@@ -33,8 +36,10 @@ const PersonalData = ({
     phoneNumber: '',
   });
 
-  const submitAPI = () => {
-    setLoading(true);
+  const submitAPI = async () => {
+    // setLoading(true);
+
+    console.log('res', pushNotifToken);
     axios
       .post(`${baseUrl}/api/posts/create`, {
         nama: `${form.name}`,
@@ -43,6 +48,7 @@ const PersonalData = ({
         noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
         published: true,
         uid: `${uid}`,
+        token: `${pushNotifToken}`,
       })
       .then(res => {
         setForm('reset');
@@ -54,19 +60,26 @@ const PersonalData = ({
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
           id: res.data.id,
+          token: `${pushNotifToken}`,
         };
         storeData('user', data);
         navigation.replace('Dashboard', data);
       })
       .catch(error => {
         setLoading(false);
+        Alert.alert('There is something wrong', error.message, [
+          {text: 'Close', onPress: () => console.log('OK Pressed')},
+        ]);
         console.log('error', error);
       });
   };
 
   useEffect(() => {
-    navigation.addListener('focus', () => {
+    navigation.addListener('focus', async () => {
       getDataUser();
+      await getData('pushNotifToken').then(res => {
+        setPushNotifToken(res);
+      });
     });
   }, []);
 

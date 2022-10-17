@@ -4,13 +4,14 @@ import {Header} from '../../components';
 import CardNotificationPay from './CardNotificationPay';
 import {getData} from '../../utils';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 const Notification = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState();
 
   const notifVehicle = () => {
     getData('user').then(res => {
       axios
-        .get(`http://10.0.2.2:3000/api/posts/vehicle/${res.id}`)
+        .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(resp => {
           setDataVehicle(resp);
           console.log('resp: ', resp);
