@@ -4,6 +4,7 @@ import {Button, Header, TextInput} from '../../components';
 import {fonts} from '../../assets';
 import {getData} from '../../utils';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const InputVehicle = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState({
@@ -12,10 +13,21 @@ const InputVehicle = ({navigation}) => {
     TipeKendaraan: '',
     NRKB: '',
     JTPajak: '',
+    KodeBayar: '',
   });
   const [dataUser, setDataUser] = useState({
     id: '',
   });
+
+  // const [userID, setUserID] = useState({
+  //   id: '',
+  // });
+
+  // const getDataUser = () => {
+  //   getData('user').then(res => {
+  //     setUserID(res);
+  //   });
+  // };
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
@@ -32,26 +44,29 @@ const InputVehicle = ({navigation}) => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       getDataVehicle();
-      getDataUser();
+      // getDataUser();
     });
   }, [navigation]);
 
   const insertVehicle = () => {
-    axios
-      .post(`http://10.0.2.2:3000/api/posts/vehicle/${dataUser.id}`, {
-        NomorMesin: dataVehicle.NomorMesin,
-        TahunBuat: dataVehicle.TahunBuat,
-        TipeKendaraan: dataVehicle.TipeKendaraan,
-        NRKB: dataVehicle.NRKB,
-        JTPajak: dataVehicle.JTPajak,
-      })
-      .then(function (response) {
-        console.log(response);
-        navigation.replace('RegisCompleted');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getData('user').then(res => {
+      axios
+        .post(`${baseUrl}/api/posts/vehicle/${res.id}`, {
+          NomorMesin: dataVehicle.NomorMesin,
+          TahunBuat: dataVehicle.TahunBuat,
+          TipeKendaraan: dataVehicle.TipeKendaraan,
+          NRKB: dataVehicle.NRKB,
+          JTPajak: dataVehicle.JTPajak,
+          // KodeBayar: dataVehicle.KODE_BAYAR,
+        })
+        .then(function (response) {
+          console.log(response);
+          navigation.replace('RegisCompleted');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
   };
 
   return (

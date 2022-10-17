@@ -48,10 +48,7 @@ const App = () => {
       .getToken(firebase.app().options.messagingSenderId)
       .then(token => {
         console.log('token', token);
-        const dataToken = {
-          token: token,
-        };
-        storeData('dataToken', dataToken);
+        storeData('pushNotifToken', token);
       });
     const unsubcsribe = messaging().onMessage(async remoteMsg => {
       const channelId = Math.random().toString(36).substring(7);

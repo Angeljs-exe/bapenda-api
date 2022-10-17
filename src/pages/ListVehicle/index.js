@@ -5,32 +5,36 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Header} from '../../components';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
+import {getData} from '../../utils';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
 
+  const getListDetail = () => {
+    getData('user').then(res => {
+      axios
+        .get(`${baseUrl}/api/posts/${res.id}`)
+        .then(response => {
+          console.log('response ', response);
+          setListDetail(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  };
+
   useEffect(() => {
     getListDetail();
   }, []);
-
-  function getListDetail() {
-    axios
-      .get('http://10.0.2.2:3000/api/posts/633ed16aab5782e2c0670d72')
-      .then(function (response) {
-        console.log('response ', response);
-        setListDetail(response.data);
-        console.log('ini kman ', listDetail);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
   if (!listDetail) {
     return null;

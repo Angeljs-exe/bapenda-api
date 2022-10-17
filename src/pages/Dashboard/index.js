@@ -13,6 +13,7 @@ import RegisterVehicleCard from './RegisterVehicleCard';
 import {getData} from '../../utils';
 
 const Dashboard = ({navigation}) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [touchAdd, setTouchAdd] = useState(false);
   const [profile, setProfile] = useState({
     name: '',
@@ -25,7 +26,25 @@ const Dashboard = ({navigation}) => {
 
   const getDataUser = () => {
     getData('user').then(res => {
+      console.log('get data', res);
       setProfile(res);
+      if (!res.name && !res.email) {
+        // user login with email
+        const data = {
+          gEmail: res.gEmail,
+          uid: res.uid,
+          phoneNumber: res.phoneNumber,
+        };
+        navigation.replace('PersonalData', data);
+      } else if (res.name === '' && (!res.email || !res.gEmail)) {
+        // user login with phone number
+        const data = {
+          phoneNumber: res.phoneNumber,
+          uid: res.uid,
+        };
+        const email = '';
+        navigation.replace('PersonalData', data, {phoneNumber, email});
+      }
     });
   };
 
@@ -43,7 +62,7 @@ const Dashboard = ({navigation}) => {
             profile={profile}
             onPress={() => navigation.navigate('Profile')}
           />
-          <View style={styles.nofication}>
+          <View style={styles.notifContainer}>
             <Button
               click="iconOnly"
               icon="iconNotif"
@@ -138,18 +157,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  nofication: {
+  notifContainer: {
     width: 30,
     height: 30,
   },
   notif: {
     backgroundColor: '#ED1616',
     position: 'absolute',
-    width: 15,
-    height: 15,
+    width: 13,
+    height: 13,
     borderRadius: 15,
     top: -5,
-    left: 14,
+    left: 15,
   },
   titleNotif: {
     fontSize: 12,

@@ -1,4 +1,4 @@
-import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {
   fonts,
@@ -17,9 +17,7 @@ const SplashScreen = ({navigation}) => {
   const rnFirebasePersistent = () => {
     const subscriber = auth().onAuthStateChanged(user => {
       setTimeout(() => {
-        const routes = navigation.getState()?.routes;
-        const prevRoute = routes[routes.length - 1];
-        if (user && prevRoute.name !== 'PersonalData') {
+        if (user) {
           navigation.replace('Dashboard');
         } else if (!user) {
           navigation.reset({index: 0, routes: [{name: 'Login'}]});
@@ -31,6 +29,7 @@ const SplashScreen = ({navigation}) => {
 
   useEffect(() => {
     rnFirebasePersistent();
+    // navigation.navigate('Login');
   }, []);
 
   return (

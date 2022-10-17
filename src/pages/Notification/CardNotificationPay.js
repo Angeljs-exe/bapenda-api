@@ -4,7 +4,7 @@ import {fonts, ImageList} from '../../assets';
 import axios from 'axios';
 import {getData} from '../../utils';
 
-const CardNotification = ({navigation}) => {
+const CardNotificationPay = ({item}) => {
   const [changeColor, setChangeColor] = useState(false);
   const [dataVehicle, setDataVehicle] = useState({
     TipeKendaraan: '',
@@ -55,16 +55,13 @@ const CardNotification = ({navigation}) => {
             Pemberitahuan Pembayaran Pajak
           </Text>
           <Text style={styles.contentNotification}>
-            Pengguna yang terhormat, batas pembayaran
-            <Text style={styles.titleTypeVehicle}>
-              {' '}
-              {dataVehicle.TipeKendaraan}
-            </Text>{' '}
+            Pengguna yang terhormat, batas pembayaran{' '}
+            <Text style={styles.titleTypeVehicle}>{item.TipeKendaraan}</Text>{' '}
             Rp. - pada{' '}
-            <Text style={styles.titleTypeVehicle}>{dataVehicle.JTPajak}</Text>{' '}
-            harus segera diselesaikan
+            <Text style={styles.titleTypeVehicle}>{item.JTPajak}</Text> harus
+            segera diselesaikan
           </Text>
-          <Text style={styles.dateNotification}>Sekarang</Text>
+          {/* <Text style={styles.dateNotification}>Sekarang</Text> */}
         </View>
       </TouchableOpacity>
       <View style={styles.line} />
@@ -72,7 +69,7 @@ const CardNotification = ({navigation}) => {
   );
 };
 
-export default CardNotification;
+export default CardNotificationPay;
 
 const styles = StyleSheet.create({
   line: {

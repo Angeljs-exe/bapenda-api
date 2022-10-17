@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -13,41 +14,43 @@ import InputNumberPhone from '../SignUp/InputNumberPhone';
 import CountryCode from '../../assets/CountryCode';
 import axios from 'axios';
 import {getData, storeData, useForm} from '../../utils';
+import {baseUrl} from '../../utils/config';
+import auth from '@react-native-firebase/auth';
 
 const PersonalData = ({
   route: {
-    params: {uid, phoneNumber, gEmail},
+    params: {phoneNumber, gEmail},
   },
   navigation,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
-
+  const uid = auth().currentUser.uid;
   const [loading, setLoading] = useState(false);
+  const [pushNotifToken, setPushNotifToken] = useState('');
   const [form, setForm] = useForm({
     name: '',
     nik: '',
     email: '',
     phoneNumber: '',
   });
-  const [tokenUser, setTokenUser] = useState({
-    token: '',
-  });
 
-  const submitAPI = () => {
-    setLoading(true);
+  const submitAPI = async () => {
+    // setLoading(true);
+
+    console.log('res', pushNotifToken);
     axios
-      .post('http://10.0.2.2:3000/api/posts/create', {
+      .post(`${baseUrl}/api/posts/create`, {
         nama: `${form.name}`,
         nik: `${form.nik}`,
         email: `${form.email ? form.email : gEmail}`,
         noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
         published: true,
         uid: `${uid}`,
-        // token: `${tokenUser.token}`,
+        token: `${pushNotifToken}`,
       })
-      .then(() => {
+      .then(res => {
         setForm('reset');
         setLoading(false);
         const data = {
@@ -56,28 +59,27 @@ const PersonalData = ({
           email: form.email ? form.email : gEmail,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
-          // token: `${tokenUser.token}`,
+          id: res.data.id,
+          token: `${pushNotifToken}`,
         };
         storeData('user', data);
         navigation.replace('Dashboard', data);
       })
       .catch(error => {
         setLoading(false);
+        Alert.alert('There is something wrong', error.message, [
+          {text: 'Close', onPress: () => console.log('OK Pressed')},
+        ]);
         console.log('error', error);
       });
   };
 
-  const getUserToken = () => {
-    getData('dataToken').then(res => {
-      setTokenUser(res);
-      console.log('respt: ', res);
-    });
-  };
-
   useEffect(() => {
-    navigation.addListener('focus', () => {
+    navigation.addListener('focus', async () => {
       getDataUser();
-      getUserToken();
+      await getData('pushNotifToken').then(res => {
+        setPushNotifToken(res);
+      });
     });
   }, []);
 

@@ -14,6 +14,7 @@ import {storeData} from '../../utils';
 
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
 const inputs = Array(6).fill('');
 let newInputIndex = 0;
@@ -60,27 +61,13 @@ const VerificationCodeOTP = ({
         setLoading(true);
         await confirmation.confirm(val, code);
         axios
-          .post('http://10.0.2.2:3000/api/posts/', {
+          .post(`${baseUrl}/api/posts/`, {
             uid: `${auth().currentUser.uid}`,
           })
           .then(res => {
             setLoading(false);
             const myData = res.data;
-            if (myData) {
-              const dataDashboard = {
-                name: res.data.nama,
-                nik: res.data.nik,
-                email: res.data.email,
-                phoneNumber: res.data.noTlp,
-                uid: res.data.uid,
-                id: res.data.id,
-              };
-              storeData('user', dataDashboard);
-              navigation.reset({
-                index: 0,
-                routes: [{name: 'Dashboard', dataDashboard}],
-              });
-            } else if (!myData) {
+            if (res.data?.status === 0 || !res) {
               const data = {
                 phoneNumber: phoneNumber,
                 uid: auth().currentUser.uid,
@@ -88,6 +75,20 @@ const VerificationCodeOTP = ({
               const email = '';
               storeData('user', data);
               navigation.replace('PersonalData', data, {phoneNumber, email});
+            } else if (myData || res.data?.status === 1) {
+              const dataDashboard = {
+                name: res.data.docs.nama,
+                nik: res.data.docs.nik,
+                email: res.data.docs.email,
+                phoneNumber: res.data.docs.noTlp,
+                uid: res.data.docs.uid,
+                id: res.data.docs.id,
+              };
+              storeData('user', dataDashboard);
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Dashboard', dataDashboard}],
+              });
             }
           });
       } catch (error) {
