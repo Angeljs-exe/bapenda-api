@@ -2,32 +2,41 @@ import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {fonts, ImageList} from '../../assets';
 
-const ListVehicleCard = ({item}) => (
-  <View style={styles.wrapperListVehicle}>
-    <View style={styles.listVehicleContainer}>
-      <TouchableOpacity>
-        <View style={styles.listVehicle}>
-          <View style={styles.imgBackground}>
-            <ImageList />
-          </View>
-          <View>
-            <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
-            <Text style={styles.numberPolice}>{item.NRKB}</Text>
-            <View style={styles.line} />
+const ListVehicleCard = ({item, navigation}) => {
+  var na = item.NRKB.match(/[a-zA-Z]+/g)[0];
+  var nb = item.NRKB.match(/\d+/g);
+  var nc = item.NRKB.match(/[a-zA-Z]+/g)[1];
+
+  const nextPage = () => {};
+
+  return (
+    <View style={styles.wrapperListVehicle}>
+      <View style={styles.listVehicleContainer}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() => nextPage()}>
+          <View style={styles.listVehicle}>
+            <View style={styles.imgBackground}>
+              <ImageList />
+            </View>
             <View>
-              <View style={styles.containerDatePayment}>
-                <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
-                {/* <Text style={styles.paymentStatus(paymentStatus)}>
+              <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
+              <Text style={styles.numberPolice}>{`${na} ${nb} ${nc}`}</Text>
+              {/* <Text style={styles.numberPolice}>{item.NRKB}</Text> */}
+              <View style={styles.line} />
+              <View>
+                <View style={styles.containerDatePayment}>
+                  <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
+                  {/* <Text style={styles.paymentStatus(paymentStatus)}>
                 {paymentStatus}
               </Text> */}
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default ListVehicleCard;
 
