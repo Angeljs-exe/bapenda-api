@@ -131,7 +131,6 @@ const Login = ({navigation}) => {
   const getUserToken = () => {
     getData('dataToken').then(res => {
       setTokenUser(res);
-      console.log('token', res);
     });
   };
 

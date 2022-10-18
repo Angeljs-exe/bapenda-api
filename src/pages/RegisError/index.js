@@ -2,16 +2,15 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {fonts, IconRegisError} from '../../assets';
 import {Button} from '../../components';
-import Dashboard from '../Dashboard';
 
-const RegisError = ({numberRangka, navigation}) => {
+const RegisError = ({navigation}) => {
   return (
     <View style={styles.page}>
       <View style={styles.regisCompletedContainer}>
         <IconRegisError />
         <View style={styles.titleCompletedContainer}>
           <Text style={styles.titleCompleted}>
-            Mohon Maaf Nomor Rangka {numberRangka}{' '}
+            Mohon Maaf Nomor Polisi{' '}
             <Text style={styles.titleRegisError}>Tidak Ditemukan.</Text>
           </Text>
         </View>

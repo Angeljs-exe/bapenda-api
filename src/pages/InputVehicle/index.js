@@ -15,29 +15,10 @@ const InputVehicle = ({navigation}) => {
     JTPajak: '',
     KodeBayar: '',
   });
-  const [dataUser, setDataUser] = useState({
-    id: '',
-  });
-
-  // const [userID, setUserID] = useState({
-  //   id: '',
-  // });
-
-  // const getDataUser = () => {
-  //   getData('user').then(res => {
-  //     setUserID(res);
-  //   });
-  // };
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
       setDataVehicle(res);
-    });
-  };
-
-  const getDataUser = () => {
-    getData('user').then(res => {
-      setDataUser(res);
     });
   };
 

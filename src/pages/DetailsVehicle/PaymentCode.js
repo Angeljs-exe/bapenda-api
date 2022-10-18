@@ -74,7 +74,6 @@ const PaymentCode = ({navigation}) => {
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
       setDataVehicle(res);
-      console.log('hehe', res);
     });
   };
 

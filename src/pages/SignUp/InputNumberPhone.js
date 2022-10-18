@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     flex: 1,
+    justifyContent: 'center',
   },
   inputText: {
     color: '#242424',

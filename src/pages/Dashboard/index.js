@@ -33,7 +33,6 @@ const Dashboard = ({navigation}) => {
 
   const getDataUser = () => {
     getData('user').then(res => {
-      console.log('get data', res);
       setProfile(res);
       if (!res.name && !res.email) {
         // user login with email
