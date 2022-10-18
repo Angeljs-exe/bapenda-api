@@ -23,7 +23,6 @@ const ListVehicle = ({navigation}) => {
       axios
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {
-          console.log('response ', response);
           setListDetail(response.data);
         })
         .catch(error => {

@@ -11,6 +11,8 @@ import {Button, HomeProfile} from '../../components';
 import NewsSamsatCard from './NewsSamsatCard';
 import RegisterVehicleCard from './RegisterVehicleCard';
 import {getData} from '../../utils';
+import {baseUrl} from '../../utils/config';
+import axios from 'axios';
 
 const Dashboard = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -21,7 +23,7 @@ const Dashboard = ({navigation}) => {
   });
 
   const touchAddSubmit = () => {
-    setTouchAdd(true);
+    navigation.navigate('AddVehicle');
   };
 
   const getDataUser = () => {
@@ -47,11 +49,29 @@ const Dashboard = ({navigation}) => {
     });
   };
 
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      getDataUser();
+  const checkCondition = () => {
+    getData('user').then(res => {
+      axios
+        .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
+        .then(response => {
+          if (response.data.length === 0) {
+            setTouchAdd(false);
+          } else {
+            setTouchAdd(true);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     });
-  }, [navigation]);
+  };
+
+  useEffect(() => {
+    // navigation.addListener('focus', () => {
+    getDataUser();
+    checkCondition();
+    // });
+  }, []);
 
   return (
     <SafeAreaView style={styles.page}>

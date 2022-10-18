@@ -45,7 +45,7 @@ const Notification = ({navigation}) => {
         data={dataVehicle?.data}
         keyExtractor={(item, index) => 'key' + index}
         renderItem={({item}) => {
-          return <CardNotificationPay item={item} />;
+          return <CardNotificationPay item={item} navigation={navigation} />;
         }}
       />
       {/* <CardNotificationPay /> */}

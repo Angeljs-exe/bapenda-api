@@ -27,7 +27,6 @@ const AddVehicle = ({navigation}) => {
         nc: `${myValue.split(' ')[2]}`,
       })
       .then(resp => {
-        console.log('RESPONSE', resp);
         const myRepo = resp.data;
         setForm(myRepo);
         if (myRepo.Status == 0) {

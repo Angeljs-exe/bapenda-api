@@ -15,29 +15,10 @@ const InputVehicle = ({navigation}) => {
     JTPajak: '',
     KodeBayar: '',
   });
-  const [dataUser, setDataUser] = useState({
-    id: '',
-  });
-
-  // const [userID, setUserID] = useState({
-  //   id: '',
-  // });
-
-  // const getDataUser = () => {
-  //   getData('user').then(res => {
-  //     setUserID(res);
-  //   });
-  // };
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
       setDataVehicle(res);
-    });
-  };
-
-  const getDataUser = () => {
-    getData('user').then(res => {
-      setDataUser(res);
     });
   };
 
@@ -50,6 +31,7 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     getData('user').then(res => {
+      console.log('resssssss', res.id);
       axios
         .post(`${baseUrl}/api/posts/vehicle/${res.id}`, {
           NomorMesin: dataVehicle.NomorMesin,
@@ -57,7 +39,7 @@ const InputVehicle = ({navigation}) => {
           TipeKendaraan: dataVehicle.TipeKendaraan,
           NRKB: dataVehicle.NRKB,
           JTPajak: dataVehicle.JTPajak,
-          // KodeBayar: dataVehicle.KODE_BAYAR,
+          KodeBayar: dataVehicle.KodeBayar,
         })
         .then(function (response) {
           console.log(response);

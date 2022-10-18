@@ -1,8 +1,30 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
+import {getData} from '../../utils';
+import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
-const RegisterVehicleCard = ({onPress}) => {
+const RegisterVehicleCard = ({onPress, navigation}) => {
+  const [listDetail, setListDetail] = useState();
+
+  const showDataVehicle = () => {
+    getData('user').then(res => {
+      axios
+        .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
+        .then(response => {
+          setListDetail(response.data[response.data.length - 1]);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  };
+
+  useEffect(() => {
+    showDataVehicle();
+  }, []);
+
   return (
     <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
       <View style={styles.imgContainer}>
@@ -11,14 +33,29 @@ const RegisterVehicleCard = ({onPress}) => {
         </View>
         <View style={styles.dataVehicleContainer}>
           <View style={styles.wrapperDataVehicle}>
-            <Text style={styles.titleMerkVehicle}>Honda CB150R</Text>
-            <View style={styles.paymnetStatusContainer}>
-              <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
-            </View>
+            <Text style={styles.titleMerkVehicle} numberOfLines={1}>
+              {listDetail?.TipeKendaraan}
+            </Text>
+            {listDetail?.KodeBayar === '-' ? (
+              <View style={styles.paymnetStatusContainer}>
+                <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
+              </View>
+            ) : (
+              <View style={styles.paymnetStatusContainerLunas}>
+                <Text style={styles.titlePaymentStatusLunas}>Lunas</Text>
+              </View>
+            )}
           </View>
           <View style={styles.wrapperSubdataVehicle}>
-            <Text style={styles.titleNumberPolice}>DB 5848 C</Text>
-            <Text style={styles.titlePayment}>Rp 312.000</Text>
+            <Text style={styles.titleNumberPolice}>
+              {`${
+                listDetail?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
+              } ${listDetail?.NRKB?.match(/\d+/g)} ${
+                listDetail?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
+              }`}
+            </Text>
+            {/* <Text style={styles.titleNumberPolice}>{listDetail.NRKB}</Text> */}
+            <Text style={styles.titlePayment}>Rp -</Text>
           </View>
         </View>
       </View>
@@ -64,15 +101,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
   },
+  paymnetStatusContainerLunas: {
+    borderWidth: 1,
+    borderColor: '#34A853',
+    backgroundColor: '#85CB98',
+    width: 110,
+    paddingVertical: 4,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
   titleMerkVehicle: {
     fontSize: 20,
     fontFamily: fonts.Poppins.semibold,
     color: '#FFFFFF',
+    width: 170,
   },
   titlePaymentStatus: {
     fontSize: 12,
     fontFamily: fonts.Poppins.medium,
     color: '#D53931',
+  },
+  titlePaymentStatusLunas: {
+    fontSize: 12,
+    fontFamily: fonts.Poppins.medium,
+    color: '#2A8642',
   },
   wrapperSubdataVehicle: {
     flexDirection: 'row',

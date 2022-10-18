@@ -1,20 +1,26 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts, ImageList} from '../../assets';
 
-const CardNotificationPay = ({item, onPress}) => {
-  const [changeColor, setChangeColor] = useState(false);
+const CardNotificationPay = ({item, navigation}) => {
+  const [changeColor, setChangeColor] = useState(true);
 
   const colorSubmit = () => {
-    setChangeColor(true);
+    setChangeColor(false);
   };
+
+  useEffect(() => {
+    colorSubmit();
+  }, []);
 
   return (
     <>
       <View style={styles.line} />
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={() => colorSubmit()}
+        onPress={() => {
+          navigation.navigate('DetailsVehicle', {item});
+        }}
         style={[
           styles.notificationContainer,
           {backgroundColor: changeColor ? '#FFFFFF' : '#E9F3FD'},
