@@ -1,43 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {fonts, ImageList} from '../../assets';
-import axios from 'axios';
-import {getData} from '../../utils';
 
 const CardNotificationPay = ({item, onPress}) => {
   const [changeColor, setChangeColor] = useState(false);
-  const [dataVehicle, setDataVehicle] = useState({
-    TipeKendaraan: '',
-    JTPajak: '',
-  });
-
-  // const getDataVehicle = () => {
-  //   getData
-  // }
 
   const colorSubmit = () => {
     setChangeColor(true);
   };
-
-  const notifVehicle = () => {
-    getData('user').then(res => {
-      axios
-        .get(`http://10.0.2.2:3000/api/posts/vehicle/${res.id}`)
-        .then(resp => {
-          console.log('resp: ', resp.data);
-          getData('userVehicle').then(userV => {
-            setDataVehicle(userV);
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-  };
-
-  useEffect(() => {
-    notifVehicle();
-  }, []);
 
   return (
     <>
