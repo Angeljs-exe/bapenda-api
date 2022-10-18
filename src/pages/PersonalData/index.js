@@ -37,9 +37,6 @@ const PersonalData = ({
   });
 
   const submitAPI = async () => {
-    // setLoading(true);
-
-    console.log('res', pushNotifToken);
     axios
       .post(`${baseUrl}/api/posts/create`, {
         nama: `${form.name}`,

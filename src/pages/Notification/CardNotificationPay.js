@@ -4,7 +4,7 @@ import {fonts, ImageList} from '../../assets';
 import axios from 'axios';
 import {getData} from '../../utils';
 
-const CardNotificationPay = ({item}) => {
+const CardNotificationPay = ({item, onPress}) => {
   const [changeColor, setChangeColor] = useState(false);
   const [dataVehicle, setDataVehicle] = useState({
     TipeKendaraan: '',
