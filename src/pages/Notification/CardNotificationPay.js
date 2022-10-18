@@ -3,10 +3,10 @@ import React, {useEffect, useState} from 'react';
 import {fonts, ImageList} from '../../assets';
 
 const CardNotificationPay = ({item, navigation}) => {
-  const [changeColor, setChangeColor] = useState(true);
+  const [changeColor, setChangeColor] = useState(false);
 
   const colorSubmit = () => {
-    setChangeColor(false);
+    setChangeColor(true);
   };
 
   useEffect(() => {
