@@ -37,9 +37,6 @@ const PersonalData = ({
   });
 
   const submitAPI = async () => {
-    // setLoading(true);
-
-    console.log('res', pushNotifToken);
     axios
       .post(`${baseUrl}/api/posts/create`, {
         nama: `${form.name}`,
@@ -50,7 +47,7 @@ const PersonalData = ({
         uid: `${uid}`,
         token: `${pushNotifToken}`,
       })
-      .then(() => {
+      .then(res => {
         setForm('reset');
         setLoading(false);
         const data = {
@@ -59,6 +56,7 @@ const PersonalData = ({
           email: form.email ? form.email : gEmail,
           phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
           uid: uid,
+          id: res.data.id,
           token: `${pushNotifToken}`,
         };
         storeData('user', data);

@@ -4,7 +4,7 @@ import Router from './router';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
-import {getData, storeData} from './utils';
+import {storeData} from './utils';
 
 const App = () => {
   const createChannel = channelId => {
@@ -47,7 +47,7 @@ const App = () => {
     messaging()
       .getToken(firebase.app().options.messagingSenderId)
       .then(token => {
-        console.log(`token`, token);
+        console.log('token', token);
         storeData('pushNotifToken', token);
       });
     const unsubcsribe = messaging().onMessage(async remoteMsg => {

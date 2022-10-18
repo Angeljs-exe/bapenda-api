@@ -1,19 +1,26 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts, ImageList} from '../../assets';
 
-const CardNotification = () => {
+const CardNotificationPay = ({item, navigation}) => {
   const [changeColor, setChangeColor] = useState(false);
 
   const colorSubmit = () => {
     setChangeColor(true);
   };
+
+  useEffect(() => {
+    colorSubmit();
+  }, []);
+
   return (
     <>
       <View style={styles.line} />
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={() => colorSubmit()}
+        onPress={() => {
+          navigation.navigate('DetailsVehicle', {item});
+        }}
         style={[
           styles.notificationContainer,
           {backgroundColor: changeColor ? '#FFFFFF' : '#E9F3FD'},
@@ -24,10 +31,13 @@ const CardNotification = () => {
             Pemberitahuan Pembayaran Pajak
           </Text>
           <Text style={styles.contentNotification}>
-            Pengguna yang terhormat, batas pembayaran Honda CB150R Rp. 342.000
-            pada 23/10/22 harus segera diselesaikan
+            Pengguna yang terhormat, batas pembayaran{' '}
+            <Text style={styles.titleTypeVehicle}>{item.TipeKendaraan}</Text>{' '}
+            Rp. - pada{' '}
+            <Text style={styles.titleTypeVehicle}>{item.JTPajak}</Text> harus
+            segera diselesaikan
           </Text>
-          <Text style={styles.dateNotification}>Sekarang</Text>
+          {/* <Text style={styles.dateNotification}>Sekarang</Text> */}
         </View>
       </TouchableOpacity>
       <View style={styles.line} />
@@ -35,7 +45,7 @@ const CardNotification = () => {
   );
 };
 
-export default CardNotification;
+export default CardNotificationPay;
 
 const styles = StyleSheet.create({
   line: {
@@ -63,7 +73,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: fonts.Poppins.regular,
     color: '#757575',
-    width: 250,
+    width: 300,
+  },
+  titleTypeVehicle: {
+    fontFamily: fonts.Poppins.semibold,
+    color: '#242424',
   },
   dateNotification: {
     fontSize: 12,

@@ -20,11 +20,9 @@ const ListVehicle = ({navigation}) => {
 
   const getListDetail = () => {
     getData('user').then(res => {
-      console.log('hehe', res);
       axios
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {
-          console.log('response ', response);
           setListDetail(response.data);
         })
         .catch(error => {
@@ -51,7 +49,6 @@ const ListVehicle = ({navigation}) => {
         <FlatList
           data={listDetail.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
-          scrollEnabled
           renderItem={({item}) => {
             return <ListVehicleCard item={item} />;
           }}

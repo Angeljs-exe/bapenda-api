@@ -27,7 +27,6 @@ const AddVehicle = ({navigation}) => {
         nc: `${myValue.split(' ')[2]}`,
       })
       .then(resp => {
-        console.log('RESPONSE', resp);
         const myRepo = resp.data;
         setForm(myRepo);
         if (myRepo.Status == 0) {
@@ -42,7 +41,7 @@ const AddVehicle = ({navigation}) => {
             KodeBayar: myRepo.KODE_BAYAR,
           };
           storeData('userVehicle', data);
-          navigation.navigate('InputVehicle');
+          navigation.navigate('InputVehicle', data);
         }
       })
       .catch(function (error) {

@@ -4,7 +4,7 @@ import {initializeApp} from 'firebase/app';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: 'AIzaSyBgFl_brUXyBwzWAzGIL6SHB_aLdy3WPZA',
   authDomain: 'bapenda-2c454.firebaseapp.com',
   databaseURL: 'https://bapenda-2c454-default-rtdb.firebaseio.com',
@@ -16,3 +16,4 @@ export const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+// onPress={() => {navigation.navigate('DetailVehicle', {item})})

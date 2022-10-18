@@ -20,9 +20,9 @@ export const getData = async key => {
   }
 };
 
-export const clearData = () => {
+export const clearData = async () => {
   try {
-    AsyncStorage.clear();
+    await AsyncStorage.clear();
   } catch (e) {
     console.log('error clearing asyncStorage');
   }

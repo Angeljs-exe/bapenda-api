@@ -21,11 +21,6 @@ const Dashboard = ({navigation}) => {
     name: '',
     email: '',
   });
-  const [listDetail, setListDetail] = useState();
-  console.log('list', listDetail);
-  // const [checkVehicle, setCheckVehicle] = useState({
-
-  // });
 
   const touchAddSubmit = () => {
     navigation.navigate('AddVehicle');
@@ -33,7 +28,6 @@ const Dashboard = ({navigation}) => {
 
   const getDataUser = () => {
     getData('user').then(res => {
-      console.log('get data', res);
       setProfile(res);
       if (!res.name && !res.email) {
         // user login with email
@@ -57,12 +51,9 @@ const Dashboard = ({navigation}) => {
 
   const checkCondition = () => {
     getData('user').then(res => {
-      console.log('hehe', res);
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
-          setListDetail(response);
-          console.log('response db', response.data[response.data.length - 1]);
           if (response.data.length === 0) {
             setTouchAdd(false);
           } else {
@@ -90,14 +81,14 @@ const Dashboard = ({navigation}) => {
             profile={profile}
             onPress={() => navigation.navigate('Profile')}
           />
-          <View>
+          <View style={styles.notifContainer}>
             <Button
               click="iconOnly"
               icon="iconNotif"
               onPress={() => navigation.navigate('Notification')}
             />
             <View style={styles.notif}>
-              <Text style={styles.titleNotif}>3</Text>
+              <Text style={styles.titleNotif}>{}</Text>
             </View>
           </View>
         </View>
@@ -185,14 +176,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  notifContainer: {
+    width: 30,
+    height: 30,
+  },
   notif: {
     backgroundColor: '#ED1616',
     position: 'absolute',
-    width: 15,
-    height: 15,
+    width: 13,
+    height: 13,
     borderRadius: 15,
     top: -5,
-    left: 10,
+    left: 15,
   },
   titleNotif: {
     fontSize: 12,

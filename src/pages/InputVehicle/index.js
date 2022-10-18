@@ -25,6 +25,7 @@ const InputVehicle = ({navigation}) => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       getDataVehicle();
+      // getDataUser();
     });
   }, [navigation]);
 

@@ -15,7 +15,7 @@ import {Button, Loading} from '../../components';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
-import {storeData} from '../../utils';
+import {getData, storeData} from '../../utils';
 import {baseUrl} from '../../utils/config';
 
 const Login = ({navigation}) => {
@@ -23,8 +23,11 @@ const Login = ({navigation}) => {
     CountryCode.find(country => country.name === 'Indonesia'),
   );
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [useData, setUseData] = useState({});
+  // const [useData, setUseData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [tokenUser, setTokenUser] = useState({
+    token: '',
+  });
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -98,12 +101,21 @@ const Login = ({navigation}) => {
       });
   };
 
+  const getUserToken = () => {
+    getData('dataToken').then(res => {
+      setTokenUser(res);
+    });
+  };
+
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
         '92751038746-eid3u1dtpf5bet826ri12lt0sd9t3d46.apps.googleusercontent.com',
     });
-  }, []);
+    navigation.addListener('focus', () => {
+      getUserToken();
+    });
+  }, [navigation]);
   return (
     <>
       <SafeAreaView style={styles.page}>
