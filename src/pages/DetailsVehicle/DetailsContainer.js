@@ -1,59 +1,88 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {fonts} from '../../assets';
+import {getData} from '../../utils';
 
-const DetailsContainer = () => {
+const DetailsContainer = ({navigation}) => {
+  const [dataVehicle, setDataVehicle] = useState({
+    NomorMesin: '',
+    TahunBuat: '',
+    TipeKendaraan: '',
+    NRKB: '',
+    JTPajak: '',
+    KodeBayar: '',
+  });
+
+  const getDataVehicle = () => {
+    getData('userVehicle').then(res => {
+      setDataVehicle(res);
+      console.log('hehe', res);
+    });
+  };
+
+  useEffect(() => {
+    getDataVehicle();
+  }, [navigation]);
+
   return (
     <View style={styles.detailsContainer}>
       <View style={styles.paymentStatusContainer}>
-        <Text style={styles.titlePayment}>Rp 342.000</Text>
+        <Text style={styles.titlePayment}>Rp -</Text>
         <View style={styles.wrapperPaymentStatus}>
           <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
         </View>
       </View>
-      <Text style={styles.titleRemindersDate}>Batas Pembayaran 26/09/2022</Text>
+      <Text style={styles.titleRemindersDate}>Batas Pembayaran</Text>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>NOMOR MESIN</Text>
-          <Text style={styles.titleOutputVehicle}>HGAI-7588976</Text>
+          <Text style={styles.titleOutputVehicle}>
+            {dataVehicle.NomorMesin}
+          </Text>
         </View>
         <View style={styles.line} />
       </View>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>NOMOR POLISI</Text>
-          <Text style={styles.titleOutputVehicle}>DB 5848 C</Text>
+          <Text style={styles.titleOutputVehicle}>
+            {`${
+              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[0]
+            } ${dataVehicle?.NRKB.match(/\d+/g)}${
+              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[1]
+            }`}
+          </Text>
         </View>
         <View style={styles.line} />
       </View>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>TAHUN PEMBUATAN</Text>
-          <Text style={styles.titleOutputVehicle}>2016</Text>
+          <Text style={styles.titleOutputVehicle}>{dataVehicle.TahunBuat}</Text>
         </View>
         <View style={styles.line} />
       </View>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>MASA BERLAKU STNK</Text>
-          <Text style={styles.titleOutputVehicle}>25 MEI 2023</Text>
+          <Text style={styles.titleOutputVehicle}>-</Text>
         </View>
         <View style={styles.line} />
       </View>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>TYPE</Text>
-          <Text style={styles.titleOutputVehicle}>HSGD</Text>
+          <Text style={styles.titleOutputVehicle}>{}</Text>
         </View>
         <View style={styles.line} />
       </View>
-      <View style={styles.dataVehicleContainer}>
+      {/* <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>SERI</Text>
           <Text style={styles.titleOutputVehicle}>HGA163</Text>
         </View>
         <View style={styles.line} />
-      </View>
+      </View> */}
     </View>
   );
 };

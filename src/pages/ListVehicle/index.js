@@ -20,6 +20,7 @@ const ListVehicle = ({navigation}) => {
 
   const getListDetail = () => {
     getData('user').then(res => {
+      console.log('hehe', res);
       axios
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {

@@ -50,6 +50,7 @@ const InputVehicle = ({navigation}) => {
 
   const insertVehicle = () => {
     getData('user').then(res => {
+      console.log('resssssss', res.id);
       axios
         .post(`${baseUrl}/api/posts/vehicle/${res.id}`, {
           NomorMesin: dataVehicle.NomorMesin,
@@ -57,7 +58,7 @@ const InputVehicle = ({navigation}) => {
           TipeKendaraan: dataVehicle.TipeKendaraan,
           NRKB: dataVehicle.NRKB,
           JTPajak: dataVehicle.JTPajak,
-          // KodeBayar: dataVehicle.KODE_BAYAR,
+          KodeBayar: dataVehicle.KodeBayar,
         })
         .then(function (response) {
           console.log(response);

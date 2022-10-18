@@ -56,6 +56,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = bapendaMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = bapendaMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = bapendaMobile/main.m; sourceTree = "<group>"; };
+		2294F22928FEB3EA007682B2 /* bapendaMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bapendaMobile.entitlements; path = bapendaMobile/bapendaMobile.entitlements; sourceTree = "<group>"; };
 		22EC376128FD853B005AD098 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		50DACF38ADD7B318EAC252B9 /* Pods-bapendaMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bapendaMobile.release.xcconfig"; path = "Target Support Files/Pods-bapendaMobile/Pods-bapendaMobile.release.xcconfig"; sourceTree = "<group>"; };
 		74F71BFA5A81E1924D87C0E8 /* Pods_bapendaMobile_bapendaMobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bapendaMobile_bapendaMobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +143,7 @@
 		13B07FAE1A68108700A75B9A /* bapendaMobile */ = {
 			isa = PBXGroup;
 			children = (
+				2294F22928FEB3EA007682B2 /* bapendaMobile.entitlements */,
 				E3BEB71F28D85243005622F7 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -619,8 +621,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = bapendaMobile/bapendaMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TV2Y5ML7BD;
+				DEVELOPMENT_TEAM = 55UZ6PHV9Q;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = bapendaMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -632,7 +635,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.bapendaMobile;
 				PRODUCT_NAME = bapendaMobile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -646,8 +649,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = bapendaMobile/bapendaMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TV2Y5ML7BD;
+				DEVELOPMENT_TEAM = 55UZ6PHV9Q;
 				INFOPLIST_FILE = bapendaMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -658,7 +662,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.bapendaMobile;
 				PRODUCT_NAME = bapendaMobile;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

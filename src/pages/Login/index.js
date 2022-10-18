@@ -1,5 +1,6 @@
 import {
   Alert,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -17,6 +18,32 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import {getData, storeData} from '../../utils';
 import {baseUrl} from '../../utils/config';
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
+
+const appleSignIn = async () => {
+  // Start the sign-in request
+  const appleAuthRequestResponse = await appleAuth.performRequest({
+    requestedOperation: appleAuth.Operation.LOGIN,
+    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+  });
+
+  // Ensure Apple returned a user identityToken
+  if (!appleAuthRequestResponse.identityToken) {
+    throw new Error('Apple Sign-In failed - no identify token returned');
+  }
+
+  // Create a Firebase credential from the response
+  const {identityToken, nonce} = appleAuthRequestResponse;
+  const appleCredential = auth.AppleAuthProvider.credential(
+    identityToken,
+    nonce,
+  );
+
+  // Sign the user in with the credential
+  return auth().signInWithCredential(appleCredential);
+};
 
 const Login = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -87,7 +114,9 @@ const Login = ({navigation}) => {
                 phoneNumber: res.data.docs.noTlp,
                 uid: res.data.docs.uid,
                 id: res.data.docs.id,
+                kendaraan: res.data.docs.kendaraan,
               };
+              console.log(res.data.docs.kendaraan);
               storeData('user', DashboardData);
               navigation.reset({
                 index: 0,
@@ -158,6 +187,22 @@ const Login = ({navigation}) => {
               </View>
             </View>
           </TouchableOpacity>
+          {Platform.OS === 'ios' && (
+            <AppleButton
+              buttonStyle={AppleButton.Style.WHITE}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={{width: '100%', height: 45}}
+              onPress={() => appleSignIn()}
+            />
+            // <TouchableOpacity activeOpacity={0.5} onPress={() => appleSignIn()}>
+            //   <View style={styles.signInContainer}>
+            //     <View style={styles.wrapperSignIn}>
+            //       <LgGoogle />
+            //       <Text style={styles.titleSignIn}>Masuk Dengan Apple</Text>
+            //     </View>
+            //   </View>
+            // </TouchableOpacity>
+          )}
           <View style={styles.wrapperDaftarContainer}>
             <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
             <TouchableOpacity

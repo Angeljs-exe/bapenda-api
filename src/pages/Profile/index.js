@@ -10,7 +10,7 @@ import {
 } from '../../assets';
 
 import auth from '@react-native-firebase/auth';
-import {getData, storeData} from '../../utils';
+import {clearData, getData, storeData} from '../../utils';
 
 const Profile = ({navigation}) => {
   const [profile, setProfile] = useState({
