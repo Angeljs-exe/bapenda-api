@@ -21,6 +21,11 @@ const Dashboard = ({navigation}) => {
     name: '',
     email: '',
   });
+  const [listDetail, setListDetail] = useState();
+  console.log('list', listDetail);
+  // const [checkVehicle, setCheckVehicle] = useState({
+
+  // });
 
   const touchAddSubmit = () => {
     navigation.navigate('AddVehicle');
@@ -51,9 +56,12 @@ const Dashboard = ({navigation}) => {
 
   const checkCondition = () => {
     getData('user').then(res => {
+      console.log('hehe', res);
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
+          setListDetail(response);
+          console.log('response db', response.data[response.data.length - 1]);
           if (response.data.length === 0) {
             setTouchAdd(false);
           } else {

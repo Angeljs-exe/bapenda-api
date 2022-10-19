@@ -1,15 +1,58 @@
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Header, TextInput} from '../../components';
+import {Header, Loading, TextInput} from '../../components';
 import {fonts, IconProfilePhoto} from '../../assets';
-import {getData} from '../../utils';
+import {getData, storeData} from '../../utils';
+import axios from 'axios';
+import {baseUrl} from '../../utils/config';
+import auth from '@react-native-firebase/auth';
+
+const deleteAccount = async (profile, setLoading, navigation) => {
+  setLoading(true);
+  console.log('profile', profile);
+  try {
+    if (profile.uid) {
+      await axios
+        .post(`${baseUrl}/api/posts/user/delete`, {
+          uid: profile.uid,
+        })
+        .then(res => {
+          auth()
+            .signOut()
+            .then(() => {
+              navigation.replace('Login');
+              storeData('user', '');
+              setLoading(false);
+            })
+            .catch(error => {
+              setLoading(false);
+              console.log('error', error);
+            });
+          console.log('successfully delete account');
+        });
+    }
+  } catch (err) {
+    setLoading(false);
+    console.log('delete account error', err);
+  }
+};
 
 const EditProfile = ({navigation}) => {
+  const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({
     name: '',
     nik: '',
     email: '',
     phoneNumber: '',
+    uid: '',
   });
 
   const getDataUser = () => {
@@ -69,7 +112,17 @@ const EditProfile = ({navigation}) => {
           {/* <View style={styles.button}>
             <Button title="Simpan" />
           </View> */}
+          {Platform.OS === 'ios' && (
+            <View style={styles.deleteAccountContainer}>
+              <TouchableOpacity
+                style={styles.deleteAccountButton}
+                onPress={() => deleteAccount(profile, setLoading, navigation)}>
+                <Text style={styles.deleteAccountLabel}>Hapus Akun</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
+        {loading && <Loading />}
       </ScrollView>
     </SafeAreaView>
   );
@@ -137,5 +190,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#242424',
     textTransform: 'capitalize',
+  },
+
+  deleteAccountContainer: {
+    width: '100%',
+    marginTop: 32,
+    alignItems: 'center',
+  },
+  deleteAccountLabel: {
+    color: 'red',
   },
 });
