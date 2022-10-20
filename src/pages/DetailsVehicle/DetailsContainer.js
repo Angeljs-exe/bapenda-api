@@ -75,13 +75,6 @@ const DetailsContainer = ({navigation}) => {
         </View>
         <View style={styles.line} />
       </View>
-      {/* <View style={styles.dataVehicleContainer}>
-        <View style={styles.dataVehicle}>
-          <Text style={styles.titleDataVehicle}>SERI</Text>
-          <Text style={styles.titleOutputVehicle}>HGA163</Text>
-        </View>
-        <View style={styles.line} />
-      </View> */}
     </View>
   );
 };
