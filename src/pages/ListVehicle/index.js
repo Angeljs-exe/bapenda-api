@@ -25,6 +25,7 @@ const ListVehicle = ({navigation}) => {
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {
           setListDetail(response.data);
+          console.log('ressssssssssssssssI', response);
         })
         .catch(error => {
           console.log(error);
