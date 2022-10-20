@@ -1,22 +1,86 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {fonts, IconAddPhoto, ImageNoBg} from '../../assets';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {getData} from '../../utils';
+import axios from 'axios';
+import {baseUrl} from '../../utils/config';
 
-const AddImageVehicle = ({title}) => {
+const AddImageVehicle = () => {
+  const [galleryPhoto, setGalleryPhoto] = useState(false);
+  const [photo, setPhoto] = useState();
+  const [base64, setBase64] = useState();
+  const [itemData, setDataItem] = useState();
+
+  let options = {
+    saveToPhotos: true,
+    mediaType: 'photo',
+    includeBase64: true,
+    quality: 0.85,
+    maxWidth: 150,
+    maxHeight: 150,
+  };
+
+  const getImage = async () => {
+    await launchImageLibrary(options, res => {
+      if (res?.didCancel) {
+        setGalleryPhoto(false);
+        Alert.alert('Anda Membatalkan Tambah Foto');
+      } else {
+        setPhoto(res?.assets[0].uri);
+        setBase64(res.assets[0].base64);
+        setGalleryPhoto(true);
+        // console.log('ressss', res.assets[0].base64);
+      }
+      getData('user').then(resp => {
+        axios
+          .post(`${baseUrl}/api/posts/vehicle/photo/${resp.id}`, {
+            _id: `${itemData?._id}`,
+            fotoKendaraan: `${base64}`,
+          })
+          .then(response => {
+            // console.log('user', response.data[0]._id);
+            console.log('sukses bbrow', response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      });
+    });
+  };
+
+  const getDataItem = () => {
+    getData('itemVehicle').then(res => {
+      setDataItem(res);
+    });
+  };
+
+  useEffect(() => {
+    getDataItem();
+  }, []);
+
   return (
-    <>
-      <View style={styles.addImageContainer}>
-        <View style={styles.imageNoBg}>
-          <ImageNoBg />
-          <View style={styles.addPhotoContainer}>
-            <Text style={styles.titleAddPhoto}>{title}</Text>
-            <View style={styles.iconCamera}>
+    <View>
+      <TouchableOpacity onPress={() => getImage()}>
+        {galleryPhoto && <Image style={styles.image} source={{uri: photo}} />}
+        {!galleryPhoto && (
+          <View style={styles.addImageContainer}>
+            <ImageNoBg />
+            <View style={styles.titleAddImage}>
+              <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
               <IconAddPhoto />
             </View>
           </View>
-        </View>
-      </View>
-    </>
+        )}
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -24,36 +88,30 @@ export default AddImageVehicle;
 
 const styles = StyleSheet.create({
   addImageContainer: {
-    backgroundColor: '##7575751A',
+    backgroundColor: '#F2F2F2',
     width: 310,
-    height: 238,
+    height: 250,
     borderRadius: 8,
     marginTop: 16,
     marginRight: 10,
-  },
-  imageNoBg: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addPhotoContainer: {
-    flex: 1,
+  titleAddImage: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#75757580',
-    width: 310,
-    height: 238,
-    borderRadius: 8,
   },
   titleAddPhoto: {
     fontSize: 20,
     width: 250,
     fontFamily: fonts.Poppins.semibold,
-    color: '#FFFFFF',
+    color: '#D1D1D1',
     textAlign: 'center',
   },
-  iconCamera: {
-    marginTop: 6,
+  image: {
+    width: 310,
+    height: 250,
+    borderRadius: 8,
   },
 });

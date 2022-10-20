@@ -1,20 +1,12 @@
 import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Header} from '../../components';
 import {fonts, IconAddVehicleVehicle} from '../../assets';
 import axios from 'axios';
-import {storeData, useForm} from '../../utils';
+import {storeData} from '../../utils';
 
 const AddVehicle = ({navigation}) => {
   const [myValue, setMyValue] = useState('');
-  const [form, setForm] = useForm({
-    NomorMesin: '',
-    TahunBuat: '',
-    TipeKendaraan: '',
-    NRKB: '',
-    JTPajak: '',
-    KodeBayar: '',
-  });
 
   const searchData = () => {
     axios
@@ -28,7 +20,8 @@ const AddVehicle = ({navigation}) => {
       })
       .then(resp => {
         const myRepo = resp.data;
-        setForm(myRepo);
+        // setForm(myRepo);
+        console.log('myRepooooo: ', myRepo);
         if (myRepo.Status == 0) {
           navigation.navigate('RegisError');
         } else if (myRepo.Status == 1) {
@@ -39,6 +32,9 @@ const AddVehicle = ({navigation}) => {
             NRKB: myRepo.NRKB,
             JTPajak: myRepo.JTPajak,
             KodeBayar: myRepo.KODE_BAYAR,
+            NamaPemilik: myRepo.NamaPemilik,
+            JenisKendaraan: myRepo.JenisKendaraan,
+            NomorRangka: myRepo.NomorRangka,
           };
           storeData('userVehicle', data);
           navigation.navigate('InputVehicle', data);

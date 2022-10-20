@@ -1,18 +1,35 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {fonts, ImageList} from '../../assets';
+import {storeData} from '../../utils';
 
 const ListVehicleCard = ({item, navigation}) => {
   var na = item.NRKB.match(/[a-zA-Z]+/g)[0];
   var nb = item.NRKB.match(/\d+/g);
   var nc = item.NRKB.match(/[a-zA-Z]+/g)[1];
 
-  const nextPage = () => {};
+  // const nextPage = () => {};
+
+  console.log('resssITEM', item);
 
   return (
     <View style={styles.wrapperListVehicle}>
       <View style={styles.listVehicleContainer}>
-        <TouchableOpacity activeOpacity={0.5} onPress={() => nextPage()}>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            const dataItem = {
+              JTPajak: item.JTPajak,
+              KodeBayar: item.KodeBayar,
+              NRKB: item.NRKB,
+              NomorMesin: item.NomorMesin,
+              TahunBuat: item.TahunBuat,
+              TipeKendaraan: item.TipeKendaraan,
+              _id: item._id,
+            };
+            storeData('itemVehicle', dataItem);
+            navigation.navigate('DetailsVehicle', dataItem);
+          }}>
           <View style={styles.listVehicle}>
             <View style={styles.imgBackground}>
               <ImageList />

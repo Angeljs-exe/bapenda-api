@@ -51,7 +51,7 @@ const ListVehicle = ({navigation}) => {
           data={listDetail.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
           renderItem={({item}) => {
-            return <ListVehicleCard item={item} />;
+            return <ListVehicleCard item={item} navigation={navigation} />;
           }}
         />
       </View>

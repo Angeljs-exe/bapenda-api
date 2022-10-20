@@ -5,7 +5,7 @@ import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 
-const RegisterVehicleCard = ({onPress, navigation}) => {
+const RegisterVehicleCard = ({onPress}) => {
   const [listDetail, setListDetail] = useState();
 
   const showDataVehicle = () => {
