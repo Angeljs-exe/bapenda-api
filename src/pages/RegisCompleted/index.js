@@ -1,13 +1,18 @@
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {fonts, IconRegisCompleted} from '../../assets';
-import {Button} from '../../components';
+// import {Button} from '../../components';
 // import RegisEroor from './RegisEroor';
 
-const RegisCompleted = ({navigation, numberRangka}) => {
+const RegisCompleted = ({navigation}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace('Dashboard');
+    }, 1500);
+  }, [navigation]);
+
   return (
     <SafeAreaView style={styles.page}>
-      {/* <RegisEroor numberRangka={'123456'} /> */}
       <View style={styles.regisCompletedContainer}>
         <IconRegisCompleted />
         <View style={styles.titleCompletedContainer}>
@@ -15,12 +20,6 @@ const RegisCompleted = ({navigation, numberRangka}) => {
             Selamat Kendaraan Anda Telah Terdaftar.
           </Text>
         </View>
-      </View>
-      <View style={styles.buttonContiner}>
-        <Button
-          title="Beranda"
-          onPress={() => navigation.replace('Dashboard')}
-        />
       </View>
     </SafeAreaView>
   );
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
   regisCompletedContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 156.14,
+    flex: 1,
   },
   titleCompletedContainer: {
     marginTop: 60,

@@ -54,7 +54,7 @@ const Dashboard = ({navigation}) => {
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
-          if (response.data.length === 0) {
+          if (response?.data?.length === 0) {
             setTouchAdd(false);
           } else {
             setTouchAdd(true);

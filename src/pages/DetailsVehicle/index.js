@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -6,8 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  PermissionsAndroid,
 } from 'react-native';
 import {Button, Header} from '../../components';
 import {fonts, IconEditRename} from '../../assets';
@@ -16,10 +14,11 @@ import DetailsContainer from './DetailsContainer';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchImageLibrary} from 'react-native-image-picker';
 import {baseUrl} from '../../utils/config';
 import axios from 'axios';
 import {getData} from '../../utils';
+// import {launchImageLibrary} from 'react-native-image-picker';
 
 const DetailsVehicle = ({navigation}) => {
   const [myValue, setMyValue] = useState('');
@@ -33,27 +32,29 @@ const DetailsVehicle = ({navigation}) => {
     setIsOpen(true);
   }, []);
 
-  const [galleryPhoto, setGalleryPhoto] = useState();
+  // const [photo, setPhoto] = useState(ImageNobg);
 
-  const openGallery = () => {
-    const options = {
-      saveToPhotos: true,
-      mediaType: 'photo',
-      includeBase64: true,
-    };
+  // const [galleryPhoto, setGalleryPhoto] = useState();
 
-    launchImageLibrary(options, res => {
-      if (res.didCancel) {
-        console.log('user cancelled the picker');
-      } else if (res.errorCode) {
-        console.log(res.errorMessage);
-      } else {
-        const result = res.assets[0];
-        setGalleryPhoto(result);
-        console.log(result);
-      }
-    });
-  };
+  // const openGallery = () => {
+  //   const options = {
+  //     saveToPhotos: true,
+  //     mediaType: 'photo',
+  //     includeBase64: true,
+  //   };
+
+  //   launchImageLibrary(options, res => {
+  //     if (res.didCancel) {
+  //       console.log('user cancelled the picker');
+  //     } else if (res.errorCode) {
+  //       console.log(res.errorMessage);
+  //     } else {
+  //       const result = res.assets[0];
+  //       setGalleryPhoto(result);
+  //       console.log(result);
+  //     }
+  //   });
+  // };
 
   const updateName = () => {
     getData('user').then(res => {
@@ -100,18 +101,30 @@ const DetailsVehicle = ({navigation}) => {
                 <IconEditRename />
               </TouchableOpacity>
             </View>
-            <ScrollView
+            {/* <ScrollView
               horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => openGallery()}>
-                <AddImageVehicle title={'Tambah Foto Depan'} />
-              </TouchableOpacity>
-              <AddImageVehicle title={'Tambah Foto Belakang'} />
-              <AddImageVehicle title={'Tambah Foto Samping Kanan'} />
-              <AddImageVehicle title={'Tambah Foto Samping Kiri'} />
-            </ScrollView>
+              showsHorizontalScrollIndicator={false}> */}
+            {/* <TouchableOpacity
+              activeOpacity={0.7}
+              // onPress={() => openGallery()}
+              onPress={() => getImage()}> */}
+            <View style={styles.addImageContainer}>
+              <AddImageVehicle />
+            </View>
+            {/* </TouchableOpacity> */}
+            {/* <AddImageVehicle
+                title={'Tambah Foto Belakang'}
+                source={ImageNobg}
+              />
+              <AddImageVehicle
+                title={'Tambah Foto Samping Kanan'}
+                source={ImageNobg}
+              />
+              <AddImageVehicle
+                title={'Tambah Foto Samping Kiri'}
+                source={ImageNobg}
+              /> */}
+            {/* </ScrollView> */}
             <DetailsContainer />
           </View>
           <View style={styles.button}>
@@ -155,6 +168,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
+    flex: 1,
+  },
+  addImageContainer: {
+    alignItems: 'center',
   },
   button: {
     paddingHorizontal: 25,

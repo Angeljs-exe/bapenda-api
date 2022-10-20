@@ -47,7 +47,7 @@ const DetailsContainer = ({navigation}) => {
           <Text style={styles.titleOutputVehicle}>
             {`${
               dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[0]
-            } ${dataVehicle?.NRKB.match(/\d+/g)}${
+            } ${dataVehicle?.NRKB.match(/\d+/g)} ${
               dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[1]
             }`}
           </Text>
