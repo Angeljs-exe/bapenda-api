@@ -37,12 +37,12 @@ const RegisterVehicleCard = ({onPress}) => {
               {listDetail?.TipeKendaraan}
             </Text>
             {listDetail?.KodeBayar === '-' ? (
-              <View style={styles.paymnetStatusContainer}>
-                <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
-              </View>
-            ) : (
               <View style={styles.paymnetStatusContainerLunas}>
                 <Text style={styles.titlePaymentStatusLunas}>Lunas</Text>
+              </View>
+            ) : (
+              <View style={styles.paymnetStatusContainer}>
+                <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
               </View>
             )}
           </View>

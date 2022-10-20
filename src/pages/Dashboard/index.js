@@ -22,7 +22,6 @@ const Dashboard = ({navigation}) => {
     email: '',
   });
   const [listDetail, setListDetail] = useState();
-  console.log('list', listDetail);
   // const [checkVehicle, setCheckVehicle] = useState({
 
   // });
@@ -56,7 +55,6 @@ const Dashboard = ({navigation}) => {
 
   const checkCondition = () => {
     getData('user').then(res => {
-      console.log('hehe', res);
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {

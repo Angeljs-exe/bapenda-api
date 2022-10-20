@@ -36,7 +36,7 @@ const PersonalData = ({
     phoneNumber: '',
   });
 
-  const submitAPI = async () => {
+  const submitAPI = () => {
     axios
       .post(`${baseUrl}/api/posts/create`, {
         nama: `${form.name}`,
