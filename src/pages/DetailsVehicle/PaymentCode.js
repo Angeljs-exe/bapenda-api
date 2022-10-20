@@ -70,6 +70,7 @@ const PaymentCode = ({navigation}) => {
     JTPajak: '',
     KodeBayar: '',
   });
+  console.log('dataVehicle', dataVehicle);
 
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
@@ -83,7 +84,7 @@ const PaymentCode = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>-</Text>
+      <Text style={styles.title}>{dataVehicle.NamaKendaraan}</Text>
       <View style={styles.pageCodePaymnet}>
         <Text style={styles.titleCodePayment}>Kode Bayar</Text>
         <View style={styles.codePaymentContainer}>

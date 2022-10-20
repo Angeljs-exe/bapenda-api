@@ -18,17 +18,18 @@ const ListVehicleCard = ({item, navigation}) => {
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => {
-            const dataItem = {
-              JTPajak: item.JTPajak,
-              KodeBayar: item.KodeBayar,
-              NRKB: item.NRKB,
-              NomorMesin: item.NomorMesin,
-              TahunBuat: item.TahunBuat,
-              TipeKendaraan: item.TipeKendaraan,
-              _id: item._id,
-            };
-            storeData('itemVehicle', dataItem);
-            navigation.navigate('DetailsVehicle', dataItem);
+            // const dataItem = {
+            //   JTPajak: item.JTPajak,
+            //   KodeBayar: item.KodeBayar,
+            //   NRKB: item.NRKB,
+            //   NomorMesin: item.NomorMesin,
+            //   TahunBuat: item.TahunBuat,
+            //   TipeKendaraan: item.TipeKendaraan,
+            //   _id: item._id,
+            // };
+            // storeData('itemVehicle', dataItem);
+            // navigation.navigate('DetailsVehicle', dataItem);
+            navigation.navigate('DetailsVehicle', {item});
           }}>
           <View style={styles.listVehicle}>
             <View style={styles.imgBackground}>

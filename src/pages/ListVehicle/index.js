@@ -17,6 +17,7 @@ import {getData} from '../../utils';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
+  console.log('list kendaraan', listDetail);
 
   const getListDetail = () => {
     getData('user').then(res => {
