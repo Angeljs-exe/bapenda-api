@@ -3,25 +3,18 @@ import React, {useEffect, useState} from 'react';
 import {fonts} from '../../assets';
 import {getData} from '../../utils';
 
-const DetailsContainer = ({navigation}) => {
-  const [dataVehicle, setDataVehicle] = useState({
-    NomorMesin: '',
-    TahunBuat: '',
-    TipeKendaraan: '',
-    NRKB: '',
-    JTPajak: '',
-    KodeBayar: '',
-  });
+const DetailsContainer = () => {
+  const [dataVehicle, setDataVehicle] = useState('');
 
   const getDataVehicle = () => {
-    getData('userVehicle').then(res => {
+    getData('itemVehicle').then(res => {
       setDataVehicle(res);
     });
   };
 
   useEffect(() => {
     getDataVehicle();
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={styles.detailsContainer}>
@@ -36,7 +29,7 @@ const DetailsContainer = ({navigation}) => {
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>NOMOR MESIN</Text>
           <Text style={styles.titleOutputVehicle}>
-            {dataVehicle.NomorMesin}
+            {dataVehicle?.NomorMesin}
           </Text>
         </View>
         <View style={styles.line} />
@@ -46,9 +39,9 @@ const DetailsContainer = ({navigation}) => {
           <Text style={styles.titleDataVehicle}>NOMOR POLISI</Text>
           <Text style={styles.titleOutputVehicle}>
             {`${
-              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[0]
-            } ${dataVehicle?.NRKB.match(/\d+/g)} ${
-              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[1]
+              dataVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
+            } ${dataVehicle?.NRKB?.match(/\d+/g)} ${
+              dataVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
             }`}
           </Text>
         </View>
@@ -57,31 +50,28 @@ const DetailsContainer = ({navigation}) => {
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>TAHUN PEMBUATAN</Text>
-          <Text style={styles.titleOutputVehicle}>{dataVehicle.TahunBuat}</Text>
+          <Text style={styles.titleOutputVehicle}>
+            {dataVehicle?.TahunBuat}
+          </Text>
         </View>
         <View style={styles.line} />
       </View>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
-          <Text style={styles.titleDataVehicle}>MASA BERLAKU STNK</Text>
-          <Text style={styles.titleOutputVehicle}>-</Text>
+          <Text style={styles.titleDataVehicle}>Jatuh Tempo Pajak</Text>
+          <Text style={styles.titleOutputVehicle}>{dataVehicle.JTPajak}</Text>
         </View>
         <View style={styles.line} />
       </View>
       <View style={styles.dataVehicleContainer}>
         <View style={styles.dataVehicle}>
           <Text style={styles.titleDataVehicle}>TYPE</Text>
-          <Text style={styles.titleOutputVehicle}>{}</Text>
+          <Text style={styles.titleOutputVehicle}>
+            {dataVehicle.TipeKendaraan}
+          </Text>
         </View>
         <View style={styles.line} />
       </View>
-      {/* <View style={styles.dataVehicleContainer}>
-        <View style={styles.dataVehicle}>
-          <Text style={styles.titleDataVehicle}>SERI</Text>
-          <Text style={styles.titleOutputVehicle}>HGA163</Text>
-        </View>
-        <View style={styles.line} />
-      </View> */}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -24,6 +24,7 @@ const DetailsVehicle = ({navigation}) => {
   const [myValue, setMyValue] = useState('');
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
+  const [itemData, setItemData] = useState();
 
   const snapPoints = ['1%', '70%', '80%'];
 
@@ -32,49 +33,33 @@ const DetailsVehicle = ({navigation}) => {
     setIsOpen(true);
   }, []);
 
-  // const [photo, setPhoto] = useState(ImageNobg);
-
-  // const [galleryPhoto, setGalleryPhoto] = useState();
-
-  // const openGallery = () => {
-  //   const options = {
-  //     saveToPhotos: true,
-  //     mediaType: 'photo',
-  //     includeBase64: true,
-  //   };
-
-  //   launchImageLibrary(options, res => {
-  //     if (res.didCancel) {
-  //       console.log('user cancelled the picker');
-  //     } else if (res.errorCode) {
-  //       console.log(res.errorMessage);
-  //     } else {
-  //       const result = res.assets[0];
-  //       setGalleryPhoto(result);
-  //       console.log(result);
-  //     }
-  //   });
-  // };
-
   const updateName = () => {
     getData('user').then(res => {
-      console.log(res.id);
       axios
-        .get(`${baseUrl}/api/posts/vehicle/${res.id}`, {
-          // _id: `${res._id}`,
-          // NamaKendaraan: `${myValue}`,
+        .post(`${baseUrl}/api/posts/updateName/${res.id}`, {
+          _id: `${itemData?._id}`,
+          NamaKendaraan: `${myValue}`,
         })
         .then(function (response) {
-          console.log('user', response.data[0]._id);
+          setMyValue('');
+          // console.log('user', response.data[0]._id);
+          console.log('sukses brow');
         })
         .catch(function (error) {
           console.log(error);
         });
     });
-    // getData('user').then(res => {
-    //   console.log('userss', res);
-    // });
   };
+
+  const getDataItem = () => {
+    getData('itemVehicle').then(resp => {
+      setItemData(resp);
+    });
+  };
+
+  useEffect(() => {
+    getDataItem();
+  }, []);
 
   return (
     <SafeAreaView style={styles.page}>

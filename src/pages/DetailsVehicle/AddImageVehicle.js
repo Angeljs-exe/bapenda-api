@@ -23,9 +23,9 @@ const AddImageVehicle = () => {
     saveToPhotos: true,
     mediaType: 'photo',
     includeBase64: true,
-    quality: 1,
-    maxWidth: 500,
-    maxHeight: 500,
+    quality: 0.8,
+    maxWidth: 150,
+    maxHeight: 150,
   };
 
   const getImage = async () => {
@@ -34,16 +34,17 @@ const AddImageVehicle = () => {
         setGalleryPhoto(false);
         Alert.alert('Anda Membatalkan Tambah Foto');
       } else {
-        setPhoto(res?.assets[0].uri);
-        setBase64(res.assets[0].base64);
         setGalleryPhoto(true);
-        setBase64(`data:${res.assets[0].type};base64, ${res.assets[0].base64}`);
+        setPhoto(res?.assets[0].uri);
+        setBase64(
+          `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
+        );
         console.log('ressssPhoto', res.assets[0].base64);
       }
       getData('user').then(resp => {
         console.log('resssssss, ', resp);
         axios
-          .post(`${baseUrl}/api/posts/vehicle/photo/${resp.id}`, {
+          .post(`${baseUrl}/api/posts/vehicle/photo/${resp?.id}`, {
             _id: `${itemData?._id}`,
             fotoKendaraan: `${base64}`,
           })

@@ -1,6 +1,6 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
-import {fonts, ImageList} from '../../assets';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {fonts, ImageList, ImageNobg} from '../../assets';
 import {storeData} from '../../utils';
 
 const ListVehicleCard = ({item, navigation}) => {
@@ -8,7 +8,13 @@ const ListVehicleCard = ({item, navigation}) => {
   var nb = item.NRKB.match(/\d+/g);
   var nc = item.NRKB.match(/[a-zA-Z]+/g)[1];
 
+  const [showPhoto, setShowPhoto] = useState(ImageNobg);
+
   // const nextPage = () => {};
+
+  useEffect(() => {
+    setShowPhoto(!showPhoto);
+  }, []);
 
   console.log('resssITEM', item);
 
@@ -32,7 +38,21 @@ const ListVehicleCard = ({item, navigation}) => {
           }}>
           <View style={styles.listVehicle}>
             <View style={styles.imgBackground}>
-              <ImageList />
+              {showPhoto ? (
+                <Image style={styles.image} source={{uri: !showPhoto}} />
+              ) : (
+                <Image
+                  style={styles.image}
+                  source={{uri: item.fotoKendaraan[0]}}
+                />
+              )}
+              {/* {showPhoto && (
+                <Image
+                  style={styles.image}
+                  source={{uri: item.fotoKendaraan[0]}}
+                />
+              )}
+              {!showPhoto && <Image style={styles.image} source={ImageNobg} />} */}
             </View>
             <View>
               <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
@@ -89,6 +109,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 16,
     marginRight: 12,
+  },
+  image: {
+    width: 80,
+    height: 72,
+    borderRadius: 8,
   },
   brandVehicle: {
     fontSize: 14,
