@@ -1,15 +1,7 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, View, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Header} from '../../components';
-import {fonts, IconVehicleDashboard} from '../../assets';
+import {fonts} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
@@ -20,7 +12,6 @@ const ListVehicle = ({navigation}) => {
 
   const getListDetail = () => {
     getData('user').then(res => {
-      console.log('hehe', res);
       axios
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {

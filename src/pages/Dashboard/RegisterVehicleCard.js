@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
-import {getData} from '../../utils';
+import {getData, storeData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 
@@ -14,6 +14,7 @@ const RegisterVehicleCard = ({onPress}) => {
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
           setListDetail(response.data[response.data.length - 1]);
+          console.log('resssssssssR', response);
         })
         .catch(error => {
           console.log(error);
@@ -37,12 +38,12 @@ const RegisterVehicleCard = ({onPress}) => {
               {listDetail?.TipeKendaraan}
             </Text>
             {listDetail?.KodeBayar === '-' ? (
-              <View style={styles.paymnetStatusContainer}>
-                <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
-              </View>
-            ) : (
               <View style={styles.paymnetStatusContainerLunas}>
                 <Text style={styles.titlePaymentStatusLunas}>Lunas</Text>
+              </View>
+            ) : (
+              <View style={styles.paymnetStatusContainer}>
+                <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
               </View>
             )}
           </View>

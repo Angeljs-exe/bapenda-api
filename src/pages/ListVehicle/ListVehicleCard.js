@@ -1,16 +1,14 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {fonts, ImageList} from '../../assets';
+import {fonts, ImageNobg} from '../../assets';
 import {storeData} from '../../utils';
 
-const ListVehicleCard = ({item, navigation}) => {
+const ListVehicleCard = ({item, navigation, paymentStatus}) => {
   var na = item.NRKB.match(/[a-zA-Z]+/g)[0];
   var nb = item.NRKB.match(/\d+/g);
   var nc = item.NRKB.match(/[a-zA-Z]+/g)[1];
 
   // const nextPage = () => {};
-
-  console.log('resssITEM', item);
 
   return (
     <View style={styles.wrapperListVehicle}>
@@ -26,25 +24,44 @@ const ListVehicleCard = ({item, navigation}) => {
               TahunBuat: item.TahunBuat,
               TipeKendaraan: item.TipeKendaraan,
               _id: item._id,
+              NamaKendaraan: item.NamaKendaraan,
             };
             storeData('itemVehicle', dataItem);
-            navigation.navigate('DetailsVehicle', dataItem);
+            navigation.navigate('DetailsVehicle', {dataItem});
           }}>
           <View style={styles.listVehicle}>
             <View style={styles.imgBackground}>
-              <ImageList />
+              {item?.fotoKendaraan[0] ? (
+                <Image
+                  style={styles.image}
+                  source={{uri: item?.fotoKendaraan[0]}}
+                />
+              ) : (
+                <Image style={styles.image} source={ImageNobg} />
+              )}
+              {/* {showPhoto && (
+                <Image
+                  style={styles.image}
+                  source={{uri: item.fotoKendaraan[0]}}
+                />
+              )}
+              {!showPhoto && <Image style={styles.image} source={ImageNobg} />} */}
             </View>
             <View>
-              <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
+              <Text style={styles.brandVehicle}>{item?.NamaKendaraan}</Text>
               <Text style={styles.numberPolice}>{`${na} ${nb} ${nc}`}</Text>
               {/* <Text style={styles.numberPolice}>{item.NRKB}</Text> */}
               <View style={styles.line} />
               <View>
                 <View style={styles.containerDatePayment}>
-                  <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
-                  {/* <Text style={styles.paymentStatus(paymentStatus)}>
-                {paymentStatus}
-              </Text> */}
+                  <Text style={styles.dueDate}>
+                    Jatuh Tempo {item?.JTPajak}
+                  </Text>
+                  {item?.KodeBayar === '-' ? (
+                    <Text style={styles.paymentStatusDone}>Lunas</Text>
+                  ) : (
+                    <Text style={styles.paymentStatusNot}>Belum dibayar</Text>
+                  )}
                 </View>
               </View>
             </View>
@@ -90,6 +107,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginRight: 12,
   },
+  image: {
+    width: 80,
+    height: 72,
+    borderRadius: 8,
+  },
   brandVehicle: {
     fontSize: 14,
     fontFamily: fonts.Poppins.medium,
@@ -118,9 +140,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#000000',
   },
-  // paymentStatus: paymentStatus => ({
-  //   fontSize: 10,
-  //   fontFamily: fonts.Poppins.medium,
-  //   color: paymentStatus === 'Belum dibayar' ? '#CA0B00' : '#34A853',
-  // }),
+  paymentStatusDone: {
+    fontSize: 10,
+    fontFamily: fonts.Poppins.medium,
+    color: '#34A853',
+  },
+  paymentStatusNot: {
+    fontSize: 10,
+    fontFamily: fonts.Poppins.medium,
+    color: '#CA0B00',
+  },
 });

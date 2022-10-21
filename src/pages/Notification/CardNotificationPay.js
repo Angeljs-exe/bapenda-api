@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageList} from '../../assets';
+import {storeData} from '../../utils';
 
 const CardNotificationPay = ({item, navigation}) => {
   const [changeColor, setChangeColor] = useState(false);
@@ -19,7 +20,18 @@ const CardNotificationPay = ({item, navigation}) => {
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
-          navigation.navigate('DetailsVehicle', {item});
+          const dataItem = {
+            JTPajak: item.JTPajak,
+            KodeBayar: item.KodeBayar,
+            NRKB: item.NRKB,
+            NomorMesin: item.NomorMesin,
+            TahunBuat: item.TahunBuat,
+            TipeKendaraan: item.TipeKendaraan,
+            _id: item._id,
+            NamaKendaraan: item.NamaKendaraan,
+          };
+          storeData('itemVehicle', dataItem);
+          navigation.navigate('DetailsVehicle', {dataItem});
         }}
         style={[
           styles.notificationContainer,

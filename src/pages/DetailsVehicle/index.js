@@ -1,8 +1,9 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -10,7 +11,6 @@ import {
 import {Button, Header} from '../../components';
 import {fonts, IconEditRename} from '../../assets';
 import AddImageVehicle from './AddImageVehicle';
-import DetailsContainer from './DetailsContainer';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -20,10 +20,14 @@ import axios from 'axios';
 import {getData} from '../../utils';
 // import {launchImageLibrary} from 'react-native-image-picker';
 
-const DetailsVehicle = ({navigation}) => {
-  const [myValue, setMyValue] = useState('');
+const DetailsVehicle = ({navigation, route}) => {
+  const selectedVehicle = route.params.dataItem;
+
+  let [myValue, setMyValue] = useState('');
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
+  const [itemData, setItemData] = useState();
+  // const [showName, setShowName] = useState(false);
 
   const snapPoints = ['1%', '70%', '80%'];
 
@@ -32,49 +36,33 @@ const DetailsVehicle = ({navigation}) => {
     setIsOpen(true);
   }, []);
 
-  // const [photo, setPhoto] = useState(ImageNobg);
-
-  // const [galleryPhoto, setGalleryPhoto] = useState();
-
-  // const openGallery = () => {
-  //   const options = {
-  //     saveToPhotos: true,
-  //     mediaType: 'photo',
-  //     includeBase64: true,
-  //   };
-
-  //   launchImageLibrary(options, res => {
-  //     if (res.didCancel) {
-  //       console.log('user cancelled the picker');
-  //     } else if (res.errorCode) {
-  //       console.log(res.errorMessage);
-  //     } else {
-  //       const result = res.assets[0];
-  //       setGalleryPhoto(result);
-  //       console.log(result);
-  //     }
-  //   });
-  // };
-
   const updateName = () => {
     getData('user').then(res => {
-      console.log(res.id);
       axios
-        .get(`${baseUrl}/api/posts/vehicle/${res.id}`, {
-          // _id: `${res._id}`,
-          // NamaKendaraan: `${myValue}`,
+        .post(`${baseUrl}/api/posts/updateName/${res.id}`, {
+          _id: `${itemData?._id}`,
+          NamaKendaraan: `${myValue}`,
         })
-        .then(function (response) {
-          console.log('user', response.data[0]._id);
+        .then(response => {
+          // setMyValue('');
+          console.log('sukses brow', response);
         })
         .catch(function (error) {
           console.log(error);
         });
     });
-    // getData('user').then(res => {
-    //   console.log('userss', res);
-    // });
   };
+
+  const getDataItem = () => {
+    getData('itemVehicle').then(resp => {
+      setItemData(resp);
+    });
+  };
+
+  useEffect(() => {
+    getDataItem();
+    // setShowName(!showName);
+  }, []);
 
   return (
     <SafeAreaView style={styles.page}>
@@ -89,11 +77,10 @@ const DetailsVehicle = ({navigation}) => {
             <View style={styles.wrapperDetailsVehicle}>
               <TextInput
                 style={styles.inputTitle}
-                placeholder="Nama Kendaraan"
+                placeholder={`${selectedVehicle?.NamaKendaraan}`}
                 placeholderTextColor="#D9D9D9"
                 value={myValue}
-                //prettier-ignore
-                onChangeText={(value) => setMyValue(value)}
+                onChangeText={value => setMyValue(value)}
               />
               <TouchableOpacity
                 activeOpacity={0.5}
@@ -125,7 +112,67 @@ const DetailsVehicle = ({navigation}) => {
                 source={ImageNobg}
               /> */}
             {/* </ScrollView> */}
-            <DetailsContainer />
+            <View style={styles.detailsContainer}>
+              <View style={styles.paymentStatusContainer}>
+                <Text style={styles.titlePayment}>Rp -</Text>
+                <View style={styles.wrapperPaymentStatus}>
+                  <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
+                </View>
+              </View>
+              <Text style={styles.titleRemindersDate}>
+                Batas Pembayaran{' '}
+                <Text style={styles.titlePajak}>
+                  {selectedVehicle?.JTPajak}
+                </Text>
+              </Text>
+              <View style={styles.dataVehicleContainer}>
+                <View style={styles.dataVehicle}>
+                  <Text style={styles.titleDataVehicle}>NOMOR MESIN</Text>
+                  <Text style={styles.titleOutputVehicle}>
+                    {selectedVehicle?.NomorMesin}
+                  </Text>
+                </View>
+                <View style={styles.line} />
+              </View>
+              <View style={styles.dataVehicleContainer}>
+                <View style={styles.dataVehicle}>
+                  <Text style={styles.titleDataVehicle}>NOMOR POLISI</Text>
+                  <Text style={styles.titleOutputVehicle}>
+                    {`${
+                      selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
+                    } ${selectedVehicle?.NRKB?.match(/\d+/g)} ${
+                      selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
+                    }`}
+                  </Text>
+                </View>
+                <View style={styles.line} />
+              </View>
+              <View style={styles.dataVehicleContainer}>
+                <View style={styles.dataVehicle}>
+                  <Text style={styles.titleDataVehicle}>TAHUN PEMBUATAN</Text>
+                  <Text style={styles.titleOutputVehicle}>
+                    {selectedVehicle?.TahunBuat}
+                  </Text>
+                </View>
+                <View style={styles.line} />
+              </View>
+              <View style={styles.dataVehicleContainer}>
+                <View style={styles.dataVehicle}>
+                  <Text style={styles.titleDataVehicle}>MASA BERLAKU STNK</Text>
+                  <Text style={styles.titleOutputVehicle}>-</Text>
+                </View>
+                <View style={styles.line} />
+              </View>
+              <View style={styles.dataVehicleContainer}>
+                <View style={styles.dataVehicle}>
+                  <Text style={styles.titleDataVehicle}>TYPE</Text>
+                  <Text style={styles.titleOutputVehicle}>
+                    {selectedVehicle?.TipeKendaraan}
+                  </Text>
+                </View>
+                <View style={styles.line} />
+              </View>
+            </View>
           </View>
           <View style={styles.button}>
             <Button
@@ -172,6 +219,63 @@ const styles = StyleSheet.create({
   },
   addImageContainer: {
     alignItems: 'center',
+  },
+  detailsContainer: {
+    marginTop: 24,
+  },
+  paymentStatusContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  titlePayment: {
+    fontSize: 24,
+    fontFamily: fonts.Poppins.medium,
+    color: '#9A0000',
+  },
+  wrapperPaymentStatus: {
+    borderWidth: 1,
+    borderColor: '#D53931',
+    backgroundColor: '#FFF3F3',
+    width: 110,
+    paddingVertical: 6,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  titlePaymentStatus: {
+    fontSize: 12,
+    fontFamily: fonts.Poppins.medium,
+    color: '#D53931',
+  },
+  titleRemindersDate: {
+    fontSize: 14,
+    fontFamily: fonts.Poppins.regular,
+    color: '#757575',
+  },
+  titlePajak: {
+    textDecorationLine: 'underline',
+  },
+  dataVehicleContainer: {
+    marginTop: 28,
+  },
+  dataVehicle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  titleDataVehicle: {
+    fontSize: 12,
+    fontFamily: fonts.Poppins.regular,
+    color: '#242424',
+  },
+  titleOutputVehicle: {
+    fontSize: 14,
+    fontFamily: fonts.Poppins.semibold,
+    color: '#242424',
+  },
+  line: {
+    borderWidth: 3,
+    borderColor: '#D9D9D940',
+    marginTop: 12,
   },
   button: {
     paddingHorizontal: 25,
