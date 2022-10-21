@@ -1,20 +1,14 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {fonts, ImageList, ImageNobg} from '../../assets';
+import React from 'react';
+import {fonts, ImageNobg} from '../../assets';
 import {storeData} from '../../utils';
 
-const ListVehicleCard = ({item, navigation}) => {
+const ListVehicleCard = ({item, navigation, paymentStatus}) => {
   var na = item.NRKB.match(/[a-zA-Z]+/g)[0];
   var nb = item.NRKB.match(/\d+/g);
   var nc = item.NRKB.match(/[a-zA-Z]+/g)[1];
 
-  const [showPhoto, setShowPhoto] = useState(false);
-
   // const nextPage = () => {};
-
-  useEffect(() => {
-    setShowPhoto(!showPhoto);
-  }, []);
 
   return (
     <View style={styles.wrapperListVehicle}>
@@ -37,13 +31,13 @@ const ListVehicleCard = ({item, navigation}) => {
           }}>
           <View style={styles.listVehicle}>
             <View style={styles.imgBackground}>
-              {showPhoto ? (
+              {item?.fotoKendaraan[0] ? (
                 <Image
                   style={styles.image}
                   source={{uri: item?.fotoKendaraan[0]}}
                 />
               ) : (
-                <Image style={styles.image} source={showPhoto} />
+                <Image style={styles.image} source={ImageNobg} />
               )}
               {/* {showPhoto && (
                 <Image
@@ -63,9 +57,11 @@ const ListVehicleCard = ({item, navigation}) => {
                   <Text style={styles.dueDate}>
                     Jatuh Tempo {item?.JTPajak}
                   </Text>
-                  {/* <Text style={styles.paymentStatus(paymentStatus)}>
-                {paymentStatus}
-              </Text> */}
+                  {item?.KodeBayar === '-' ? (
+                    <Text style={styles.paymentStatusDone}>Lunas</Text>
+                  ) : (
+                    <Text style={styles.paymentStatusNot}>Belum dibayar</Text>
+                  )}
                 </View>
               </View>
             </View>
@@ -144,9 +140,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#000000',
   },
-  // paymentStatus: paymentStatus => ({
-  //   fontSize: 10,
-  //   fontFamily: fonts.Poppins.medium,
-  //   color: paymentStatus === 'Belum dibayar' ? '#CA0B00' : '#34A853',
-  // }),
+  paymentStatusDone: {
+    fontSize: 10,
+    fontFamily: fonts.Poppins.medium,
+    color: '#34A853',
+  },
+  paymentStatusNot: {
+    fontSize: 10,
+    fontFamily: fonts.Poppins.medium,
+    color: '#CA0B00',
+  },
 });
