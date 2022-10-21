@@ -8,15 +8,13 @@ const ListVehicleCard = ({item, navigation}) => {
   var nb = item.NRKB.match(/\d+/g);
   var nc = item.NRKB.match(/[a-zA-Z]+/g)[1];
 
-  const [showPhoto, setShowPhoto] = useState(ImageNobg);
+  const [showPhoto, setShowPhoto] = useState(false);
 
   // const nextPage = () => {};
 
   useEffect(() => {
     setShowPhoto(!showPhoto);
   }, []);
-
-  console.log('resssITEM', item);
 
   return (
     <View style={styles.wrapperListVehicle}>
@@ -32,19 +30,20 @@ const ListVehicleCard = ({item, navigation}) => {
               TahunBuat: item.TahunBuat,
               TipeKendaraan: item.TipeKendaraan,
               _id: item._id,
+              NamaKendaraan: item.NamaKendaraan,
             };
             storeData('itemVehicle', dataItem);
-            navigation.navigate('DetailsVehicle', dataItem);
+            navigation.navigate('DetailsVehicle', {dataItem});
           }}>
           <View style={styles.listVehicle}>
             <View style={styles.imgBackground}>
               {showPhoto ? (
-                <Image style={styles.image} source={{uri: !showPhoto}} />
-              ) : (
                 <Image
                   style={styles.image}
-                  source={{uri: item.fotoKendaraan[0]}}
+                  source={{uri: item?.fotoKendaraan[0]}}
                 />
+              ) : (
+                <Image style={styles.image} source={showPhoto} />
               )}
               {/* {showPhoto && (
                 <Image
@@ -55,13 +54,15 @@ const ListVehicleCard = ({item, navigation}) => {
               {!showPhoto && <Image style={styles.image} source={ImageNobg} />} */}
             </View>
             <View>
-              <Text style={styles.brandVehicle}>{item.NamaKendaraan}</Text>
+              <Text style={styles.brandVehicle}>{item?.NamaKendaraan}</Text>
               <Text style={styles.numberPolice}>{`${na} ${nb} ${nc}`}</Text>
               {/* <Text style={styles.numberPolice}>{item.NRKB}</Text> */}
               <View style={styles.line} />
               <View>
                 <View style={styles.containerDatePayment}>
-                  <Text style={styles.dueDate}>Jatuh Tempo {item.JTPajak}</Text>
+                  <Text style={styles.dueDate}>
+                    Jatuh Tempo {item?.JTPajak}
+                  </Text>
                   {/* <Text style={styles.paymentStatus(paymentStatus)}>
                 {paymentStatus}
               </Text> */}

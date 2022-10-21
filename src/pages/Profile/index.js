@@ -10,11 +10,12 @@ import {
 } from '../../assets';
 
 import auth from '@react-native-firebase/auth';
-import {clearData, getData, storeData} from '../../utils';
+import {getData, storeData} from '../../utils';
 
 const Profile = ({navigation}) => {
   const [profile, setProfile] = useState({
     name: '',
+    email: '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -56,7 +57,7 @@ const Profile = ({navigation}) => {
           <IconProfilePhoto />
           <View style={styles.titleContainer}>
             <Text style={styles.titleName}>{profile?.name}</Text>
-            <Text style={styles.titleLastPayment}>Last Payment</Text>
+            <Text style={styles.titleEmail}>{profile?.email}</Text>
           </View>
         </View>
         <View>
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     color: '#242424',
     textTransform: 'capitalize',
   },
-  titleLastPayment: {
+  titleEmail: {
     fontSize: 12,
     fontFamily: fonts.Poppins.regular,
     color: '#75757580',

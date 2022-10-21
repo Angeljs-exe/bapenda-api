@@ -10,7 +10,7 @@ import {fonts, IconVehicleDashboard} from '../../assets';
 import {Button, HomeProfile} from '../../components';
 import NewsSamsatCard from './NewsSamsatCard';
 import RegisterVehicleCard from './RegisterVehicleCard';
-import {getData} from '../../utils';
+import {getData, storeData} from '../../utils';
 import {baseUrl} from '../../utils/config';
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ const Dashboard = ({navigation}) => {
     name: '',
     email: '',
   });
-  const [listDetail, setListDetail] = useState();
+  const [dataItem, setListDetail] = useState();
   // const [checkVehicle, setCheckVehicle] = useState({
 
   // });
@@ -58,7 +58,7 @@ const Dashboard = ({navigation}) => {
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
-          setListDetail(response);
+          setListDetail(response.data[response.data.length - 1]);
           console.log('response db', response.data[response.data.length - 1]);
           if (response.data.length === 0) {
             setTouchAdd(false);
@@ -116,7 +116,7 @@ const Dashboard = ({navigation}) => {
         </View>
         {touchAdd && (
           <RegisterVehicleCard
-            onPress={() => navigation.navigate('DetailsVehicle')}
+            onPress={() => navigation.navigate('DetailsVehicle', {dataItem})}
           />
         )}
         {!touchAdd && (
