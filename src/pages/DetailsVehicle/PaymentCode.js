@@ -1,4 +1,5 @@
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,6 +11,8 @@ import {fonts, IconSalin} from '../../assets';
 import PaymentMethodATM from './PaymentMethod';
 import OfficePaymentMethod from './OfficePaymentMethod';
 import {getData} from '../../utils';
+
+import Clipboard from '@react-native-clipboard/clipboard';
 
 let ATM = [
   {
@@ -71,9 +74,16 @@ const PaymentCode = ({navigation}) => {
     KodeBayar: '',
   });
 
+  const copyToClipboard = () => {
+    Clipboard.setString(dataVehicle.KodeBayar);
+    console.log('copied');
+    Alert.alert('Kode pembayaran berhasil disalin');
+  };
+
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
       setDataVehicle(res);
+      console.log('usevehicle', res);
     });
   };
 
@@ -83,7 +93,7 @@ const PaymentCode = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{dataVehicle.NamaKendaraan}</Text>
+      <Text style={styles.title}>{dataVehicle.TipeKendaraan}</Text>
       <View style={styles.pageCodePaymnet}>
         <Text style={styles.titleCodePayment}>Kode Bayar</Text>
         <View style={styles.codePaymentContainer}>
@@ -91,7 +101,7 @@ const PaymentCode = ({navigation}) => {
             <Text style={styles.subTitleCodePayment}>
               {dataVehicle.KodeBayar}
             </Text>
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity activeOpacity={0.5} onPress={copyToClipboard}>
               <IconSalin />
             </TouchableOpacity>
           </View>

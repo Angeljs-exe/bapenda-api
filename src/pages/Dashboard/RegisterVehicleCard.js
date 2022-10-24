@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
 import {getData, storeData} from '../../utils';
@@ -7,13 +7,17 @@ import {baseUrl} from '../../utils/config';
 
 const RegisterVehicleCard = ({onPress}) => {
   const [listDetail, setListDetail] = useState();
+  const [photo, setPhoto] = useState();
+  console.log('photo', photo);
 
   const showDataVehicle = () => {
     getData('user').then(res => {
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
+          console.log('coba rs', response);
           setListDetail(response.data[response.data.length - 1]);
+          setPhoto(response.data[response.data.length - 1].fotoKendaraan);
           console.log('resssssssssR', response);
         })
         .catch(error => {
@@ -30,7 +34,8 @@ const RegisterVehicleCard = ({onPress}) => {
     <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
       <View style={styles.imgContainer}>
         <View style={styles.WrapperImg}>
-          <ImageNoBg />
+          {/* <ImageNoBg />
+           */}
         </View>
         <View style={styles.dataVehicleContainer}>
           <View style={styles.wrapperDataVehicle}>
@@ -143,5 +148,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.Poppins.medium,
     color: '#FFFFFF',
+  },
+  image: {
+    width: 310,
+    height: 250,
+    borderRadius: 8,
   },
 });
