@@ -201,14 +201,14 @@ const Login = ({navigation}) => {
             //   </View>
             // </TouchableOpacity>
           )}
-          <View style={styles.wrapperDaftarContainer}>
+          {/* <View style={styles.wrapperDaftarContainer}>
             <Text style={styles.wrapperDaftar}>Belum memiliki akun?</Text>
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => navigation.navigate('SignUp')}>
               <Text style={styles.textDaftar}> Daftar</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </SafeAreaView>
       {loading && <Loading />}

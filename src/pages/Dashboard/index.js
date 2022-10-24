@@ -26,6 +26,8 @@ const Dashboard = ({navigation}) => {
 
   // });
 
+  // const [imgVehicle, setImgVehicle] = useState();
+
   const touchAddSubmit = () => {
     navigation.navigate('AddVehicle');
   };

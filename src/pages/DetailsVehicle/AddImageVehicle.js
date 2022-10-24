@@ -32,6 +32,8 @@ const AddImageVehicle = () => {
       if (res?.didCancel) {
         setGalleryPhoto(false);
         Alert.alert('Anda Membatalkan Tambah Foto');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
       } else {
         setGalleryPhoto(true);
         setPhoto(res?.assets[0]?.uri);

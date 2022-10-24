@@ -1,4 +1,5 @@
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,6 +11,8 @@ import {fonts, IconSalin} from '../../assets';
 import PaymentMethodATM from './PaymentMethod';
 import OfficePaymentMethod from './OfficePaymentMethod';
 import {getData} from '../../utils';
+
+import Clipboard from '@react-native-clipboard/clipboard';
 
 let ATM = [
   {
@@ -64,9 +67,15 @@ let kantor = [
 const PaymentCode = () => {
   const [dataVehicle, setDataVehicle] = useState();
 
+  const copyToClipboard = () => {
+    Clipboard.setString(dataVehicle.KodeBayar);
+    Alert.alert('Kode pembayaran berhasil disalin');
+  };
+
   const getDataVehicle = () => {
     getData('itemVehicle').then(res => {
       setDataVehicle(res);
+      console.log('usevehicle', res);
     });
   };
 
@@ -84,7 +93,7 @@ const PaymentCode = () => {
             <Text style={styles.subTitleCodePayment}>
               {dataVehicle?.KodeBayar}
             </Text>
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity activeOpacity={0.5} onPress={copyToClipboard}>
               <IconSalin />
             </TouchableOpacity>
           </View>

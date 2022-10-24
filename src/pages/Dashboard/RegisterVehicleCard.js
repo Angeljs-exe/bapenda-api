@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
-import {getData, storeData} from '../../utils';
+import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 
