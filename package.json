@@ -13,6 +13,7 @@
     "@gorhom/bottom-sheet": "^4.4.4",
     "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.17.10",
+    "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-native-community/checkbox": "^0.5.12",
     "@react-native-community/cli-platform-ios": "^9.1.2",
     "@react-native-community/push-notification-ios": "^1.10.1",

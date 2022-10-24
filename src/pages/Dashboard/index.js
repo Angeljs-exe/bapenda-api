@@ -21,10 +21,12 @@ const Dashboard = ({navigation}) => {
     name: '',
     email: '',
   });
-  const [dataItem, setListDetail] = useState();
+  const [dataItem, setDataItem] = useState();
   // const [checkVehicle, setCheckVehicle] = useState({
 
   // });
+
+  // const [imgVehicle, setImgVehicle] = useState();
 
   const touchAddSubmit = () => {
     navigation.navigate('AddVehicle');
@@ -58,8 +60,8 @@ const Dashboard = ({navigation}) => {
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
-          setListDetail(response.data[response.data.length - 1]);
-          console.log('response db', response.data[response.data.length - 1]);
+          setDataItem(response.data[response.data.length - 1]);
+          // console.log('response db', response.data[response.data.length - 1]);
           if (response.data.length === 0) {
             setTouchAdd(false);
           } else {

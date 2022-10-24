@@ -23,7 +23,7 @@ import {getData} from '../../utils';
 const DetailsVehicle = ({navigation, route}) => {
   const selectedVehicle = route.params.dataItem;
 
-  let [myValue, setMyValue] = useState('');
+  const [myValue, setMyValue] = useState('');
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
   const [itemData, setItemData] = useState();
@@ -44,7 +44,7 @@ const DetailsVehicle = ({navigation, route}) => {
           NamaKendaraan: `${myValue}`,
         })
         .then(response => {
-          // setMyValue('');
+          setMyValue('');
           console.log('sukses brow', response);
         })
         .catch(function (error) {
@@ -116,7 +116,18 @@ const DetailsVehicle = ({navigation, route}) => {
               <View style={styles.paymentStatusContainer}>
                 <Text style={styles.titlePayment}>Rp -</Text>
                 <View style={styles.wrapperPaymentStatus}>
-                  <Text style={styles.titlePaymentStatus}>Belum dibayar</Text>
+                  {/* <Text style={styles.titlePaymentStatus}>Belum dibayar</Text> */}
+                  {selectedVehicle?.KodeBayar === '-' ? (
+                    <View style={styles.paymnetStatusContainerLunas}>
+                      <Text style={styles.titlePaymentStatusLunas}>Lunas</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.paymnetStatusContainer}>
+                      <Text style={styles.titlePaymentStatus}>
+                        Belum dibayar
+                      </Text>
+                    </View>
+                  )}
                 </View>
               </View>
               <Text style={styles.titleRemindersDate}>
@@ -234,13 +245,13 @@ const styles = StyleSheet.create({
     color: '#9A0000',
   },
   wrapperPaymentStatus: {
-    borderWidth: 1,
-    borderColor: '#D53931',
-    backgroundColor: '#FFF3F3',
-    width: 110,
+    // borderWidth: 1,
+    // borderColor: '#D53931',
+    // backgroundColor: '#FFF3F3',
+    // width: 110,
     paddingVertical: 6,
     alignItems: 'center',
-    borderRadius: 8,
+    // borderRadius: 8,
   },
   titlePaymentStatus: {
     fontSize: 12,
@@ -280,5 +291,28 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 25,
     marginBottom: 10,
+  },
+  paymnetStatusContainer: {
+    borderWidth: 1,
+    borderColor: '#D53931',
+    backgroundColor: '#FFF3F3',
+    width: 110,
+    paddingVertical: 4,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  paymnetStatusContainerLunas: {
+    borderWidth: 1,
+    borderColor: '#34A853',
+    backgroundColor: '#85CB98',
+    width: 110,
+    paddingVertical: 4,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  titlePaymentStatusLunas: {
+    fontSize: 12,
+    fontFamily: fonts.Poppins.medium,
+    color: '#2A8642',
   },
 });

@@ -39,6 +39,7 @@ const ListVehicle = ({navigation}) => {
       />
       <View>
         <FlatList
+          extraData={listDetail.kendaraan}
           data={listDetail.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
           renderItem={({item}) => {
