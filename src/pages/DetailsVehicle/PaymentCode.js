@@ -61,35 +61,28 @@ let kantor = [
   },
 ];
 
-const PaymentCode = ({navigation}) => {
-  const [dataVehicle, setDataVehicle] = useState({
-    NomorMesin: '',
-    TahunBuat: '',
-    TipeKendaraan: '',
-    NRKB: '',
-    JTPajak: '',
-    KodeBayar: '',
-  });
+const PaymentCode = () => {
+  const [dataVehicle, setDataVehicle] = useState();
 
   const getDataVehicle = () => {
-    getData('userVehicle').then(res => {
+    getData('itemVehicle').then(res => {
       setDataVehicle(res);
     });
   };
 
   useEffect(() => {
     getDataVehicle();
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{dataVehicle.NamaKendaraan}</Text>
+      <Text style={styles.title}>{dataVehicle?.TipeKendaraan}</Text>
       <View style={styles.pageCodePaymnet}>
         <Text style={styles.titleCodePayment}>Kode Bayar</Text>
         <View style={styles.codePaymentContainer}>
           <View style={styles.codePayment}>
             <Text style={styles.subTitleCodePayment}>
-              {dataVehicle.KodeBayar}
+              {dataVehicle?.KodeBayar}
             </Text>
             <TouchableOpacity activeOpacity={0.5}>
               <IconSalin />
@@ -114,9 +107,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   title: {
-    textAlign: 'center',
-    fontSize: 28,
+    fontSize: 25,
     fontFamily: fonts.Poppins.semibold,
+    textAlign: 'center',
   },
   pageCodePaymnet: {
     marginTop: 32,

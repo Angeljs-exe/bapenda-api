@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
 import {getData, storeData} from '../../utils';
@@ -14,7 +14,10 @@ const RegisterVehicleCard = ({onPress}) => {
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
           setListDetail(response.data[response.data.length - 1]);
-          console.log('resssssssssR', response);
+          // console.log(
+          //   'resssssssssR',
+          //   response.data[response.data.length - 1].fotoKendaraan,
+          // );
         })
         .catch(error => {
           console.log(error);
@@ -30,7 +33,19 @@ const RegisterVehicleCard = ({onPress}) => {
     <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
       <View style={styles.imgContainer}>
         <View style={styles.WrapperImg}>
-          <ImageNoBg />
+          {listDetail?.fotoKendaraan[0] ? (
+            <Image
+              style={styles.image}
+              source={{uri: listDetail?.fotoKendaraan[0]}}
+            />
+          ) : (
+            <ImageNoBg />
+          )}
+          {/* <Image
+            style={styles.image}
+            source={{uri: listDetail?.fotoKendaraan[0]}}
+          />
+          <ImageNoBg /> */}
         </View>
         <View style={styles.dataVehicleContainer}>
           <View style={styles.wrapperDataVehicle}>
@@ -78,6 +93,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    width: '100%',
+    height: 245,
+    borderRadius: 8,
   },
   dataVehicleContainer: {
     position: 'absolute',

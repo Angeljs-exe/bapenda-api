@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageList} from '../../assets';
 import {storeData} from '../../utils';
@@ -16,7 +16,6 @@ const CardNotificationPay = ({item, navigation}) => {
 
   return (
     <>
-      <View style={styles.line} />
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
@@ -29,24 +28,27 @@ const CardNotificationPay = ({item, navigation}) => {
             TipeKendaraan: item.TipeKendaraan,
             _id: item._id,
             NamaKendaraan: item.NamaKendaraan,
+            fotoKendaraan: item.fotoKendaraan,
           };
           storeData('itemVehicle', dataItem);
           navigation.navigate('DetailsVehicle', {dataItem});
         }}
-        style={[
-          styles.notificationContainer,
-          {backgroundColor: changeColor ? '#FFFFFF' : '#E9F3FD'},
-        ]}>
-        <ImageList />
+        style={styles.notificationContainer}>
+        {item?.fotoKendaraan[0] ? (
+          <Image style={styles.image} source={{uri: item?.fotoKendaraan[0]}} />
+        ) : (
+          <ImageList />
+        )}
+        {/* <ImageList /> */}
         <View style={styles.titleContainer}>
           <Text style={styles.titleNotification}>
             Pemberitahuan Pembayaran Pajak
           </Text>
           <Text style={styles.contentNotification}>
             Pengguna yang terhormat, batas pembayaran{' '}
-            <Text style={styles.titleTypeVehicle}>{item.TipeKendaraan}</Text>{' '}
+            <Text style={styles.titleTypeVehicle}>{item?.TipeKendaraan}</Text>{' '}
             Rp. - pada{' '}
-            <Text style={styles.titleTypeVehicle}>{item.JTPajak}</Text> harus
+            <Text style={styles.titleTypeVehicle}>{item?.JTPajak}</Text> harus
             segera diselesaikan
           </Text>
           {/* <Text style={styles.dateNotification}>Sekarang</Text> */}
@@ -71,6 +73,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingVertical: 25,
     flexDirection: 'row',
+  },
+  image: {
+    width: 80,
+    height: 72,
+    borderRadius: 8,
   },
   titleContainer: {
     marginLeft: 12,

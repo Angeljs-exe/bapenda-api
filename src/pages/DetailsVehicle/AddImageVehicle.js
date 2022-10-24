@@ -16,40 +16,34 @@ import {baseUrl} from '../../utils/config';
 const AddImageVehicle = () => {
   const [galleryPhoto, setGalleryPhoto] = useState(false);
   const [photo, setPhoto] = useState();
-  const [base64, setBase64] = useState();
   const [itemData, setDataItem] = useState();
 
   let options = {
+    includeBase64: true,
     saveToPhotos: true,
     mediaType: 'photo',
-    includeBase64: true,
-    quality: 0.8,
-    maxWidth: 150,
-    maxHeight: 150,
+    quality: 1,
+    maxWidth: 500,
+    maxHeight: 500,
   };
 
   const getImage = async () => {
-    await launchImageLibrary(options, res => {
+    await launchImageLibrary(options, async res => {
       if (res?.didCancel) {
         setGalleryPhoto(false);
         Alert.alert('Anda Membatalkan Tambah Foto');
       } else {
         setGalleryPhoto(true);
-        setPhoto(res?.assets[0].uri);
-        setBase64(
-          `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
-        );
+        setPhoto(res?.assets[0]?.uri);
         console.log('ressssPhoto', res.assets[0].base64);
       }
-      getData('user').then(resp => {
-        console.log('resssssss, ', resp);
-        axios
+      await getData('user').then(async resp => {
+        await axios
           .post(`${baseUrl}/api/posts/vehicle/photo/${resp?.id}`, {
             _id: `${itemData?._id}`,
-            fotoKendaraan: `${base64}`,
+            fotoKendaraan: `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
           })
-          .then(() => {})
-          .catch(function (error) {
+          .catch(error => {
             console.log(error);
           });
       });
@@ -67,20 +61,18 @@ const AddImageVehicle = () => {
   }, []);
 
   return (
-    <View>
-      <TouchableOpacity onPress={() => getImage()}>
-        {galleryPhoto && <Image style={styles.image} source={{uri: photo}} />}
-        {!galleryPhoto && (
-          <View style={styles.addImageContainer}>
-            <ImageNoBg />
-            <View style={styles.titleAddImage}>
-              <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
-              <IconAddPhoto />
-            </View>
+    <TouchableOpacity onPress={() => getImage()}>
+      {galleryPhoto && <Image style={styles.image} source={{uri: photo}} />}
+      {!galleryPhoto && (
+        <View style={styles.addImageContainer}>
+          <ImageNoBg />
+          <View style={styles.titleAddImage}>
+            <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
+            <IconAddPhoto />
           </View>
-        )}
-      </TouchableOpacity>
-    </View>
+        </View>
+      )}
+    </TouchableOpacity>
   );
 };
 
