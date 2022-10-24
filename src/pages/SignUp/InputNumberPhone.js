@@ -1,11 +1,27 @@
 import {StyleSheet, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import colours from '../../assets/colours';
 
-const InputNumberPhone = ({placeholder, onChangeText, value, ...rest}) => {
+const InputNumberPhone = ({
+  placeholder,
+  onChangeText,
+  value,
+  onFocus = () => {},
+  ...rest
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <>
       <View style={styles.inputStyle}>
         <TextInput
+          onFocus={() => {
+            onFocus();
+            setIsFocused(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
           value={value}
           placeholder={placeholder}
           placeholderTextColor="#D9D9D9"
