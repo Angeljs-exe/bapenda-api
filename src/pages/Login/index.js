@@ -23,7 +23,7 @@ import {baseUrl} from '../../utils/config';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+// import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const appleSignIn = async () => {
   // Start the sign-in request
@@ -53,21 +53,29 @@ const Login = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
-  const [phoneNumber, setPhoneNumber] = useState('');
-  // const [useData, setUseData] = useState({});
+  let [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [tokenUser, setTokenUser] = useState({
     token: '',
   });
 
-  const checkInput = () => {
-    if (!phoneNumber.trim()) {
-      setModal(true);
-      return;
-    } else {
-      signInWithPhoneNumber();
-    }
-  };
+  let check = phoneNumber.substring(0, 1);
+  let added = phoneNumber.substring(1, 13);
+
+  if (check === '0') {
+    phoneNumber = `${selectedCountry.dial_code}${added}`;
+  } else {
+    phoneNumber = `${selectedCountry.dial_code}${phoneNumber}`;
+  }
+
+  // const checkInput = () => {
+  //   if (!phoneNumber.trim()) {
+  //     setModal(true);
+  //     return;
+  //   } else {
+  //     signInWithPhoneNumber();
+  //   }
+  // };
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -169,18 +177,17 @@ const Login = ({navigation}) => {
               <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
             </TouchableOpacity>
             <InputNumberPhone
+              // value={phoneNumber}
               placeholder={'Masukkan Nomor Telepon Anda'}
-              onChangeText={text =>
-                setPhoneNumber(selectedCountry?.dial_code + text)
-              }
+              onChangeText={text => setPhoneNumber(text)}
             />
           </View>
           <View style={styles.buttonContainer}>
             <Button
               title={'Masuk'}
               onPress={() => {
-                // signInWithPhoneNumber();
-                checkInput();
+                signInWithPhoneNumber();
+                // checkInput();
               }}
             />
           </View>
