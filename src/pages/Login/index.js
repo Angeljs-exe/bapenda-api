@@ -62,20 +62,19 @@ const Login = ({navigation}) => {
   let check = phoneNumber.substring(0, 1);
   let added = phoneNumber.substring(1, 13);
 
-  if (check === '0') {
-    phoneNumber = `${selectedCountry.dial_code}${added}`;
-  } else {
-    phoneNumber = `${selectedCountry.dial_code}${phoneNumber}`;
-  }
-
-  // const checkInput = () => {
-  //   if (!phoneNumber.trim()) {
-  //     setModal(true);
-  //     return;
-  //   } else {
-  //     signInWithPhoneNumber();
-  //   }
-  // };
+  const checkInput = () => {
+    if (!phoneNumber.trim()) {
+      setModal(true);
+      return;
+    } else {
+      if (check === '0') {
+        phoneNumber = `${selectedCountry.dial_code}${added}`;
+      } else {
+        phoneNumber = `${selectedCountry.dial_code}${phoneNumber}`;
+      }
+      signInWithPhoneNumber();
+    }
+  };
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -186,8 +185,8 @@ const Login = ({navigation}) => {
             <Button
               title={'Masuk'}
               onPress={() => {
-                signInWithPhoneNumber();
-                // checkInput();
+                // signInWithPhoneNumber();
+                checkInput();
               }}
             />
           </View>
