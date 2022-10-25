@@ -194,10 +194,14 @@ const Login = ({navigation}) => {
               <View style={styles.modalIcon}>
                 <IconModal />
                 <Text style={styles.modalText}>
-                  Nomor Telepon Anda Belum Terisi
+                  Mohon Isi Nomor Telepon Anda
                 </Text>
               </View>
-              <Button title={'Lengkapi'} onPress={() => setModal(false)} />
+              <TouchableOpacity onPress={() => setModal(false)}>
+                <View style={styles.optionButton}>
+                  <Text style={styles.lengkapiText}>Kembali</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </Modal>
         </View>
@@ -269,6 +273,20 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.bold,
     fontSize: 20,
     color: '#9E9E9E',
+  },
+  optionButton: {
+    backgroundColor: '#9C1C21',
+    paddingVertical: 11,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 30,
+  },
+  lengkapiText: {
+    fontFamily: fonts.Poppins.semibold,
+    fontSize: 20,
+    justifyContent: 'center',
+    color: '#FFFFFF',
   },
   backText: {
     backgroundColor: '#9C1C21',
