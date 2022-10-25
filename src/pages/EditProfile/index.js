@@ -83,7 +83,7 @@ const EditProfile = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.editProfilePhoto}>
           <IconProfilePhoto />
-          <Text style={styles.changePhoto}>Ganti Foto</Text>
+          {/* <Text style={styles.changePhoto}>Ganti Foto</Text> */}
         </View>
         <View style={styles.inputContainer}>
           <View>

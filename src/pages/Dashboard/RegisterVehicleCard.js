@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fonts, ImageNoBg} from '../../assets';
-import {getData, storeData} from '../../utils';
+import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 
@@ -17,8 +17,10 @@ const RegisterVehicleCard = ({onPress}) => {
         .then(response => {
           console.log('coba rs', response);
           setListDetail(response.data[response.data.length - 1]);
-          setPhoto(response.data[response.data.length - 1].fotoKendaraan);
-          console.log('resssssssssR', response);
+          // console.log(
+          //   'resssssssssR',
+          //   response.data[response.data.length - 1].fotoKendaraan,
+          // );
         })
         .catch(error => {
           console.log(error);
@@ -34,8 +36,19 @@ const RegisterVehicleCard = ({onPress}) => {
     <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
       <View style={styles.imgContainer}>
         <View style={styles.WrapperImg}>
-          {/* <ImageNoBg />
-           */}
+          {listDetail?.fotoKendaraan[0] ? (
+            <Image
+              style={styles.image}
+              source={{uri: listDetail?.fotoKendaraan[0]}}
+            />
+          ) : (
+            <ImageNoBg />
+          )}
+          {/* <Image
+            style={styles.image}
+            source={{uri: listDetail?.fotoKendaraan[0]}}
+          />
+          <ImageNoBg /> */}
         </View>
         <View style={styles.dataVehicleContainer}>
           <View style={styles.wrapperDataVehicle}>
@@ -83,6 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    width: '100%',
+    height: 245,
+    borderRadius: 8,
   },
   dataVehicleContainer: {
     position: 'absolute',
@@ -148,10 +166,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.Poppins.medium,
     color: '#FFFFFF',
-  },
-  image: {
-    width: 310,
-    height: 250,
-    borderRadius: 8,
   },
 });

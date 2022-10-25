@@ -1,6 +1,7 @@
 import {
   KeyboardAvoidingView,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -105,47 +106,49 @@ const VerificationCodeOTP = ({
   return (
     <>
       <SafeAreaView style={styles.page}>
-        <View style={styles.verificationContainer}>
-          <Text style={styles.numberPhone}>{phoneNumber}</Text>
-          <View style={styles.titleOTPContainer}>
-            <Text style={styles.subTitle}>
-              Masukkan 6-digit kode OTP yang telah dikirim pada SMS untuk
-              melengkapi registrasi akun anda
-            </Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.verificationContainer}>
+            <Text style={styles.numberPhone}>{phoneNumber}</Text>
+            <View style={styles.titleOTPContainer}>
+              <Text style={styles.subTitle}>
+                Masukkan 6-digit kode OTP yang telah dikirim pada SMS untuk
+                melengkapi registrasi akun anda
+              </Text>
+            </View>
           </View>
-        </View>
-        <KeyboardAvoidingView>
-          <View style={styles.inputContainer}>
-            {inputs.map((inp, index) => {
-              return (
-                <View key={index.toString()} style={styles.inputOtpContainer}>
-                  <TextInput
-                    value={code[index]}
-                    key={index.toString()}
-                    placeholder="-"
-                    placeholderTextColor="#D9D9D9"
-                    keyboardType="numeric"
-                    maxLength={1}
-                    onChangeText={text => handleChangeText(text, index)}
-                    ref={newInputIndex === index ? input : null}
-                    style={styles.inputOtp}
-                  />
-                </View>
-              );
-            })}
-          </View>
-          <View style={styles.wrapperCodeOTP}>
-            <Text style={styles.wrapperCode}>
-              Belum menerima konfirmasi kode OTP ?{' '}
-            </Text>
-            <TouchableOpacity activeOpacity={0.5}>
-              <Text style={styles.sendAgain}> Kirim Ulang</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button title="Konfirmasi" onPress={() => confirmCode()} />
-          </View>
-        </KeyboardAvoidingView>
+          <KeyboardAvoidingView>
+            <View style={styles.inputContainer}>
+              {inputs.map((inp, index) => {
+                return (
+                  <View key={index.toString()} style={styles.inputOtpContainer}>
+                    <TextInput
+                      value={code[index]}
+                      key={index.toString()}
+                      placeholder="-"
+                      placeholderTextColor="#D9D9D9"
+                      keyboardType="numeric"
+                      maxLength={1}
+                      onChangeText={text => handleChangeText(text, index)}
+                      ref={newInputIndex === index ? input : null}
+                      style={styles.inputOtp}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+            <View style={styles.wrapperCodeOTP}>
+              <Text style={styles.wrapperCode}>
+                Belum menerima konfirmasi kode OTP ?{' '}
+              </Text>
+              <TouchableOpacity activeOpacity={0.5}>
+                <Text style={styles.sendAgain}> Kirim Ulang</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title="Konfirmasi" onPress={() => confirmCode()} />
+            </View>
+          </KeyboardAvoidingView>
+        </ScrollView>
       </SafeAreaView>
       {loading && <Loading />}
     </>

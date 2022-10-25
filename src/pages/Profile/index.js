@@ -29,7 +29,7 @@ const Profile = ({navigation}) => {
     navigation.addListener('focus', () => {
       getDataUser();
     });
-  }, [navigation]);
+  }, []);
 
   const submitLogout = () => {
     setLoading(true);
@@ -65,7 +65,7 @@ const Profile = ({navigation}) => {
           <View style={styles.menuContainer}>
             <IconEditProfile />
             <View style={styles.textMenuContainer}>
-              <Text style={styles.titleMenu}>Edit Profil</Text>
+              <Text style={styles.titleMenu}>Details Profile</Text>
               <Button
                 click="iconOnly"
                 icon="iconArrow"

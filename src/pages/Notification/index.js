@@ -5,6 +5,7 @@ import CardNotificationPay from './CardNotificationPay';
 import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
+
 const Notification = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState();
 
@@ -14,12 +15,6 @@ const Notification = ({navigation}) => {
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(resp => {
           setDataVehicle(resp);
-          console.log('resp: ', resp);
-          // console.log('resp: ', resp.data);
-          // getData('userVehicle').then(userV => {
-          //   // setDataVehicle(userV);
-          //   console.log('userVehicle: ', userV);
-          // });
         })
         .catch(error => {
           console.log(error);
@@ -47,8 +42,8 @@ const Notification = ({navigation}) => {
         renderItem={({item}) => {
           return <CardNotificationPay item={item} navigation={navigation} />;
         }}
+        showsVerticalScrollIndicator={false}
       />
-      {/* <CardNotificationPay /> */}
     </SafeAreaView>
   );
 };

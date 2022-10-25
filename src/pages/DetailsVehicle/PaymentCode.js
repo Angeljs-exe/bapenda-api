@@ -64,24 +64,16 @@ let kantor = [
   },
 ];
 
-const PaymentCode = ({navigation}) => {
-  const [dataVehicle, setDataVehicle] = useState({
-    NomorMesin: '',
-    TahunBuat: '',
-    TipeKendaraan: '',
-    NRKB: '',
-    JTPajak: '',
-    KodeBayar: '',
-  });
+const PaymentCode = () => {
+  const [dataVehicle, setDataVehicle] = useState();
 
   const copyToClipboard = () => {
     Clipboard.setString(dataVehicle.KodeBayar);
-    console.log('copied');
     Alert.alert('Kode pembayaran berhasil disalin');
   };
 
   const getDataVehicle = () => {
-    getData('userVehicle').then(res => {
+    getData('itemVehicle').then(res => {
       setDataVehicle(res);
       console.log('usevehicle', res);
     });
@@ -89,7 +81,7 @@ const PaymentCode = ({navigation}) => {
 
   useEffect(() => {
     getDataVehicle();
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -99,7 +91,7 @@ const PaymentCode = ({navigation}) => {
         <View style={styles.codePaymentContainer}>
           <View style={styles.codePayment}>
             <Text style={styles.subTitleCodePayment}>
-              {dataVehicle.KodeBayar}
+              {dataVehicle?.KodeBayar}
             </Text>
             <TouchableOpacity activeOpacity={0.5} onPress={copyToClipboard}>
               <IconSalin />
@@ -124,9 +116,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
   },
   title: {
-    textAlign: 'center',
-    fontSize: 28,
+    fontSize: 25,
     fontFamily: fonts.Poppins.semibold,
+    textAlign: 'center',
   },
   pageCodePaymnet: {
     marginTop: 32,

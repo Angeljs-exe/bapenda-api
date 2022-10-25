@@ -1,14 +1,23 @@
-import {SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
-import {Button, Header} from '../../components';
+import {Button, Header, Loading} from '../../components';
 import {fonts, IconAddVehicleVehicle} from '../../assets';
 import axios from 'axios';
 import {storeData} from '../../utils';
 
 const AddVehicle = ({navigation}) => {
   const [myValue, setMyValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const searchData = () => {
+    setLoading(true);
     axios
       .post('http://bapenda.sulutprov.go.id/derrpa/asmp22/_reminder.php', {
         ws_id: 'rmdrBapenda',
@@ -19,8 +28,9 @@ const AddVehicle = ({navigation}) => {
         nc: `${myValue.split(' ')[2]}`,
       })
       .then(resp => {
+        setLoading(false);
+        setMyValue('');
         const myRepo = resp.data;
-        // setForm(myRepo);
         console.log('myRepooooo: ', myRepo);
         if (myRepo.Status == 0) {
           navigation.navigate('RegisError');
@@ -41,40 +51,46 @@ const AddVehicle = ({navigation}) => {
         }
       })
       .catch(function (error) {
+        setLoading(false);
         console.log(error);
       });
   };
 
   return (
-    <SafeAreaView style={styles.page}>
-      <Header
-        title="Tambah Kendaraan"
-        onBack={() => navigation.navigate('Dashboard')}
-      />
-      <View style={styles.iconAddVehicle}>
-        <IconAddVehicleVehicle />
-      </View>
-      <View style={styles.titleNumberContainer}>
-        <Text style={styles.textNumberRangka}>
-          Masukkan Nomor Polisi Kendaraan Anda
-        </Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Masukkan Nomor Polisi Kendaraan Anda"
-          placeholderTextColor="#D9D9D9"
-          value={myValue}
-          //prettier-ignore
-          onChangeText={(value) => setMyValue(value)}
-          maxLength={10}
-          autoCapitalize="characters"
+    <>
+      <SafeAreaView style={styles.page}>
+        <Header
+          title="Tambah Kendaraan"
+          onBack={() => navigation.navigate('Dashboard')}
         />
-        <View style={styles.buttonAddVehicle}>
-          <Button title="Selanjutnya" onPress={() => searchData()} />
-        </View>
-      </View>
-    </SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.iconAddVehicle}>
+            <IconAddVehicleVehicle />
+          </View>
+          <View style={styles.titleNumberContainer}>
+            <Text style={styles.textNumberRangka}>
+              Masukkan Nomor Polisi Kendaraan Anda
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Masukkan Nomor Polisi Kendaraan Anda"
+              placeholderTextColor="#D9D9D9"
+              value={myValue}
+              //prettier-ignore
+              onChangeText={(value) => setMyValue(value)}
+              maxLength={10}
+              autoCapitalize="characters"
+            />
+            <View style={styles.buttonAddVehicle}>
+              <Button title="Selanjutnya" onPress={() => searchData()} />
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      {loading && <Loading />}
+    </>
   );
 };
 

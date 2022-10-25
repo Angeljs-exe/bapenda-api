@@ -33,7 +33,6 @@ const InputVehicle = ({navigation}) => {
   const getDataVehicle = () => {
     getData('userVehicle').then(res => {
       setDataVehicle(res);
-      console.log('resssssssV: ', res);
     });
   };
 

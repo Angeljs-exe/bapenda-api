@@ -9,27 +9,26 @@ import {
 import React, {useEffect, useState} from 'react';
 import {fonts, IconAddPhoto, ImageNoBg} from '../../assets';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {getData, storeData} from '../../utils';
+import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 
 const AddImageVehicle = () => {
   const [galleryPhoto, setGalleryPhoto] = useState(false);
   const [photo, setPhoto] = useState();
-  const [base64, setBase64] = useState();
   const [itemData, setDataItem] = useState();
 
   let options = {
-    // saveToPhotos: true,
-    mediaType: 'photo',
     includeBase64: true,
-    quality: 0.8,
-    maxWidth: 150,
-    maxHeight: 150,
+    saveToPhotos: true,
+    mediaType: 'photo',
+    quality: 1,
+    maxWidth: 500,
+    maxHeight: 500,
   };
 
   const getImage = async () => {
-    await launchImageLibrary(options, res => {
+    await launchImageLibrary(options, async res => {
       if (res?.didCancel) {
         setGalleryPhoto(false);
         Alert.alert('Anda Membatalkan Tambah Foto');
@@ -38,25 +37,15 @@ const AddImageVehicle = () => {
       } else {
         setGalleryPhoto(true);
         setPhoto(res?.assets[0]?.uri);
-        setBase64(
-          `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
-        );
         console.log('ressssPhoto', res.assets[0].base64);
       }
-      getData('user').then(resp => {
-        console.log('resssssss, ', resp.id);
-        console.log('id kendaraan', itemData._id);
-        console.log('ini foto', photo);
-        axios
+      await getData('user').then(async resp => {
+        await axios
           .post(`${baseUrl}/api/posts/vehicle/photo/${resp?.id}`, {
             _id: `${itemData?._id}`,
-            fotoKendaraan: `${base64}`,
+            fotoKendaraan: `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
           })
-          //prettier-ignore
-          .then(dio => {
-            console.log('dio jo', dio);
-          })
-          .catch(function (error) {
+          .catch(error => {
             console.log(error);
           });
       });
@@ -74,20 +63,18 @@ const AddImageVehicle = () => {
   }, []);
 
   return (
-    <View>
-      <TouchableOpacity onPress={() => getImage()}>
-        {galleryPhoto && <Image style={styles.image} source={{uri: base64}} />}
-        {!galleryPhoto && (
-          <View style={styles.addImageContainer}>
-            <ImageNoBg />
-            <View style={styles.titleAddImage}>
-              <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
-              <IconAddPhoto />
-            </View>
+    <TouchableOpacity onPress={() => getImage()}>
+      {galleryPhoto && <Image style={styles.image} source={{uri: photo}} />}
+      {!galleryPhoto && (
+        <View style={styles.addImageContainer}>
+          <ImageNoBg />
+          <View style={styles.titleAddImage}>
+            <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
+            <IconAddPhoto />
           </View>
-        )}
-      </TouchableOpacity>
-    </View>
+        </View>
+      )}
+    </TouchableOpacity>
   );
 };
 

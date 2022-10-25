@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
+  Alert,
+  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -18,19 +20,20 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {baseUrl} from '../../utils/config';
 import axios from 'axios';
 import {getData} from '../../utils';
+import {launchImageLibrary} from 'react-native-image-picker';
 // import {launchImageLibrary} from 'react-native-image-picker';
 
 const DetailsVehicle = ({navigation, route}) => {
   const selectedVehicle = route.params.dataItem;
 
-  const [myValue, setMyValue] = useState('');
+  let [myValue, setMyValue] = useState('');
+  const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan[0]);
+
   const sheetRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [itemData, setItemData] = useState();
-  // const [showName, setShowName] = useState(false);
 
   const snapPoints = ['1%', '70%', '80%'];
-
   const handleSnapPress = useCallback(index => {
     sheetRef.current?.snapToIndex(index);
     setIsOpen(true);
@@ -53,6 +56,39 @@ const DetailsVehicle = ({navigation, route}) => {
     });
   };
 
+  let options = {
+    includeBase64: true,
+    saveToPhotos: true,
+    mediaType: 'photo',
+    quality: 1,
+    maxWidth: 500,
+    maxHeight: 500,
+  };
+
+  const changeImage = async () => {
+    await launchImageLibrary(options, async res => {
+      if (res?.didCancel) {
+        Alert.alert('Anda Membatalkan Tambah Foto');
+      } else {
+        setPhoto(res?.assets[0]?.uri);
+        console.log('ressssPhoto', res.assets[0].base64);
+      }
+      await getData('user').then(async resp => {
+        await axios
+          .post(`${baseUrl}/api/posts/vehicle/photo/${resp?.id}`, {
+            _id: `${itemData?._id}`,
+            fotoKendaraan: `${`data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`}`,
+          })
+          .then(respon => {
+            console.log('sukses ganti foto', respon);
+          })
+          .catch(error => {
+            console.log('error ganti foto', error);
+          });
+      });
+    });
+  };
+
   const getDataItem = () => {
     getData('itemVehicle').then(resp => {
       setItemData(resp);
@@ -61,8 +97,7 @@ const DetailsVehicle = ({navigation, route}) => {
 
   useEffect(() => {
     getDataItem();
-    // setShowName(!showName);
-  }, []);
+  });
 
   return (
     <SafeAreaView style={styles.page}>
@@ -70,15 +105,21 @@ const DetailsVehicle = ({navigation, route}) => {
         {/* {backgroundColor: isOpen ? '#75757580' : '#FFFFFF'} */}
         <Header
           title="Detail Kendaraan"
-          onBack={() => navigation.navigate('Dashboard')}
+          onBack={() => navigation.replace('Dashboard')}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.detailsVehicleContainer}>
             <View style={styles.wrapperDetailsVehicle}>
               <TextInput
                 style={styles.inputTitle}
-                placeholder={`${selectedVehicle?.NamaKendaraan}`}
-                placeholderTextColor="#D9D9D9"
+                placeholder={
+                  selectedVehicle?.NamaKendaraan
+                    ? `${selectedVehicle?.NamaKendaraan}`
+                    : 'Nama Kendaraan'
+                }
+                placeholderTextColor={
+                  selectedVehicle?.NamaKendaraan ? '#242424' : '#D9D9D9'
+                }
                 value={myValue}
                 onChangeText={value => setMyValue(value)}
               />
@@ -95,9 +136,17 @@ const DetailsVehicle = ({navigation, route}) => {
               activeOpacity={0.7}
               // onPress={() => openGallery()}
               onPress={() => getImage()}> */}
-            <View style={styles.addImageContainer}>
-              <AddImageVehicle />
-            </View>
+            {selectedVehicle?.fotoKendaraan[0] ? (
+              <TouchableOpacity
+                style={styles.imageContainer}
+                onPress={() => changeImage()}>
+                <Image style={styles.image} source={{uri: photo}} />
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.addImageContainer}>
+                <AddImageVehicle />
+              </View>
+            )}
             {/* </TouchableOpacity> */}
             {/* <AddImageVehicle
                 title={'Tambah Foto Belakang'}
@@ -227,6 +276,16 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
     flex: 1,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  image: {
+    width: 310,
+    height: 250,
+    borderRadius: 8,
   },
   addImageContainer: {
     alignItems: 'center',

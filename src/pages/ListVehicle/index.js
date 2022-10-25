@@ -1,18 +1,19 @@
 import {SafeAreaView, StyleSheet, View, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Header} from '../../components';
 import {fonts} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
 import {getData} from '../../utils';
+import {useFocusEffect} from '@react-navigation/native';
 
 const ListVehicle = ({navigation}) => {
   const [listDetail, setListDetail] = useState();
 
-  const getListDetail = () => {
-    getData('user').then(res => {
-      axios
+  const getListDetail = async () => {
+    await getData('user').then(async res => {
+      await axios
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {
           setListDetail(response.data);
@@ -23,9 +24,11 @@ const ListVehicle = ({navigation}) => {
     });
   };
 
-  useEffect(() => {
-    getListDetail();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getListDetail();
+    }, []),
+  );
 
   if (!listDetail) {
     return null;
@@ -39,12 +42,12 @@ const ListVehicle = ({navigation}) => {
       />
       <View>
         <FlatList
-          extraData={listDetail.kendaraan}
-          data={listDetail.kendaraan}
+          data={listDetail?.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
           renderItem={({item}) => {
             return <ListVehicleCard item={item} navigation={navigation} />;
           }}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </SafeAreaView>

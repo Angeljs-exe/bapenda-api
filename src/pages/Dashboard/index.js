@@ -10,7 +10,7 @@ import {fonts, IconVehicleDashboard} from '../../assets';
 import {Button, HomeProfile} from '../../components';
 import NewsSamsatCard from './NewsSamsatCard';
 import RegisterVehicleCard from './RegisterVehicleCard';
-import {getData, storeData} from '../../utils';
+import {getData} from '../../utils';
 import {baseUrl} from '../../utils/config';
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ const Dashboard = ({navigation}) => {
     name: '',
     email: '',
   });
-  const [dataItem, setDataItem] = useState();
+  const [dataItem, setListDetail] = useState();
   // const [checkVehicle, setCheckVehicle] = useState({
 
   // });
@@ -35,7 +35,7 @@ const Dashboard = ({navigation}) => {
   const getDataUser = () => {
     getData('user').then(res => {
       setProfile(res);
-      if (!res.name && !res.email) {
+      if (!res?.name && !res?.email) {
         // user login with email
         const data = {
           gEmail: res.gEmail,
@@ -43,7 +43,7 @@ const Dashboard = ({navigation}) => {
           phoneNumber: res.phoneNumber,
         };
         navigation.replace('PersonalData', data);
-      } else if (res.name === '' && (!res.email || !res.gEmail)) {
+      } else if (res?.name === '' && (!res?.email || !res?.gEmail)) {
         // user login with phone number
         const data = {
           phoneNumber: res.phoneNumber,
@@ -60,7 +60,7 @@ const Dashboard = ({navigation}) => {
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
-          setDataItem(response.data[response.data.length - 1]);
+          setListDetail(response.data[response.data.length - 1]);
           // console.log('response db', response.data[response.data.length - 1]);
           if (response.data.length === 0) {
             setTouchAdd(false);
