@@ -28,12 +28,12 @@ const DetailsVehicle = ({navigation, route}) => {
 
   let [myValue, setMyValue] = useState('');
   const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan[0]);
+
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [itemData, setItemData] = useState();
 
   const snapPoints = ['1%', '70%', '80%'];
-
   const handleSnapPress = useCallback(index => {
     sheetRef.current?.snapToIndex(index);
     setIsOpen(true);
