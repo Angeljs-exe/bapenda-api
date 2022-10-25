@@ -7,15 +7,12 @@ import {baseUrl} from '../../utils/config';
 
 const RegisterVehicleCard = ({onPress}) => {
   const [listDetail, setListDetail] = useState();
-  const [photo, setPhoto] = useState();
-  console.log('photo', photo);
 
   const showDataVehicle = () => {
     getData('user').then(res => {
       axios
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
-          console.log('coba rs', response);
           setListDetail(response.data[response.data.length - 1]);
           // console.log(
           //   'resssssssssR',

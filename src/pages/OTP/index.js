@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {fonts} from '../../assets';
 import {Button, Loading} from '../../components';
@@ -16,6 +16,22 @@ const Otp = ({navigation}) => {
 
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
+
+  let numberPhone = phoneNumber;
+
+  if (numberPhone.charAt(0) === '0') {
+    numberPhone = numberPhone.substring(1);
+  }
+
+  // const [hideNumber, setHideNumber] = useState('0');
+
+  // const getHideNumber = () => {
+  //   setHideNumber(!hideNumber);
+  // };
+
+  // useEffect(() => {
+  //   setHideNumber(!hideNumber);
+  // }, []);
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -50,6 +66,10 @@ const Otp = ({navigation}) => {
                 <Text style={styles.textCode}>{selectedCountry.dial_code}</Text>
               </TouchableOpacity>
               <InputNumberPhone
+                value={phoneNumber}
+                // value={
+                //   selectedCountry?.dial_code ? '0' : selectedCountry?.dial_code
+                // }
                 placeholder={'Masukkan Nomor Telepon Anda'}
                 onChangeText={text =>
                   setPhoneNumber(selectedCountry?.dial_code + text)
