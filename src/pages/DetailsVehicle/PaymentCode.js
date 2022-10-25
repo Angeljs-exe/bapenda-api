@@ -68,14 +68,13 @@ const PaymentCode = () => {
   const [dataVehicle, setDataVehicle] = useState();
 
   const copyToClipboard = () => {
-    Clipboard.setString(dataVehicle.KodeBayar);
+    Clipboard.setString(dataVehicle?.KodeBayar);
     Alert.alert('Kode pembayaran berhasil disalin');
   };
 
   const getDataVehicle = () => {
     getData('itemVehicle').then(res => {
       setDataVehicle(res);
-      console.log('usevehicle', res);
     });
   };
 
@@ -85,7 +84,7 @@ const PaymentCode = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{dataVehicle.TipeKendaraan}</Text>
+      <Text style={styles.title}>{dataVehicle?.TipeKendaraan}</Text>
       <View style={styles.pageCodePaymnet}>
         <Text style={styles.titleCodePayment}>Kode Bayar</Text>
         <View style={styles.codePaymentContainer}>
