@@ -21,6 +21,7 @@ import IconEditProfile from './Icon-EditProfile.svg';
 import IconEditPass from './Icon-EditPass.svg';
 import IconFAQs from './Icon-FAQs.svg';
 import IconArrow from './Icon-Arrow.svg';
+import IconModal from './Icon-Modal.svg';
 
 export {
   IconEye,
@@ -46,4 +47,5 @@ export {
   IconEditPass,
   IconFAQs,
   IconArrow,
+  IconModal,
 };

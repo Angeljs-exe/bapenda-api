@@ -1,12 +1,27 @@
 import {StyleSheet, Text, View, TextInput as Input} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {fonts} from '../../../assets';
 
-const TextInput = ({title, placeholder, onChangeText, value, ...rest}) => {
+const TextInput = ({
+  title,
+  placeholder,
+  onChangeText,
+  value,
+  onFocus = () => {},
+  ...rest
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <View>
       <Text style={styles.title}>{title}</Text>
       <Input
+        onFocus={() => {
+          onFocus();
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
         style={styles.inputText}
         value={value}
         placeholder={placeholder}

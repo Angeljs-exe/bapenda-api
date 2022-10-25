@@ -5,6 +5,7 @@ import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification, {Importance} from 'react-native-push-notification';
 import {storeData} from './utils';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
   const createChannel = channelId => {
@@ -71,6 +72,7 @@ const App = () => {
     <>
       <NavigationContainer>
         <Router />
+        <FlashMessage position="top" />
       </NavigationContainer>
     </>
   );

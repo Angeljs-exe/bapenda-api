@@ -85,7 +85,7 @@ const PaymentCode = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{dataVehicle?.TipeKendaraan}</Text>
+      <Text style={styles.title}>{dataVehicle.TipeKendaraan}</Text>
       <View style={styles.pageCodePaymnet}>
         <Text style={styles.titleCodePayment}>Kode Bayar</Text>
         <View style={styles.codePaymentContainer}>

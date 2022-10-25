@@ -12,6 +12,8 @@ import {fonts, LgGoogle} from '../../assets';
 import CountryCode from '../../assets/CountryCode';
 import InputNumberPhone from '../SignUp/InputNumberPhone';
 import {Button, Loading} from '../../components';
+import Modal from 'react-native-modal';
+import {IconModal} from '../../assets';
 
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -21,6 +23,7 @@ import {baseUrl} from '../../utils/config';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
+import {showMessage, hideMessage} from 'react-native-flash-message';
 
 const appleSignIn = async () => {
   // Start the sign-in request
@@ -46,6 +49,7 @@ const appleSignIn = async () => {
 };
 
 const Login = ({navigation}) => {
+  const [modal, setModal] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(
     CountryCode.find(country => country.name === 'Indonesia'),
   );
@@ -56,6 +60,15 @@ const Login = ({navigation}) => {
     token: '',
   });
 
+  const checkInput = () => {
+    if (!phoneNumber.trim()) {
+      setModal(true);
+      return;
+    } else {
+      signInWithPhoneNumber();
+    }
+  };
+
   const signInWithPhoneNumber = async () => {
     setLoading(true);
     try {
@@ -64,10 +77,10 @@ const Login = ({navigation}) => {
       const data = {
         phoneNumber: phoneNumber,
       };
-
       storeData('user', data);
       navigation.navigate('VerificationCodeOTP', {phoneNumber, confirmation});
     } catch (error) {
+      console.log(error);
       setLoading(false);
       Alert.alert('There is something wrong', error.message, [
         {text: 'Close', onPress: () => console.log('OK Pressed')},
@@ -166,7 +179,8 @@ const Login = ({navigation}) => {
             <Button
               title={'Masuk'}
               onPress={() => {
-                signInWithPhoneNumber();
+                // signInWithPhoneNumber();
+                checkInput();
               }}
             />
           </View>
@@ -175,6 +189,15 @@ const Login = ({navigation}) => {
             <Text style={styles.titleOr}>Atau</Text>
             <View style={styles.line} />
           </View>
+          <Modal isVisible={modal}>
+            <View style={styles.modalBox}>
+              <View style={styles.modalIcon}>
+                <IconModal />
+                <Text style={styles.modalText}>Data Anda Belum Lengkap</Text>
+              </View>
+              <Button title={'Lengkapi'} onPress={() => setModal(false)} />
+            </View>
+          </Modal>
         </View>
         <View style={styles.wrapperContainer}>
           <TouchableOpacity activeOpacity={0.5} onPress={() => googleSignIn()}>
@@ -192,6 +215,7 @@ const Login = ({navigation}) => {
               style={{width: '100%', height: 45}}
               onPress={() => appleSignIn()}
             />
+
             // <TouchableOpacity activeOpacity={0.5} onPress={() => appleSignIn()}>
             //   <View style={styles.signInContainer}>
             //     <View style={styles.wrapperSignIn}>
@@ -226,6 +250,25 @@ const styles = StyleSheet.create({
   titleWelcomeContainer: {
     paddingHorizontal: 26,
     marginTop: 58,
+  },
+  modalBox: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+  },
+  modalIcon: {
+    alignItems: 'center',
+    // width: '100%',
+    justifyContent: 'center',
+  },
+  modalText: {
+    marginTop: 20,
+    fontFamily: fonts.Poppins.bold,
+    fontSize: 20,
+  },
+  backText: {
+    backgroundColor: '#9C1C21',
   },
   textWelcome: {
     fontSize: 24,
