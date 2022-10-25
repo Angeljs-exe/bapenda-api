@@ -193,7 +193,9 @@ const Login = ({navigation}) => {
             <View style={styles.modalBox}>
               <View style={styles.modalIcon}>
                 <IconModal />
-                <Text style={styles.modalText}>Data Anda Belum Lengkap</Text>
+                <Text style={styles.modalText}>
+                  Nomor Telepon Anda Belum Terisi
+                </Text>
               </View>
               <Button title={'Lengkapi'} onPress={() => setModal(false)} />
             </View>
@@ -266,6 +268,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontFamily: fonts.Poppins.bold,
     fontSize: 20,
+    color: '#9E9E9E',
   },
   backText: {
     backgroundColor: '#9C1C21',
