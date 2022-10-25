@@ -62,20 +62,19 @@ const Login = ({navigation}) => {
   let check = phoneNumber.substring(0, 1);
   let added = phoneNumber.substring(1, 13);
 
-  if (check === '0') {
-    phoneNumber = `${selectedCountry.dial_code}${added}`;
-  } else {
-    phoneNumber = `${selectedCountry.dial_code}${phoneNumber}`;
-  }
-
-  // const checkInput = () => {
-  //   if (!phoneNumber.trim()) {
-  //     setModal(true);
-  //     return;
-  //   } else {
-  //     signInWithPhoneNumber();
-  //   }
-  // };
+  const checkInput = () => {
+    if (!phoneNumber.trim()) {
+      setModal(true);
+      return;
+    } else {
+      if (check === '0') {
+        phoneNumber = `${selectedCountry.dial_code}${added}`;
+      } else {
+        phoneNumber = `${selectedCountry.dial_code}${phoneNumber}`;
+      }
+      signInWithPhoneNumber();
+    }
+  };
 
   const signInWithPhoneNumber = async () => {
     setLoading(true);
@@ -186,8 +185,8 @@ const Login = ({navigation}) => {
             <Button
               title={'Masuk'}
               onPress={() => {
-                signInWithPhoneNumber();
-                // checkInput();
+                // signInWithPhoneNumber();
+                checkInput();
               }}
             />
           </View>
@@ -200,9 +199,15 @@ const Login = ({navigation}) => {
             <View style={styles.modalBox}>
               <View style={styles.modalIcon}>
                 <IconModal />
-                <Text style={styles.modalText}>Data Anda Belum Lengkap</Text>
+                <Text style={styles.modalText}>
+                  Mohon Isi Nomor Telepon Anda
+                </Text>
               </View>
-              <Button title={'Lengkapi'} onPress={() => setModal(false)} />
+              <TouchableOpacity onPress={() => setModal(false)}>
+                <View style={styles.optionButton}>
+                  <Text style={styles.lengkapiText}>Kembali</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </Modal>
         </View>
@@ -273,6 +278,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontFamily: fonts.Poppins.bold,
     fontSize: 20,
+    color: '#9E9E9E',
+  },
+  optionButton: {
+    backgroundColor: '#9C1C21',
+    paddingVertical: 11,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 30,
+  },
+  lengkapiText: {
+    fontFamily: fonts.Poppins.semibold,
+    fontSize: 20,
+    justifyContent: 'center',
+    color: '#FFFFFF',
   },
   backText: {
     backgroundColor: '#9C1C21',
