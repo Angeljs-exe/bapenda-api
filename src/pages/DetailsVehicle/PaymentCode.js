@@ -68,7 +68,7 @@ const PaymentCode = () => {
   const [dataVehicle, setDataVehicle] = useState();
 
   const copyToClipboard = () => {
-    Clipboard.setString(dataVehicle.KodeBayar);
+    Clipboard.setString(dataVehicle?.KodeBayar);
     Alert.alert('Kode pembayaran berhasil disalin');
   };
 
