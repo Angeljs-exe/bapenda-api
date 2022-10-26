@@ -1,5 +1,6 @@
 import {
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -8,10 +9,13 @@ import {
 import React, {useEffect, useState} from 'react';
 import {fonts, IconVehicleDashboard} from '../../assets';
 import {Button, HomeProfile} from '../../components';
-import NewsSamsatCard from './NewsSamsatCard';
 import RegisterVehicleCard from './RegisterVehicleCard';
-import {getData} from '../../utils';
+import {getData, storeData} from '../../utils';
 import {baseUrl} from '../../utils/config';
+import {
+  ContentNewsDetails,
+  ContentNewsDetails2,
+} from '../NewsDashboard/ContentNewsDetails';
 import axios from 'axios';
 
 const Dashboard = ({navigation}) => {
@@ -22,11 +26,6 @@ const Dashboard = ({navigation}) => {
     email: '',
   });
   const [dataItem, setListDetail] = useState();
-  // const [checkVehicle, setCheckVehicle] = useState({
-
-  // });
-
-  // const [imgVehicle, setImgVehicle] = useState();
 
   const touchAddSubmit = () => {
     navigation.navigate('AddVehicle');
@@ -61,7 +60,6 @@ const Dashboard = ({navigation}) => {
         .get(`${baseUrl}/api/posts/vehicle/${res.id}`)
         .then(response => {
           setListDetail(response.data[response.data.length - 1]);
-          // console.log('response db', response.data[response.data.length - 1]);
           if (response.data.length === 0) {
             setTouchAdd(false);
           } else {
@@ -74,78 +72,118 @@ const Dashboard = ({navigation}) => {
     });
   };
 
+  const [listNews, setListNews] = useState();
+  const getListNews = async () => {
+    await axios
+      .get(`${baseUrl}/api/news/`)
+      .then(res => {
+        setListNews(res);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
+
   useEffect(() => {
-    // navigation.addListener('focus', () => {
     getDataUser();
     checkCondition();
-    // });
+    getListNews();
   }, []);
 
   return (
     <SafeAreaView style={styles.page}>
-      <View style={styles.pageDashboard}>
-        <View style={styles.profileContainer}>
-          <HomeProfile
-            profile={profile}
-            onPress={() => navigation.navigate('Profile')}
-          />
-          <View style={styles.notifContainer}>
-            <Button
-              click="iconOnly"
-              icon="iconNotif"
-              onPress={() => navigation.navigate('Notification')}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.pageDashboard}>
+          <View style={styles.profileContainer}>
+            <HomeProfile
+              profile={profile}
+              onPress={() => navigation.navigate('Profile')}
             />
-            <View style={styles.notif}>
-              <Text style={styles.titleNotif}>{}</Text>
+            <View style={styles.notifContainer}>
+              <Button
+                click="iconOnly"
+                icon="iconNotif"
+                onPress={() => navigation.navigate('Notification')}
+              />
+              <View style={styles.notif}>
+                <Text style={styles.titleNotif}>{}</Text>
+              </View>
             </View>
           </View>
-        </View>
-        {/* <View style={styles.locationContainer}>
+          {/* <View style={styles.locationContainer}>
           <Button click="iconOnly" icon="iconLocation" />
           <Text style={styles.titleLocation}>
             Airmadidi, Minahasa Utara, Sulawesi Utara
           </Text>
         </View> */}
-        <View style={styles.registerVehicleContainer}>
-          <View style={styles.wrapperRegister}>
-            <Text style={styles.registerVehicleTitle}>Daftar Kendaraan</Text>
+          <View style={styles.registerVehicleContainer}>
+            <View style={styles.wrapperRegister}>
+              <Text style={styles.registerVehicleTitle}>Daftar Kendaraan</Text>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => navigation.replace('ListVehicle')}>
+                <Text style={styles.titleLook}>Lihat Semua</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {touchAdd && (
+            <RegisterVehicleCard
+              onPress={() => navigation.navigate('DetailsVehicle', {dataItem})}
+            />
+          )}
+          {!touchAdd && (
+            <View>
+              <View style={styles.iconVehicleDashboardContainer}>
+                <IconVehicleDashboard />
+              </View>
+              <View style={styles.wrapperAddContainer}>
+                <Text style={styles.wrapperAdd}>
+                  Silahkan tambahkan kendaraan anda.
+                </Text>
+                <TouchableOpacity activeOpacity={0.5} onPress={touchAddSubmit}>
+                  <Text style={styles.textAdd}> Tambah</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+          <View style={styles.newsContainer}>
+            <Text style={styles.titleNews}>Berita Samsat</Text>
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => navigation.replace('ListVehicle')}>
+              onPress={() => navigation.replace('News')}>
               <Text style={styles.titleLook}>Lihat Semua</Text>
             </TouchableOpacity>
           </View>
         </View>
-        {touchAdd && (
-          <RegisterVehicleCard
-            onPress={() => navigation.navigate('DetailsVehicle', {dataItem})}
-          />
-        )}
-        {!touchAdd && (
-          <View>
-            <View style={styles.iconVehicleDashboardContainer}>
-              <IconVehicleDashboard />
-            </View>
-            <View style={styles.wrapperAddContainer}>
-              <Text style={styles.wrapperAdd}>
-                Silahkan tambahkan kendaraan anda.
-              </Text>
-              <TouchableOpacity activeOpacity={0.5} onPress={touchAddSubmit}>
-                <Text style={styles.textAdd}> Tambah</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-        <View style={styles.newsContainer}>
-          <Text style={styles.titleNews}>Berita Samsat</Text>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => navigation.replace('News')}>
-            <Text style={styles.titleLook}>Lihat Semua</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <NewsSamsatCard navigation={navigation} />
+        <ContentNewsDetails
+          onPress={() => {
+            const dataNews = {
+              title: listNews?.data[1]?.title,
+              date: listNews?.data[1]?.date,
+              imageUrl: listNews?.data[1]?.imageUrl,
+              text: listNews?.data[1]?.text,
+              credit: listNews?.data[1]?.credit,
+              creator: listNews?.data[1]?.creator,
+            };
+            storeData('dataNews', dataNews);
+            navigation.navigate('NewsDashboard', dataNews);
+          }}
+        />
+        <ContentNewsDetails2
+          onPress={() => {
+            const dataNews = {
+              title: listNews?.data[2]?.title,
+              date: listNews?.data[2]?.date,
+              imageUrl: listNews?.data[2]?.imageUrl,
+              text: listNews?.data[2]?.text,
+              credit: listNews?.data[2]?.credit,
+              creator: listNews?.data[2]?.creator,
+            };
+            storeData('dataNews', dataNews);
+            navigation.navigate('NewsDashboard');
+          }}
+        />
+      </ScrollView>
       <View style={styles.buttomHeight} />
       <View style={styles.buttom}>
         <Button

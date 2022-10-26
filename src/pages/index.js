@@ -19,6 +19,7 @@ import ForgetPassword from './ForgetPassword';
 import VerificationCodeOTP from './VerificationCodeOTP';
 import PersonalData from './PersonalData';
 import RegisError from './RegisError';
+import NewsDashboard from './NewsDashboard';
 
 export {
   SplashScreen,
@@ -42,4 +43,5 @@ export {
   VerificationCodeOTP,
   PersonalData,
   RegisError,
+  NewsDashboard,
 };

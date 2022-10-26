@@ -23,6 +23,7 @@ import {
   VerificationCodeOTP,
   PersonalData,
   RegisError,
+  NewsDashboard,
 } from '../pages';
 
 const Stack = createNativeStackNavigator();
@@ -129,6 +130,11 @@ const Router = () => {
       <Stack.Screen
         name="RegisError"
         component={RegisError}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="NewsDashboard"
+        component={NewsDashboard}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

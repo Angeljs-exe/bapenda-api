@@ -1,73 +1,38 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {fonts, ImgNewsSamsat} from '../../assets';
+import {fonts} from '../../assets';
+import {storeData} from '../../utils';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    titleNews: 'Pemprov Sulut Berikan Potongan Pajak Ranmor Hingga 10%',
-    dateNews: '25 Ags 2022',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bs',
-    titleNews: 'Pemprov Sulut Berikan GiveAway Kepada Masyarakat',
-    dateNews: '30 Ags 2022',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bc',
-    titleNews:
-      'Pemprov Sulut Berikan Mobil Kepada Masyarakat Yang Tidak Pernah Mengungggak PAJAK',
-    dateNews: '25 Des 2022',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28bz',
-    titleNews:
-      'Pemprov Sulut Berikan Apresiasi Kepada Fakultas Ilmu Komputer UNKLAB',
-    dateNews: '25 Des 2022',
-  },
-];
-
-const NewsSamsat = ({titleNews, dateNews, navigation}) => (
-  <View style={styles.NewsContainer}>
-    <View style={styles.newsSamsat}>
-      <Image style={styles.imgNewsSamsat} source={ImgNewsSamsat} />
-      <View style={styles.newsTitleContainer}>
-        <Text style={styles.newsTitle}>{titleNews}</Text>
-        <Text style={styles.newsDate}>{dateNews}</Text>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('NewsDetails')}>
-          <Text style={styles.newsMore}>Lihat selengkapnya</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </View>
-);
-
-const NewsSamsatCard = ({navigation}) => {
-  const renderItem = ({item}) => (
-    <NewsSamsat
-      titleNews={item.titleNews}
-      dateNews={item.dateNews}
-      navigation={navigation}
-    />
-  );
-
+const NewsSamsatCard = ({item, navigation}) => {
   return (
     <View style={styles.page}>
-      <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={styles.NewsContainer}>
+        <View style={styles.newsSamsat}>
+          <Image style={styles.imgNewsSamsat} source={{uri: item?.imageUrl}} />
+          <View style={styles.newsTitleContainer}>
+            <Text style={styles.newsTitle} numberOfLines={1}>
+              {item?.title}
+            </Text>
+            <Text style={styles.newsDate}>{item?.date}</Text>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => {
+                const dataNews = {
+                  title: item.title,
+                  date: item.date,
+                  imageUrl: item.imageUrl,
+                  text: item.text,
+                  credit: item.credit,
+                  creator: item.creator,
+                };
+                storeData('dataNews', dataNews);
+                navigation.navigate('NewsDetails', dataNews);
+              }}>
+              <Text style={styles.newsMore}>Lihat selengkapnya</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
@@ -97,6 +62,7 @@ const styles = StyleSheet.create({
   imgNewsSamsat: {
     width: 108,
     height: 116,
+    borderRadius: 10,
   },
   newsTitleContainer: {
     marginLeft: 16,
@@ -104,14 +70,14 @@ const styles = StyleSheet.create({
   newsTitle: {
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
-    color: '#000000',
-    width: 250,
+    color: '#242424',
+    width: 230,
     flex: 1,
   },
   newsDate: {
     fontSize: 12,
     fontFamily: fonts.Poppins.regular,
-    color: '#000000',
+    color: '#242424',
     marginTop: 4,
   },
   newsMore: {

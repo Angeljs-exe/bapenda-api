@@ -272,10 +272,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
     flex: 1,
+    justifyContent: 'center',
   },
   imageContainer: {
     alignItems: 'center',
