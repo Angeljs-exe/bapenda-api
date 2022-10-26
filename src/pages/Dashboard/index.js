@@ -140,7 +140,7 @@ const Dashboard = ({navigation}) => {
                   NamaKendaraan: listDetail.NamaKendaraan,
                   fotoKendaraan: listDetail.fotoKendaraan,
                 };
-                storeData('itemVehicle', dataItem);
+                console.log('NamaK', dataItem);
                 navigation.navigate('DetailsVehicle', {dataItem});
               }}
             />
