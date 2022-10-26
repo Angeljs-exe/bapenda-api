@@ -1,24 +1,27 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {fonts, IconRegisError} from '../../assets';
-import {Button} from '../../components';
+import {Button, Header} from '../../components';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const RegisError = ({navigation}) => {
   return (
     <View style={styles.page}>
+      <Header
+        title="Tambah Kendaraan"
+        onBack={() => navigation.replace('Dashboard')}
+      />
       <View style={styles.regisCompletedContainer}>
         <IconRegisError />
         <View style={styles.titleCompletedContainer}>
-          <Text style={styles.titleCompleted}>
-            Mohon Maaf Nomor Polisi{' '}
-            <Text style={styles.titleRegisError}>Tidak Ditemukan.</Text>
-          </Text>
+          <Text style={styles.titleCompleted}>Mohon Maaf Nomor Polisi </Text>
+          <Text style={styles.titleRegisError}>Tidak Ditemukan.</Text>
         </View>
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          title="Beranda"
-          onPress={() => navigation.replace('Dashboard')}
+          title="Tambah Kendaraan"
+          onPress={() => navigation.replace('AddVehicle')}
         />
       </View>
     </View>
@@ -33,25 +36,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   regisCompletedContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 156.14,
   },
   titleCompletedContainer: {
-    marginTop: 60,
+    alignItems: 'center',
+    marginTop: 48,
   },
   titleCompleted: {
     fontSize: 16,
     fontFamily: fonts.Poppins.medium,
     color: '#000000',
-    width: 248,
     textAlign: 'center',
   },
   titleRegisError: {
+    fontSize: 16,
+    fontFamily: fonts.Poppins.medium,
     color: '#CA0B00',
   },
   buttonContainer: {
     paddingHorizontal: 25,
-    marginTop: 128.5,
+    marginBottom: 84,
   },
 });

@@ -75,7 +75,7 @@ const AddVehicle = ({navigation}) => {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.inputText}
-              placeholder="Masukkan Nomor Polisi Kendaraan Anda"
+              placeholder="Contoh: DB 1234 CB"
               placeholderTextColor="#D9D9D9"
               value={myValue}
               //prettier-ignore
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   inputText: {
+    fontSize: 16,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#C6C6C680',

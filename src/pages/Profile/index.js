@@ -65,7 +65,7 @@ const Profile = ({navigation}) => {
           <View style={styles.menuContainer}>
             <IconEditProfile />
             <View style={styles.textMenuContainer}>
-              <Text style={styles.titleMenu}>Details Profile</Text>
+              <Text style={styles.titleMenu}>Detail Profil</Text>
               <Button
                 click="iconOnly"
                 icon="iconArrow"
@@ -99,8 +99,13 @@ const Profile = ({navigation}) => {
           </View>
           <View style={styles.line} />
         </View>
-        <View style={styles.button}>
-          <Button title={'Keluar'} onPress={() => submitLogout()} />
+        <View style={styles.bottomContainer}>
+          <View style={styles.button}>
+            <Button title={'Keluar'} onPress={() => submitLogout()} />
+          </View>
+          <View style={styles.versionContainer}>
+            <Text style={styles.versionText}>V.2.0</Text>
+          </View>
         </View>
       </SafeAreaView>
       {loading && <Loading />}
@@ -157,8 +162,20 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.regular,
     color: '#000000',
   },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingBottom: 46,
+  },
   button: {
     paddingHorizontal: 25,
-    marginTop: 143 / 2,
+  },
+  versionContainer: {
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  versionText: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
