@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {Header} from '../../components';
-import {fonts} from '../../assets';
-import {useFocusEffect} from '@react-navigation/native';
 import {getData} from '../../utils';
+import {useFocusEffect} from '@react-navigation/native';
+import {fonts} from '../../assets';
 
-const NewsDetails = ({navigation}) => {
+const NewsDashboard = ({navigation}) => {
   const [dataNews, setDataNews] = useState();
 
   const getDataNews = () => {
@@ -30,10 +30,9 @@ const NewsDetails = ({navigation}) => {
       getDataNews();
     }, []),
   );
-
   return (
     <SafeAreaView style={styles.page}>
-      <Header title="Berita" onBack={() => navigation.replace('News')} />
+      <Header title="Berita" onBack={() => navigation.replace('Dashboard')} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.contentNewsContainer}>
           <Text style={styles.titleContentNews}>{dataNews?.title}</Text>
@@ -58,7 +57,7 @@ const NewsDetails = ({navigation}) => {
   );
 };
 
-export default NewsDetails;
+export default NewsDashboard;
 
 const styles = StyleSheet.create({
   page: {
