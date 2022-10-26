@@ -79,6 +79,7 @@ const FaqsCard = () => {
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        key={DATA}
       />
     </View>
   );

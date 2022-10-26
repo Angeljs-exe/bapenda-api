@@ -1,6 +1,6 @@
 import {SafeAreaView, StyleSheet, View, FlatList} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import {Header} from '../../components';
+import {Button, Header} from '../../components';
 import {fonts} from '../../assets';
 import ListVehicleCard from './ListVehicleCard';
 import axios from 'axios';
@@ -40,14 +40,32 @@ const ListVehicle = ({navigation}) => {
         title="Daftar Kendaraan"
         onBack={() => navigation.navigate('Dashboard')}
       />
-      <View>
-        <FlatList
-          data={listDetail?.kendaraan}
-          keyExtractor={(item, index) => 'key' + index}
-          renderItem={({item}) => {
-            return <ListVehicleCard item={item} navigation={navigation} />;
-          }}
-          showsVerticalScrollIndicator={false}
+      <FlatList
+        data={listDetail?.kendaraan}
+        keyExtractor={(item, index) => 'key' + index}
+        renderItem={({item}) => {
+          return <ListVehicleCard item={item} navigation={navigation} />;
+        }}
+        showsVerticalScrollIndicator={false}
+      />
+      <View style={styles.buttomHeight} />
+      <View style={styles.buttom}>
+        <Button
+          click="iconOnly"
+          icon="iconHomeBlur"
+          onPress={() => navigation.replace('Dashboard')}
+        />
+        <View style={styles.dio}>
+          <Button
+            click="iconOnly"
+            icon="iconAddVehicleBlur"
+            onPress={() => navigation.replace('AddVehicle')}
+          />
+        </View>
+        <Button
+          click="iconOnly"
+          icon="iconListVehicle"
+          onPress={() => navigation.replace('ListVehicle')}
         />
       </View>
     </SafeAreaView>
@@ -91,5 +109,20 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.medium,
     color: '#9C1C21',
     textDecorationLine: 'underline',
+  },
+  buttomHeight: {
+    height: 40,
+  },
+  buttom: {
+    backgroundColor: '#9A0000',
+    width: '100%',
+    height: 68,
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingBottom: 20,
+    paddingHorizontal: 60,
   },
 });

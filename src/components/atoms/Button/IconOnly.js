@@ -2,9 +2,12 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {
   IconAddVehicle,
+  IconAddVehicleBlur,
   IconArrow,
   IconHome,
+  IconHomeBlur,
   IconListVehicle,
+  IconListVehicleBlur,
   IconLocation,
   IconNotif,
   IconProfile,
@@ -58,6 +61,27 @@ const IconOnly = ({icon, onPress}) => {
       return (
         <View>
           <IconArrow />
+        </View>
+      );
+    }
+    if (icon === 'iconAddVehicleBlur') {
+      return (
+        <View>
+          <IconAddVehicleBlur />
+        </View>
+      );
+    }
+    if (icon === 'iconListVehicleBlur') {
+      return (
+        <View>
+          <IconListVehicleBlur />
+        </View>
+      );
+    }
+    if (icon === 'iconHomeBlur') {
+      return (
+        <View>
+          <IconHomeBlur />
         </View>
       );
     }

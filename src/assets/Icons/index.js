@@ -22,6 +22,9 @@ import IconEditPass from './Icon-EditPass.svg';
 import IconFAQs from './Icon-FAQs.svg';
 import IconArrow from './Icon-Arrow.svg';
 import IconModal from './Icon-Modal.svg';
+import IconAddVehicleBlur from './AddVehicleBlur.svg';
+import IconListVehicleBlur from './ListVehicleBlur.svg';
+import IconHomeBlur from './IconHomeBlur.svg';
 
 export {
   IconEye,
@@ -48,4 +51,7 @@ export {
   IconFAQs,
   IconArrow,
   IconModal,
+  IconAddVehicleBlur,
+  IconListVehicleBlur,
+  IconHomeBlur,
 };
