@@ -162,6 +162,9 @@ const DetailsVehicle = ({navigation, route}) => {
               /> */}
             {/* </ScrollView> */}
             <View style={styles.detailsContainer}>
+              <Text style={styles.estimationContainer}>
+                *estimasi total pembayaran
+              </Text>
               <View style={styles.paymentStatusContainer}>
                 <Text style={styles.titlePayment}>Rp -</Text>
                 <View style={styles.wrapperPaymentStatus}>
@@ -373,5 +376,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: fonts.Poppins.medium,
     color: '#2A8642',
+  },
+  estimationContainer: {
+    // backgroundColor: 'red',
+    fontFamily: fonts.Poppins.medium,
+    color: '#757575',
   },
 });
