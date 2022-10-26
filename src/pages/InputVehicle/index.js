@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   titleNotice: {
     fontSize: 12,
     fontFamily: fonts.Poppins.regular,
-    color: '#00ADF8',
+    color: '#9E9E9E',
   },
   chassisNumberContainer: {
     borderWidth: 1,

@@ -6,35 +6,36 @@ const DATA = [
   {
     id: '1',
     title: 'Bagaimana cara pendaftaran akun login di aplikasi?',
-    title1: '1. Buka Aplikasi',
-    title2: '2. Pilih link “Daftar"',
-    title3: '3. Masukkan Nomor telepon atau Email yang aktif',
-    title4: '4. Pilih tombol “Masuk',
-    title5: '5. Masukkan kode OTP yang dikirim melalui SMS',
-    title6: '6. Mengisi data diri',
-    title7: '7. Pilih tombol “Selanjutnya”',
+    title1: '● Buka Aplikasi',
+    title2: '● Pilih link “Daftar"',
+    title3: '● Masukkan Nomor telepon atau Email yang aktif',
+    title4: '● Pilih tombol “Masuk',
+    title5: '● Masukkan kode OTP yang dikirim melalui SMS',
+    title6: '● Mengisi data diri',
+    title7: '● Pilih tombol “Selanjutnya”',
   },
   {
     id: '2',
     title: 'Bagaimana cara menambahkan kendaraan di aplikasi?',
-    title1: '1. Masuk di homepage dan klik “Button Tambah”',
-    title2: '2. Masukkan Nomor Rangka Kendaraan anda"',
-    title3: '3. Pilih tombol “Selanjutnya”',
+    title1: '● Masuk di homepage dan klik “Button Tambah”',
+    title2: '● Masukkan Nomor Rangka Kendaraan anda"',
+    title3: '● Pilih tombol “Selanjutnya”',
     title4:
-      '4. Akan muncul tampilan “Tidak Ditemukan” jika nomor rangka tidak ditemukan.',
+      '● Akan muncul tampilan “Tidak Ditemukan” jika nomor rangka tidak ditemukan.',
     title5:
-      '5. Akan muncul tampilan “Kendaraan belum terdaftar” jika kendaraan tersebut belum terdaftar.',
-    title6: '6. Akan muncul tampilan Rincian Kendaraan',
-    title7: '7. Pilih tombol “Tambah” dan selesai.',
+      '● Akan muncul tampilan “Kendaraan belum terdaftar” jika kendaraan tersebut belum terdaftar.',
+    title6: '● Akan muncul tampilan Rincian Kendaraan',
+    title7: '● Pilih tombol “Tambah” dan selesai.',
   },
   {
     id: '3',
     title: 'Jika Kendaraan yang saya miliki belum jatuh tempo?',
-    title1: '- Akan tampil notifikasi jika kendaraan anda belum jatuh tempo.',
+    title1: '● Akan tampil notifikasi jika kendaraan anda belum jatuh tempo.',
     title2: 'Jika  saya telat membayar pajak kendaraan yang saya miliki?',
     title3:
-      '- Akan tampil notifikasi belum mmebayar pajak kendaraan yang anda miliki.',
+      '● Akan tampil notifikasi belum mmebayar pajak kendaraan yang anda miliki.',
   },
+  {},
 ];
 
 const Faqs = ({
