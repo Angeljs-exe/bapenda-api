@@ -193,12 +193,12 @@ const Dashboard = ({navigation}) => {
         />
         <Button
           click="iconOnly"
-          icon="iconAddVehicle"
+          icon="iconAddVehicleBlur"
           onPress={() => navigation.replace('AddVehicle')}
         />
         <Button
           click="iconOnly"
-          icon="iconListVehicle"
+          icon="iconListVehicleBlur"
           onPress={() => navigation.replace('ListVehicle')}
         />
       </View>
