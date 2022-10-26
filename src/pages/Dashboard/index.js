@@ -25,7 +25,7 @@ const Dashboard = ({navigation}) => {
     name: '',
     email: '',
   });
-  const [dataItem, setListDetail] = useState();
+  const [listDetail, setListDetail] = useState();
 
   const touchAddSubmit = () => {
     navigation.navigate('AddVehicle');
@@ -128,7 +128,21 @@ const Dashboard = ({navigation}) => {
           </View>
           {touchAdd && (
             <RegisterVehicleCard
-              onPress={() => navigation.navigate('DetailsVehicle', {dataItem})}
+              onPress={() => {
+                const dataItem = {
+                  JTPajak: listDetail.JTPajak,
+                  KodeBayar: listDetail.KodeBayar,
+                  NRKB: listDetail.NRKB,
+                  NomorMesin: listDetail.NomorMesin,
+                  TahunBuat: listDetail.TahunBuat,
+                  TipeKendaraan: listDetail.TipeKendaraan,
+                  _id: listDetail._id,
+                  NamaKendaraan: listDetail.NamaKendaraan,
+                  fotoKendaraan: listDetail.fotoKendaraan,
+                };
+                storeData('itemVehicle', dataItem);
+                navigation.navigate('DetailsVehicle', {dataItem});
+              }}
             />
           )}
           {!touchAdd && (

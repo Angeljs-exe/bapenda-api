@@ -23,8 +23,8 @@ const AddImageVehicle = () => {
     saveToPhotos: true,
     mediaType: 'photo',
     quality: 1,
-    maxWidth: 500,
-    maxHeight: 500,
+    maxWidth: 200,
+    maxHeight: 200,
   };
 
   const getImage = async () => {
@@ -45,8 +45,11 @@ const AddImageVehicle = () => {
             _id: `${itemData?._id}`,
             fotoKendaraan: `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
           })
+          .then(respon => {
+            console.log('Photo Berhasil', respon);
+          })
           .catch(error => {
-            console.log(error);
+            console.log('photo error', error);
           });
       });
     });
