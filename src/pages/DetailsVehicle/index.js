@@ -47,7 +47,7 @@ const DetailsVehicle = ({navigation, route}) => {
           NamaKendaraan: `${myValue}`,
         })
         .then(response => {
-          setMyValue('');
+          // setMyValue('');
           console.log('sukses brow', response);
         })
         .catch(function (error) {
@@ -125,6 +125,7 @@ const DetailsVehicle = ({navigation, route}) => {
               />
               <TouchableOpacity
                 activeOpacity={0.5}
+                style={styles.renameContainer}
                 onPress={() => updateName()}>
                 <IconEditRename />
               </TouchableOpacity>
@@ -279,6 +280,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
     flex: 1,
+    justifyContent: 'center',
+  },
+  renameContainer: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
     justifyContent: 'center',
   },
   imageContainer: {

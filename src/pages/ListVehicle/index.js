@@ -38,7 +38,7 @@ const ListVehicle = ({navigation}) => {
     <SafeAreaView style={styles.page}>
       <Header
         title="Daftar Kendaraan"
-        onBack={() => navigation.navigate('Dashboard')}
+        onBack={() => navigation.replace('Dashboard')}
       />
       <FlatList
         data={listDetail?.kendaraan}
