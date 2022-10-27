@@ -138,6 +138,7 @@ const Dashboard = ({navigation}) => {
                   _id: listDetail._id,
                   NamaKendaraan: listDetail.NamaKendaraan,
                   fotoKendaraan: listDetail.fotoKendaraan,
+                  PembayaranTerakhir: listDetail.PembayaranTerakhir,
                 };
                 storeData('itemVehicle', dataItem);
                 navigation.navigate('DetailsVehicle', {dataItem});

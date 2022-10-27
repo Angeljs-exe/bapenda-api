@@ -25,7 +25,6 @@ const ListVehicle = ({navigation}) => {
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {
           setListDetail(response.data);
-          // console.log('resssss', response.data);
           if (response.data.kendaraan.length === 0) {
             setTouchAdd(false);
           } else {
@@ -56,6 +55,7 @@ const ListVehicle = ({navigation}) => {
       />
       {touchAdd && (
         <FlatList
+          extraData={listDetail?.kendaraan}
           data={listDetail?.kendaraan}
           keyExtractor={(item, index) => 'key' + index}
           renderItem={({item}) => {

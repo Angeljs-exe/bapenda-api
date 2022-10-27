@@ -26,7 +26,6 @@ import {showMessage} from 'react-native-flash-message';
 
 const DetailsVehicle = ({navigation, route}) => {
   const selectedVehicle = route.params.dataItem;
-
   let [myValue, setMyValue] = useState('');
   const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan);
 
@@ -192,7 +191,9 @@ const DetailsVehicle = ({navigation, route}) => {
                   *estimasi total pembayaran
                 </Text>
                 <View style={styles.paymentStatusContainer}>
-                  <Text style={styles.titlePayment}>Rp -</Text>
+                  <Text style={styles.titlePayment}>
+                    Rp {selectedVehicle?.PembayaranTerakhir}
+                  </Text>
                   <View style={styles.wrapperPaymentStatus}>
                     {/* <Text style={styles.titlePaymentStatus}>Belum dibayar</Text> */}
                     {selectedVehicle?.KodeBayar === '-' ? (
@@ -211,11 +212,12 @@ const DetailsVehicle = ({navigation, route}) => {
                   </View>
                 </View>
                 <Text style={styles.titleRemindersDate}>
-                  Batas Pembayaran{' '}
+                  Jatuh Tempo{' '}
                   <Text style={styles.titlePajak}>
                     {selectedVehicle?.JTPajak}
                   </Text>
                 </Text>
+
                 <View style={styles.dataVehicleContainer}>
                   <View style={styles.dataVehicle}>
                     <Text style={styles.titleDataVehicle}>NOMOR MESIN</Text>

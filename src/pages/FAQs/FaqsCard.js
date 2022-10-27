@@ -75,10 +75,10 @@ const FaqsCard = () => {
   return (
     <View>
       <FlatList
+        key={DATA}
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        key={DATA}
       />
     </View>
   );

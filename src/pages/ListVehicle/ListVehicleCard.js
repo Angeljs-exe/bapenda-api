@@ -25,6 +25,7 @@ const ListVehicleCard = ({item, navigation}) => {
                 _id: item._id,
                 NamaKendaraan: item.NamaKendaraan,
                 fotoKendaraan: item.fotoKendaraan,
+                PembayaranTerakhir: item.PembayaranTerakhir,
               };
               storeData('itemVehicle', dataItem);
               navigation.navigate('DetailsVehicle', {dataItem});

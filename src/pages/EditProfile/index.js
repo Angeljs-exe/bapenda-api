@@ -77,7 +77,7 @@ const EditProfile = ({navigation}) => {
   return (
     <SafeAreaView style={styles.page}>
       <Header
-        title="Edit Profile"
+        title="Detail Profil"
         onBack={() => navigation.navigate('Profile')}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
