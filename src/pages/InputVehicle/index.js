@@ -93,7 +93,7 @@ const InputVehicle = ({navigation}) => {
           <View style={styles.dataOwnerContainer}>
             <Text style={styles.titleContainer}>NOMOR POLISI</Text>
             <Text style={styles.subTitle}>{`${
-              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.
+              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[0]
             } ${dataVehicle?.NRKB.match(/\d+/g)} ${
               dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[1]
             }`}</Text>
