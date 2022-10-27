@@ -1,60 +1,54 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {fonts, ImageList} from '../../assets';
 import {storeData} from '../../utils';
 
 const CardNotificationPay = ({item, navigation}) => {
-  const [changeColor, setChangeColor] = useState(false);
-
-  const colorSubmit = () => {
-    setChangeColor(true);
-  };
-
-  useEffect(() => {
-    colorSubmit();
-  }, []);
-
   return (
     <>
-      <TouchableOpacity
-        activeOpacity={0.5}
-        onPress={() => {
-          const dataItem = {
-            JTPajak: item.JTPajak,
-            KodeBayar: item.KodeBayar,
-            NRKB: item.NRKB,
-            NomorMesin: item.NomorMesin,
-            TahunBuat: item.TahunBuat,
-            TipeKendaraan: item.TipeKendaraan,
-            _id: item._id,
-            NamaKendaraan: item.NamaKendaraan,
-            fotoKendaraan: item.fotoKendaraan,
-          };
-          storeData('itemVehicle', dataItem);
-          navigation.navigate('DetailsVehicle', {dataItem});
-        }}
-        style={styles.notificationContainer}>
-        {item?.fotoKendaraan[0] ? (
-          <Image style={styles.image} source={{uri: item?.fotoKendaraan[0]}} />
-        ) : (
-          <ImageList />
-        )}
-        {/* <ImageList /> */}
-        <View style={styles.titleContainer}>
-          <Text style={styles.titleNotification}>
-            Pemberitahuan Pembayaran Pajak
-          </Text>
-          <Text style={styles.contentNotification}>
-            Pengguna yang terhormat, batas pembayaran{' '}
-            <Text style={styles.titleTypeVehicle}>{item?.TipeKendaraan}</Text>{' '}
-            Rp. - pada{' '}
-            <Text style={styles.titleTypeVehicle}>{item?.JTPajak}</Text> harus
-            segera diselesaikan
-          </Text>
-          {/* <Text style={styles.dateNotification}>Sekarang</Text> */}
-        </View>
-      </TouchableOpacity>
-      <View style={styles.line} />
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            const dataItem = {
+              JTPajak: item.JTPajak,
+              KodeBayar: item.KodeBayar,
+              NRKB: item.NRKB,
+              NomorMesin: item.NomorMesin,
+              TahunBuat: item.TahunBuat,
+              TipeKendaraan: item.TipeKendaraan,
+              _id: item._id,
+              NamaKendaraan: item.NamaKendaraan,
+              fotoKendaraan: item.fotoKendaraan,
+            };
+            storeData('itemVehicle', dataItem);
+            navigation.navigate('DetailsVehicle', {dataItem});
+          }}
+          style={[styles.notificationContainer]}>
+          {item?.fotoKendaraan[0] ? (
+            <Image
+              style={styles.image}
+              source={{uri: item?.fotoKendaraan[0]}}
+            />
+          ) : (
+            <ImageList />
+          )}
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleNotification}>
+              Pemberitahuan Pembayaran Pajak
+            </Text>
+            <Text style={styles.contentNotification}>
+              Pengguna yang terhormat, batas pembayaran{' '}
+              <Text style={styles.titleTypeVehicle}>{item?.TipeKendaraan}</Text>{' '}
+              Rp. - pada{' '}
+              <Text style={styles.titleTypeVehicle}>{item?.JTPajak}</Text> harus
+              segera diselesaikan
+            </Text>
+            {/* <Text style={styles.dateNotification}>Sekarang</Text> */}
+          </View>
+        </TouchableOpacity>
+        <View style={styles.line} />
+      </View>
     </>
   );
 };
