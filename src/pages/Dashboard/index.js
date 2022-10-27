@@ -15,6 +15,7 @@ import {baseUrl} from '../../utils/config';
 import {
   ContentNewsDetails,
   ContentNewsDetails2,
+  ContentNewsDetails3,
 } from '../NewsDashboard/ContentNewsDetails';
 import axios from 'axios';
 
@@ -110,12 +111,10 @@ const Dashboard = ({navigation}) => {
               </View>
             </View>
           </View>
-          {/* <View style={styles.locationContainer}>
-          <Button click="iconOnly" icon="iconLocation" />
-          <Text style={styles.titleLocation}>
-            Airmadidi, Minahasa Utara, Sulawesi Utara
-          </Text>
-        </View> */}
+          <View style={styles.locationContainer}>
+            <Button click="iconOnly" icon="iconLocation" />
+            <Text style={styles.titleLocation}>Sulawesi Utara, Indonesia</Text>
+          </View>
           <View style={styles.registerVehicleContainer}>
             <View style={styles.wrapperRegister}>
               <Text style={styles.registerVehicleTitle}>Daftar Kendaraan</Text>
@@ -198,6 +197,20 @@ const Dashboard = ({navigation}) => {
             navigation.navigate('NewsDashboard');
           }}
         />
+        <ContentNewsDetails3
+          onPress={() => {
+            const dataNews = {
+              title: listNews?.data[3]?.title,
+              date: listNews?.data[3]?.date,
+              imageUrl: listNews?.data[3]?.imageUrl,
+              text: listNews?.data[3]?.text,
+              credit: listNews?.data[3]?.credit,
+              creator: listNews?.data[3]?.creator,
+            };
+            storeData('dataNews', dataNews);
+            navigation.navigate('NewsDashboard');
+          }}
+        />
       </ScrollView>
       <View style={styles.buttomHeight} />
       <View style={styles.buttom}>
@@ -264,8 +277,8 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   titleLocation: {
-    fontSize: 12,
-    fontFamily: fonts.Poppins.regular,
+    fontSize: 15,
+    fontFamily: fonts.Poppins.medium,
     color: '#242424',
     marginLeft: 10,
   },

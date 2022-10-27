@@ -42,7 +42,7 @@ const AddImageVehicle = () => {
       } else {
         setGalleryPhoto(true);
         setPhoto(res?.assets[0]?.uri);
-        console.log('ressssPhoto', res.assets[0].base64);
+        // console.log('ressssPhoto', res.assets.base64);
       }
       await getData('user').then(async resp => {
         await axios

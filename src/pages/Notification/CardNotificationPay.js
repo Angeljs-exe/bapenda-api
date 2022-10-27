@@ -29,7 +29,6 @@ const CardNotificationPay = ({item, navigation}) => {
         ) : (
           <ImageList />
         )}
-        {/* <ImageList /> */}
         <View style={styles.titleContainer}>
           <Text style={styles.titleNotification}>
             Pemberitahuan Pembayaran Pajak
