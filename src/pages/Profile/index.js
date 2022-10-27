@@ -63,7 +63,9 @@ const Profile = ({navigation}) => {
         <View>
           <View style={styles.line} />
           <View style={styles.menuContainer}>
-            <IconEditProfile />
+            <View style={styles.iconContainer}>
+              <IconEditProfile />
+            </View>
             <View style={styles.textMenuContainer}>
               <Text style={styles.titleMenu}>Detail Profil</Text>
               <Button
@@ -87,7 +89,9 @@ const Profile = ({navigation}) => {
           </View> */}
           <View style={styles.line} />
           <View style={styles.menuContainer}>
-            <IconFAQs />
+            <View style={styles.iconContainer}>
+              <IconFAQs />
+            </View>
             <View style={styles.textMenuContainer}>
               <Text style={styles.titleMenu}>FAQs</Text>
               <Button
@@ -149,6 +153,10 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  iconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textMenuContainer: {
     flex: 1,
