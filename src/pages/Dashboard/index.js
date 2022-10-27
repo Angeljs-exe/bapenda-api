@@ -237,8 +237,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   notifContainer: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   notif: {
     backgroundColor: '#ED1616',
@@ -246,8 +248,8 @@ const styles = StyleSheet.create({
     width: 13,
     height: 13,
     borderRadius: 15,
-    top: -5,
-    left: 15,
+    bottom: 27,
+    left: 23,
   },
   titleNotif: {
     fontSize: 12,

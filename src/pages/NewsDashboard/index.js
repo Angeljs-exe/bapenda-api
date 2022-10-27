@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.Poppins.semibold,
     color: '#242424',
-    width: 400,
+    width: 290,
   },
   penerbitContainer: {
     flexDirection: 'row',
