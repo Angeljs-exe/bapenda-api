@@ -34,9 +34,7 @@ const ContentNewsDetails = ({onPress}) => {
             source={{uri: listNews?.imageUrl}}
           />
           <View style={styles.newsTitleContainer}>
-            <Text style={styles.newsTitle} numberOfLines={1}>
-              {listNews?.title}
-            </Text>
+            <Text style={styles.newsTitle}>{listNews?.title}</Text>
             <Text style={styles.newsDate}>{listNews?.date}</Text>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -90,9 +88,7 @@ const ContentNewsDetails2 = ({onPress}) => {
             source={{uri: listNews?.imageUrl}}
           />
           <View style={styles.newsTitleContainer}>
-            <Text style={styles.newsTitle} numberOfLines={1}>
-              {listNews?.title}
-            </Text>
+            <Text style={styles.newsTitle}>{listNews?.title}</Text>
             <Text style={styles.newsDate}>{listNews?.date}</Text>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -170,7 +166,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
     color: '#242424',
-    width: 210,
+    width: 200,
     flex: 1,
   },
   newsDate: {
