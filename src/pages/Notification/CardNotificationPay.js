@@ -25,11 +25,8 @@ const CardNotificationPay = ({item, navigation}) => {
             navigation.navigate('DetailsVehicle', {dataItem});
           }}
           style={[styles.notificationContainer]}>
-          {item?.fotoKendaraan[0] ? (
-            <Image
-              style={styles.image}
-              source={{uri: item?.fotoKendaraan[0]}}
-            />
+          {item?.fotoKendaraan ? (
+            <Image style={styles.image} source={{uri: item?.fotoKendaraan}} />
           ) : (
             <ImageList />
           )}

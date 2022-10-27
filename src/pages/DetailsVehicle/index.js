@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {Button, Header, Loading} from '../../components';
-import {fonts, IconEditRename} from '../../assets';
+import {fonts} from '../../assets';
 import AddImageVehicle from './AddImageVehicle';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
@@ -28,7 +28,7 @@ const DetailsVehicle = ({navigation, route}) => {
   const selectedVehicle = route.params.dataItem;
 
   let [myValue, setMyValue] = useState('');
-  const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan[0]);
+  const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan);
 
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -152,7 +152,7 @@ const DetailsVehicle = ({navigation, route}) => {
                   activeOpacity={0.5}
                   style={styles.renameContainer}
                   onPress={() => updateName()}>
-                  <IconEditRename />
+                  <Text style={styles.textSaveName}>Simpan</Text>
                 </TouchableOpacity>
               </View>
               {/* <ScrollView
@@ -162,7 +162,7 @@ const DetailsVehicle = ({navigation, route}) => {
               activeOpacity={0.7}
               // onPress={() => openGallery()}
               onPress={() => getImage()}> */}
-              {selectedVehicle?.fotoKendaraan[0] ? (
+              {selectedVehicle?.fotoKendaraan ? (
                 <TouchableOpacity
                   style={styles.imageContainer}
                   onPress={() => changeImage()}>
@@ -314,10 +314,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   renameContainer: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textSaveName: {
+    fontSize: 17,
+    fontFamily: fonts.Poppins.medium,
+    color: '#00ADF8',
   },
   imageContainer: {
     alignItems: 'center',

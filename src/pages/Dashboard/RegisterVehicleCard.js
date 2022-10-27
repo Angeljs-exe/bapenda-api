@@ -33,10 +33,10 @@ const RegisterVehicleCard = ({onPress}) => {
     <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
       <View style={styles.imgContainer}>
         <View style={styles.WrapperImg}>
-          {listDetail?.fotoKendaraan[0] ? (
+          {listDetail?.fotoKendaraan ? (
             <Image
               style={styles.image}
-              source={{uri: listDetail?.fotoKendaraan[0]}}
+              source={{uri: listDetail?.fotoKendaraan}}
             />
           ) : (
             <ImageNoBg />

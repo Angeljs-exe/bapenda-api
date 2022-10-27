@@ -31,10 +31,10 @@ const ListVehicleCard = ({item, navigation}) => {
             }}>
             <View style={styles.listVehicle}>
               <View style={styles.imgBackground}>
-                {item?.fotoKendaraan[0] ? (
+                {item?.fotoKendaraan ? (
                   <Image
                     style={styles.image}
-                    source={{uri: item?.fotoKendaraan[0]}}
+                    source={{uri: item?.fotoKendaraan}}
                   />
                 ) : (
                   <Image style={styles.image} source={ImageNobg} />
