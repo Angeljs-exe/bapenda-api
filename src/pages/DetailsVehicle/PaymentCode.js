@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: fonts.Poppins.semibold,
     textAlign: 'center',
+    color: '#242424',
   },
   pageCodePaymnet: {
     marginTop: 32,
