@@ -50,7 +50,7 @@ const Profile = ({navigation}) => {
     <>
       <SafeAreaView style={styles.page}>
         <Header
-          title="Profile"
+          title="Profil"
           onBack={() => navigation.navigate('Dashboard')}
         />
         <View style={styles.profileContainer}>
@@ -63,7 +63,9 @@ const Profile = ({navigation}) => {
         <View>
           <View style={styles.line} />
           <View style={styles.menuContainer}>
-            <IconEditProfile />
+            <View style={styles.iconContainer}>
+              <IconEditProfile />
+            </View>
             <View style={styles.textMenuContainer}>
               <Text style={styles.titleMenu}>Detail Profil</Text>
               <Button
@@ -87,7 +89,9 @@ const Profile = ({navigation}) => {
           </View> */}
           <View style={styles.line} />
           <View style={styles.menuContainer}>
-            <IconFAQs />
+            <View style={styles.iconContainer}>
+              <IconFAQs />
+            </View>
             <View style={styles.textMenuContainer}>
               <Text style={styles.titleMenu}>FAQs</Text>
               <Button
@@ -146,9 +150,13 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     paddingHorizontal: 25,
-    paddingVertical: 25,
+    paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  iconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textMenuContainer: {
     flex: 1,
@@ -165,14 +173,14 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 46,
+    marginBottom: 40,
   },
   button: {
     paddingHorizontal: 25,
   },
   versionContainer: {
     alignItems: 'center',
-    paddingTop: 20,
+    marginTop: 15,
   },
   versionText: {
     justifyContent: 'center',

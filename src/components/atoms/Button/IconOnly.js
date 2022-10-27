@@ -17,7 +17,7 @@ const IconOnly = ({icon, onPress}) => {
   const Icon = () => {
     if (icon === 'iconNotif') {
       return (
-        <View>
+        <View style={styles.iconWrapper}>
           <IconNotif />
         </View>
       );
@@ -59,7 +59,7 @@ const IconOnly = ({icon, onPress}) => {
     }
     if (icon === 'iconArrow') {
       return (
-        <View>
+        <View style={styles.iconWrapper}>
           <IconArrow />
         </View>
       );
@@ -101,5 +101,11 @@ const styles = StyleSheet.create({
   iconOnly: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  iconWrapper: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

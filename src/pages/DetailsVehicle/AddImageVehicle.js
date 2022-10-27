@@ -12,11 +12,14 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
+import {Loading} from '../../components';
+import {showMessage} from 'react-native-flash-message';
 
 const AddImageVehicle = () => {
   const [galleryPhoto, setGalleryPhoto] = useState(false);
   const [photo, setPhoto] = useState();
   const [itemData, setDataItem] = useState();
+  const [loading, setLoading] = useState(false);
 
   let options = {
     includeBase64: true,
@@ -28,9 +31,11 @@ const AddImageVehicle = () => {
   };
 
   const getImage = async () => {
+    setLoading(true);
     await launchImageLibrary(options, async res => {
       if (res?.didCancel) {
         setGalleryPhoto(false);
+        setLoading(false);
         Alert.alert('Anda Membatalkan Tambah Foto');
       } else if (res.error) {
         console.log('ImagePicker Error: ', res.error);
@@ -45,11 +50,20 @@ const AddImageVehicle = () => {
             _id: `${itemData?._id}`,
             fotoKendaraan: `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
           })
-          .then(respon => {
-            console.log('Photo Berhasil', respon);
+          .then(() => {
+            setLoading(false);
+            showMessage({
+              message: 'Foto Kendaraan Berhasil Ditambahkan',
+              backgroundColor: '#EBF6EE',
+              color: '#2D8C46',
+            });
           })
-          .catch(error => {
-            console.log('photo error', error);
+          .catch(() => {
+            showMessage({
+              message: 'Foto Kendaraan Gagal Ditambahkan',
+              backgroundColor: '#FFF3F3',
+              color: '#9C1C21',
+            });
           });
       });
     });
@@ -66,18 +80,21 @@ const AddImageVehicle = () => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={() => getImage()}>
-      {galleryPhoto && <Image style={styles.image} source={{uri: photo}} />}
-      {!galleryPhoto && (
-        <View style={styles.addImageContainer}>
-          <ImageNoBg />
-          <View style={styles.titleAddImage}>
-            <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
-            <IconAddPhoto />
+    <>
+      <TouchableOpacity onPress={() => getImage()}>
+        {galleryPhoto && <Image style={styles.image} source={{uri: photo}} />}
+        {!galleryPhoto && (
+          <View style={styles.addImageContainer}>
+            <ImageNoBg />
+            <View style={styles.titleAddImage}>
+              <Text style={styles.titleAddPhoto}>Tambah Foto</Text>
+              <IconAddPhoto />
+            </View>
           </View>
-        </View>
-      )}
-    </TouchableOpacity>
+        )}
+      </TouchableOpacity>
+      {loading && <Loading />}
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, Header} from '../../components';
+import {Button, Header, Loading} from '../../components';
 import {fonts, IconEditRename} from '../../assets';
 import AddImageVehicle from './AddImageVehicle';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
@@ -21,6 +21,7 @@ import {baseUrl} from '../../utils/config';
 import axios from 'axios';
 import {getData} from '../../utils';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {showMessage} from 'react-native-flash-message';
 // import {launchImageLibrary} from 'react-native-image-picker';
 
 const DetailsVehicle = ({navigation, route}) => {
@@ -37,20 +38,31 @@ const DetailsVehicle = ({navigation, route}) => {
     sheetRef.current?.snapToIndex(index);
     setIsOpen(true);
   }, []);
+  const [loading, setLoading] = useState(false);
 
   const updateName = () => {
+    setLoading(true);
     getData('user').then(res => {
       axios
         .post(`${baseUrl}/api/posts/updateName/${res.id}`, {
           _id: `${itemData?._id}`,
           NamaKendaraan: `${myValue}`,
         })
-        .then(response => {
-          // setMyValue('');
-          console.log('sukses brow', response);
+        .then(() => {
+          setLoading(false);
+          showMessage({
+            message: 'Nama Kendaraan Berhasil Diganti',
+            backgroundColor: '#EBF6EE',
+            color: '#2D8C46',
+          });
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(() => {
+          setLoading(false);
+          showMessage({
+            message: 'Nama Kendaraan Gagal Diganti',
+            backgroundColor: '#FFF3F3',
+            color: '#9C1C21',
+          });
         });
     });
   };
@@ -65,12 +77,14 @@ const DetailsVehicle = ({navigation, route}) => {
   };
 
   const changeImage = async () => {
+    setLoading(true);
     await launchImageLibrary(options, async res => {
       if (res?.didCancel) {
+        setLoading(false);
         Alert.alert('Anda Membatalkan Tambah Foto');
       } else {
         setPhoto(res?.assets[0]?.uri);
-        console.log('ressssPhoto', res.assets[0].base64);
+        // console.log('ressssPhoto', res.assets[0].base64);
       }
       await getData('user').then(async resp => {
         await axios
@@ -78,11 +92,21 @@ const DetailsVehicle = ({navigation, route}) => {
             _id: `${itemData?._id}`,
             fotoKendaraan: `data:${res?.assets[0]?.type};base64, ${res?.assets[0]?.base64}`,
           })
-          .then(respon => {
-            console.log('sukses ganti foto', respon);
+          .then(() => {
+            setLoading(false);
+            showMessage({
+              message: 'Foto Kendaraan Berhasil Diganti',
+              backgroundColor: '#EBF6EE',
+              color: '#2D8C46',
+            });
           })
-          .catch(error => {
-            console.log('error ganti foto', error);
+          .catch(() => {
+            setLoading(false);
+            showMessage({
+              message: 'Foto Kendaraan Gagal Diganti',
+              backgroundColor: '#FFF3F3',
+              color: '#9C1C21',
+            });
           });
       });
     });
@@ -99,56 +123,57 @@ const DetailsVehicle = ({navigation, route}) => {
   });
 
   return (
-    <SafeAreaView style={styles.page}>
-      <GestureHandlerRootView style={styles.page}>
-        {/* {backgroundColor: isOpen ? '#75757580' : '#FFFFFF'} */}
-        <Header
-          title="Detail Kendaraan"
-          onBack={() => navigation.replace('Dashboard')}
-        />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.detailsVehicleContainer}>
-            <View style={styles.wrapperDetailsVehicle}>
-              <TextInput
-                style={styles.inputTitle}
-                placeholder={
-                  selectedVehicle?.NamaKendaraan
-                    ? `${selectedVehicle?.NamaKendaraan}`
-                    : 'Nama Kendaraan'
-                }
-                placeholderTextColor={
-                  selectedVehicle?.NamaKendaraan ? '#242424' : '#D9D9D9'
-                }
-                value={myValue}
-                onChangeText={value => setMyValue(value)}
-              />
-              <TouchableOpacity
-                activeOpacity={0.5}
-                style={styles.renameContainer}
-                onPress={() => updateName()}>
-                <IconEditRename />
-              </TouchableOpacity>
-            </View>
-            {/* <ScrollView
+    <>
+      <SafeAreaView style={styles.page}>
+        <GestureHandlerRootView style={styles.page}>
+          {/* {backgroundColor: isOpen ? '#75757580' : '#FFFFFF'} */}
+          <Header
+            title="Detail Kendaraan"
+            onBack={() => navigation.replace('Dashboard')}
+          />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.detailsVehicleContainer}>
+              <View style={styles.wrapperDetailsVehicle}>
+                <TextInput
+                  style={styles.inputTitle}
+                  placeholder={
+                    selectedVehicle?.NamaKendaraan
+                      ? `${selectedVehicle?.NamaKendaraan}`
+                      : 'Nama Kendaraan'
+                  }
+                  placeholderTextColor={
+                    selectedVehicle?.NamaKendaraan ? '#242424' : '#D9D9D9'
+                  }
+                  value={myValue}
+                  onChangeText={value => setMyValue(value)}
+                />
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={styles.renameContainer}
+                  onPress={() => updateName()}>
+                  <IconEditRename />
+                </TouchableOpacity>
+              </View>
+              {/* <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}> */}
-            {/* <TouchableOpacity
+              {/* <TouchableOpacity
               activeOpacity={0.7}
               // onPress={() => openGallery()}
               onPress={() => getImage()}> */}
-            {selectedVehicle?.fotoKendaraan ? (
-              <TouchableOpacity
-                style={styles.imageContainer}
-                onPress={() => changeImage()}>
-                <Image style={styles.image} source={{uri: photo}} />
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.addImageContainer}>
-                <AddImageVehicle />
-              </View>
-            )}
-            {/* </TouchableOpacity> */}
-            {/* <AddImageVehicle
+              {selectedVehicle?.fotoKendaraan ? (
+                <TouchableOpacity
+                  style={styles.imageContainer}
+                  onPress={() => changeImage()}>
+                  <Image style={styles.image} source={{uri: photo}} />
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.addImageContainer}>
+                  <AddImageVehicle />
+                </View>
+              )}
+              {/* </TouchableOpacity> */}
+              {/* <AddImageVehicle
                 title={'Tambah Foto Belakang'}
                 source={ImageNobg}
               />
@@ -160,103 +185,110 @@ const DetailsVehicle = ({navigation, route}) => {
                 title={'Tambah Foto Samping Kiri'}
                 source={ImageNobg}
               /> */}
-            {/* </ScrollView> */}
-            <View style={styles.detailsContainer}>
-              <Text style={styles.estimationContainer}>
-                *estimasi total pembayaran
-              </Text>
-              <View style={styles.paymentStatusContainer}>
-                <Text style={styles.titlePayment}>
-                  Rp {selectedVehicle?.PembayaranTerakhir}
+              {/* </ScrollView> */}
+              <View style={styles.detailsContainer}>
+                <Text style={styles.estimationContainer}>
+                  *estimasi total pembayaran
                 </Text>
-                <View style={styles.wrapperPaymentStatus}>
-                  {/* <Text style={styles.titlePaymentStatus}>Belum dibayar</Text> */}
-                  {selectedVehicle?.KodeBayar === '-' ? (
-                    <View style={styles.paymnetStatusContainerLunas}>
-                      <Text style={styles.titlePaymentStatusLunas}>Lunas</Text>
-                    </View>
-                  ) : (
-                    <View style={styles.paymnetStatusContainer}>
-                      <Text style={styles.titlePaymentStatus}>
-                        Belum dibayar
-                      </Text>
-                    </View>
-                  )}
+                <View style={styles.paymentStatusContainer}>
+                  <Text style={styles.titlePayment}>
+                    Rp {selectedVehicle?.PembayaranTerakhir}
+                  </Text>
+                  <View style={styles.wrapperPaymentStatus}>
+                    {/* <Text style={styles.titlePaymentStatus}>Belum dibayar</Text> */}
+                    {selectedVehicle?.KodeBayar === '-' ? (
+                      <View style={styles.paymnetStatusContainerLunas}>
+                        <Text style={styles.titlePaymentStatusLunas}>
+                          Lunas
+                        </Text>
+                      </View>
+                    ) : (
+                      <View style={styles.paymnetStatusContainer}>
+                        <Text style={styles.titlePaymentStatus}>
+                          Belum dibayar
+                        </Text>
+                      </View>
+                    )}
+                  </View>
                 </View>
-              </View>
-              <Text style={styles.titleRemindersDate}>
-                Jatuh Tempo{' '}
-                <Text style={styles.titlePajak}>
-                  {selectedVehicle?.JTPajak}
+                <Text style={styles.titleRemindersDate}>
+                  Jatuh Tempo{' '}
+                  <Text style={styles.titlePajak}>
+                    {selectedVehicle?.JTPajak}
+                  </Text>
                 </Text>
-              </Text>
-              <View style={styles.dataVehicleContainer}>
-                <View style={styles.dataVehicle}>
-                  <Text style={styles.titleDataVehicle}>NOMOR MESIN</Text>
-                  <Text style={styles.titleOutputVehicle}>
-                    {selectedVehicle?.NomorMesin}
-                  </Text>
+
+                <View style={styles.dataVehicleContainer}>
+                  <View style={styles.dataVehicle}>
+                    <Text style={styles.titleDataVehicle}>NOMOR MESIN</Text>
+                    <Text style={styles.titleOutputVehicle}>
+                      {selectedVehicle?.NomorMesin}
+                    </Text>
+                  </View>
+                  <View style={styles.line} />
                 </View>
-                <View style={styles.line} />
-              </View>
-              <View style={styles.dataVehicleContainer}>
-                <View style={styles.dataVehicle}>
-                  <Text style={styles.titleDataVehicle}>NOMOR POLISI</Text>
-                  <Text style={styles.titleOutputVehicle}>
-                    {`${
-                      selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
-                    } ${selectedVehicle?.NRKB?.match(/\d+/g)} ${
-                      selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
-                    }`}
-                  </Text>
+                <View style={styles.dataVehicleContainer}>
+                  <View style={styles.dataVehicle}>
+                    <Text style={styles.titleDataVehicle}>NOMOR POLISI</Text>
+                    <Text style={styles.titleOutputVehicle}>
+                      {`${
+                        selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
+                      } ${selectedVehicle?.NRKB?.match(/\d+/g)} ${
+                        selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
+                      }`}
+                    </Text>
+                  </View>
+                  <View style={styles.line} />
                 </View>
-                <View style={styles.line} />
-              </View>
-              <View style={styles.dataVehicleContainer}>
-                <View style={styles.dataVehicle}>
-                  <Text style={styles.titleDataVehicle}>TAHUN PEMBUATAN</Text>
-                  <Text style={styles.titleOutputVehicle}>
-                    {selectedVehicle?.TahunBuat}
-                  </Text>
+                <View style={styles.dataVehicleContainer}>
+                  <View style={styles.dataVehicle}>
+                    <Text style={styles.titleDataVehicle}>TAHUN PEMBUATAN</Text>
+                    <Text style={styles.titleOutputVehicle}>
+                      {selectedVehicle?.TahunBuat}
+                    </Text>
+                  </View>
+                  <View style={styles.line} />
                 </View>
-                <View style={styles.line} />
-              </View>
-              <View style={styles.dataVehicleContainer}>
-                <View style={styles.dataVehicle}>
-                  <Text style={styles.titleDataVehicle}>MASA BERLAKU STNK</Text>
-                  <Text style={styles.titleOutputVehicle}>-</Text>
+                <View style={styles.dataVehicleContainer}>
+                  <View style={styles.dataVehicle}>
+                    <Text style={styles.titleDataVehicle}>
+                      MASA BERLAKU STNK
+                    </Text>
+                    <Text style={styles.titleOutputVehicle}>-</Text>
+                  </View>
+                  <View style={styles.line} />
                 </View>
-                <View style={styles.line} />
-              </View>
-              <View style={styles.dataVehicleContainer}>
-                <View style={styles.dataVehicle}>
-                  <Text style={styles.titleDataVehicle}>TYPE</Text>
-                  <Text style={styles.titleOutputVehicle}>
-                    {selectedVehicle?.TipeKendaraan}
-                  </Text>
+                <View style={styles.dataVehicleContainer}>
+                  <View style={styles.dataVehicle}>
+                    <Text style={styles.titleDataVehicle}>TYPE</Text>
+                    <Text style={styles.titleOutputVehicle}>
+                      {selectedVehicle?.TipeKendaraan}
+                    </Text>
+                  </View>
+                  <View style={styles.line} />
                 </View>
-                <View style={styles.line} />
               </View>
             </View>
-          </View>
-          <View style={styles.button}>
-            <Button
-              title="Lihat Kode Bayar"
-              onPress={() => handleSnapPress(1)}
-            />
-          </View>
-        </ScrollView>
-        <BottomSheet
-          ref={sheetRef}
-          snapPoints={snapPoints}
-          enablePanDownToClose={true}
-          onClose={() => setIsOpen(false)}>
-          <BottomSheetView>
-            <PaymentCode />
-          </BottomSheetView>
-        </BottomSheet>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+            <View style={styles.button}>
+              <Button
+                title="Lihat Kode Bayar"
+                onPress={() => handleSnapPress(1)}
+              />
+            </View>
+          </ScrollView>
+          <BottomSheet
+            ref={sheetRef}
+            snapPoints={snapPoints}
+            enablePanDownToClose={true}
+            onClose={() => setIsOpen(false)}>
+            <BottomSheetView>
+              <PaymentCode />
+            </BottomSheetView>
+          </BottomSheet>
+        </GestureHandlerRootView>
+      </SafeAreaView>
+      {loading && <Loading />}
+    </>
   );
 };
 
@@ -284,8 +316,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   renameContainer: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },

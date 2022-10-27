@@ -34,9 +34,7 @@ const ContentNewsDetails = ({onPress}) => {
             source={{uri: listNews?.imageUrl}}
           />
           <View style={styles.newsTitleContainer}>
-            <Text style={styles.newsTitle} numberOfLines={1}>
-              {listNews?.title}
-            </Text>
+            <Text style={styles.newsTitle}>{listNews?.title}</Text>
             <Text style={styles.newsDate}>{listNews?.date}</Text>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -90,9 +88,7 @@ const ContentNewsDetails2 = ({onPress}) => {
             source={{uri: listNews?.imageUrl}}
           />
           <View style={styles.newsTitleContainer}>
-            <Text style={styles.newsTitle} numberOfLines={1}>
-              {listNews?.title}
-            </Text>
+            <Text style={styles.newsTitle}>{listNews?.title}</Text>
             <Text style={styles.newsDate}>{listNews?.date}</Text>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -128,7 +124,6 @@ const styles = StyleSheet.create({
     marginTop: 9,
   },
   NewsContainer1: {
-    borderWidth: 1,
     borderColor: '#9B9B9B',
     borderRadius: 6,
     height: 152,
@@ -136,9 +131,13 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     backgroundColor: '#FFFFFF',
     marginBottom: 10,
+    elevation: 10,
+    shadowColor: '#000000',
+    shadowOffset: {width: 2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   NewsContainer2: {
-    borderWidth: 1,
     borderColor: '#9B9B9B',
     borderRadius: 6,
     height: 152,
@@ -146,6 +145,11 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     backgroundColor: '#FFFFFF',
     marginBottom: 40,
+    elevation: 10,
+    shadowColor: '#000000',
+    shadowOffset: {width: 2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   newsSamsat: {
     flexDirection: 'row',
@@ -162,7 +166,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
     color: '#242424',
-    width: 230,
+    width: 185,
     flex: 1,
   },
   newsDate: {
