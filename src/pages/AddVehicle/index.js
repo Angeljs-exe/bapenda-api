@@ -45,6 +45,7 @@ const AddVehicle = ({navigation}) => {
             NamaPemilik: myRepo.NamaPemilik,
             JenisKendaraan: myRepo.JenisKendaraan,
             NomorRangka: myRepo.NomorRangka,
+            // PembayaranTerakhir: myRepo.PembayaranTerakhir,
           };
           storeData('userVehicle', data);
           navigation.navigate('InputVehicle', data);

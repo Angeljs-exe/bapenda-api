@@ -50,7 +50,7 @@ const Profile = ({navigation}) => {
     <>
       <SafeAreaView style={styles.page}>
         <Header
-          title="Profile"
+          title="Profil"
           onBack={() => navigation.navigate('Dashboard')}
         />
         <View style={styles.profileContainer}>
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     paddingHorizontal: 25,
-    paddingVertical: 25,
+    paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -173,14 +173,14 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 46,
+    marginBottom: 40,
   },
   button: {
     paddingHorizontal: 25,
   },
   versionContainer: {
     alignItems: 'center',
-    paddingTop: 20,
+    marginTop: 15,
   },
   versionText: {
     justifyContent: 'center',
