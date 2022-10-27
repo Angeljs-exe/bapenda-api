@@ -25,6 +25,7 @@ const ListVehicle = ({navigation}) => {
         .get(`${baseUrl}/api/posts/${res.id}`)
         .then(response => {
           setListDetail(response.data);
+          console.log('resssss', response.data);
           if (response.data.kendaraan.length === 0) {
             setTouchAdd(false);
           } else {

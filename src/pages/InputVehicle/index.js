@@ -12,6 +12,7 @@ import {fonts} from '../../assets';
 import {getData} from '../../utils';
 import axios from 'axios';
 import {baseUrl} from '../../utils/config';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const InputVehicle = ({navigation}) => {
   const [dataVehicle, setDataVehicle] = useState({
@@ -24,6 +25,7 @@ const InputVehicle = ({navigation}) => {
     NamaPemilik: '',
     JenisKendaraan: '',
     NomorRangka: '',
+    // PembayaranTerakhir: '',
   });
   const [numberRangka, setNumberRangka] = useState(0);
 
@@ -53,6 +55,7 @@ const InputVehicle = ({navigation}) => {
             NRKB: dataVehicle.NRKB,
             JTPajak: dataVehicle.JTPajak,
             KodeBayar: dataVehicle.KodeBayar,
+            // PembayaranTerakhir: dataVehicle.PembayaranTerakhir,
           })
           .then(() => {
             navigation.replace('RegisCompleted');
@@ -72,54 +75,56 @@ const InputVehicle = ({navigation}) => {
         title="Tambah Kendaraan"
         onBack={() => navigation.navigate('AddVehicle')}
       />
-      <View style={styles.detailsContainer}>
-        <Text style={styles.titleDetails}>Apakah data ini sesuai?</Text>
-        <View style={styles.dataOwnerContainer}>
-          <Text style={styles.titleContainer}>NAMA PEMILIK</Text>
-          <Text style={styles.subTitleOwnerName} numberOfLines={1}>
-            {dataVehicle?.NamaPemilik}
-          </Text>
-        </View>
-        <View style={styles.line} />
-        <View style={styles.dataOwnerContainer}>
-          <Text style={styles.titleContainer}>JENIS KENDARAAN</Text>
-          <Text style={styles.subTitle}>{dataVehicle?.JenisKendaraan}</Text>
-        </View>
-        <View style={styles.line} />
-        <View style={styles.dataOwnerContainer}>
-          <Text style={styles.titleContainer}>NOMOR POLISI</Text>
-          <Text style={styles.subTitle}>{`${
-            dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[0]
-          } ${dataVehicle?.NRKB.match(/\d+/g)} ${
-            dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[1]
-          }`}</Text>
-        </View>
-        <View style={styles.line} />
-        <Text style={styles.titleNotice}>
-          *Apabila benar lengkapi data dibawah ini.
-        </Text>
-        <View style={styles.chassisNumberContainer}>
-          <View style={styles.wrapperChassisNumber}>
-            <Text style={styles.titleChassisNumber}>
-              Masukkan Nomor Rangka Anda
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.titleDetails}>Apakah data ini sesuai?</Text>
+          <View style={styles.dataOwnerContainer}>
+            <Text style={styles.titleContainer}>NAMA PEMILIK</Text>
+            <Text style={styles.subTitleOwnerName} numberOfLines={1}>
+              {dataVehicle?.NamaPemilik}
             </Text>
           </View>
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="6 digit terakhir nomor rangka"
-              placeholderTextColor="#9E9E9E"
-              value={numberRangka}
-              maxLength={6}
-              keyboardType="number-pad"
-              onChangeText={value => setNumberRangka(value)}
-            />
+          <View style={styles.line} />
+          <View style={styles.dataOwnerContainer}>
+            <Text style={styles.titleContainer}>JENIS KENDARAAN</Text>
+            <Text style={styles.subTitle}>{dataVehicle?.JenisKendaraan}</Text>
+          </View>
+          <View style={styles.line} />
+          <View style={styles.dataOwnerContainer}>
+            <Text style={styles.titleContainer}>NOMOR POLISI</Text>
+            <Text style={styles.subTitle}>{`${
+              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[0]
+            } ${dataVehicle?.NRKB.match(/\d+/g)} ${
+              dataVehicle?.NRKB.match(/[a-zA-Z]+/g)?.[1]
+            }`}</Text>
+          </View>
+          <View style={styles.line} />
+          <Text style={styles.titleNotice}>
+            *Apabila benar lengkapi data dibawah ini.
+          </Text>
+          <View style={styles.chassisNumberContainer}>
+            <View style={styles.wrapperChassisNumber}>
+              <Text style={styles.titleChassisNumber}>
+                Masukkan Nomor Rangka Anda
+              </Text>
+            </View>
+            <View style={styles.textInputContainer}>
+              <TextInput
+                style={styles.textInput}
+                placeholder="6 digit terakhir nomor rangka"
+                placeholderTextColor="#9E9E9E"
+                value={numberRangka}
+                maxLength={6}
+                keyboardType="number-pad"
+                onChangeText={value => setNumberRangka(value)}
+              />
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button title="Konfirmasi" onPress={() => insertVehicle()} />
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button title="Konfirmasi" onPress={() => insertVehicle()} />
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

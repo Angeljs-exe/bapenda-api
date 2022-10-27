@@ -31,8 +31,7 @@ const DATA = [
     id: '3',
     title: 'Jika Kendaraan yang saya miliki belum jatuh tempo?',
     title1: '● Akan tampil notifikasi jika kendaraan anda belum jatuh tempo.',
-    title2: 'Jika  saya telat membayar pajak kendaraan yang saya miliki?',
-    title3:
+    title2:
       '● Akan tampil notifikasi belum mmebayar pajak kendaraan yang anda miliki.',
   },
   {},

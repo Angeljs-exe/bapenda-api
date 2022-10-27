@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
     color: '#242424',
-    width: 200,
+    width: 185,
     flex: 1,
   },
   newsDate: {
