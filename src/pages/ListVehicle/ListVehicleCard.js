@@ -25,16 +25,17 @@ const ListVehicleCard = ({item, navigation}) => {
                 _id: item._id,
                 NamaKendaraan: item.NamaKendaraan,
                 fotoKendaraan: item.fotoKendaraan,
+                PembayaranTerakhir: item.PembayaranTerakhir,
               };
               storeData('itemVehicle', dataItem);
               navigation.navigate('DetailsVehicle', {dataItem});
             }}>
             <View style={styles.listVehicle}>
               <View style={styles.imgBackground}>
-                {item?.fotoKendaraan[0] ? (
+                {item?.fotoKendaraan ? (
                   <Image
                     style={styles.image}
-                    source={{uri: item?.fotoKendaraan[0]}}
+                    source={{uri: item?.fotoKendaraan}}
                   />
                 ) : (
                   <Image style={styles.image} source={ImageNobg} />

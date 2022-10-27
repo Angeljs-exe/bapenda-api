@@ -25,9 +25,8 @@ import {launchImageLibrary} from 'react-native-image-picker';
 
 const DetailsVehicle = ({navigation, route}) => {
   const selectedVehicle = route.params.dataItem;
-
   let [myValue, setMyValue] = useState('');
-  const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan[0]);
+  const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan);
 
   const sheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -137,7 +136,7 @@ const DetailsVehicle = ({navigation, route}) => {
               activeOpacity={0.7}
               // onPress={() => openGallery()}
               onPress={() => getImage()}> */}
-            {selectedVehicle?.fotoKendaraan[0] ? (
+            {selectedVehicle?.fotoKendaraan ? (
               <TouchableOpacity
                 style={styles.imageContainer}
                 onPress={() => changeImage()}>
@@ -167,7 +166,9 @@ const DetailsVehicle = ({navigation, route}) => {
                 *estimasi total pembayaran
               </Text>
               <View style={styles.paymentStatusContainer}>
-                <Text style={styles.titlePayment}>Rp -</Text>
+                <Text style={styles.titlePayment}>
+                  Rp {selectedVehicle?.PembayaranTerakhir}
+                </Text>
                 <View style={styles.wrapperPaymentStatus}>
                   {/* <Text style={styles.titlePaymentStatus}>Belum dibayar</Text> */}
                   {selectedVehicle?.KodeBayar === '-' ? (
@@ -184,7 +185,7 @@ const DetailsVehicle = ({navigation, route}) => {
                 </View>
               </View>
               <Text style={styles.titleRemindersDate}>
-                Batas Pembayaran{' '}
+                Jatuh Tempo{' '}
                 <Text style={styles.titlePajak}>
                   {selectedVehicle?.JTPajak}
                 </Text>

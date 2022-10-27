@@ -35,7 +35,7 @@ const CardNotificationPay = ({item, navigation}) => {
         }}
         style={styles.notificationContainer}>
         {item?.fotoKendaraan[0] ? (
-          <Image style={styles.image} source={{uri: item?.fotoKendaraan[0]}} />
+          <Image style={styles.image} source={{uri: item?.fotoKendaraan}} />
         ) : (
           <ImageList />
         )}

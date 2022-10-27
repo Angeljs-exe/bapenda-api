@@ -24,6 +24,7 @@ const InputVehicle = ({navigation}) => {
     NamaPemilik: '',
     JenisKendaraan: '',
     NomorRangka: '',
+    PembayaranTerakhir: '',
   });
   const [numberRangka, setNumberRangka] = useState(0);
 
@@ -53,6 +54,7 @@ const InputVehicle = ({navigation}) => {
             NRKB: dataVehicle.NRKB,
             JTPajak: dataVehicle.JTPajak,
             KodeBayar: dataVehicle.KodeBayar,
+            PembayaranTerakhir: dataVehicle.PembayaranTerakhir,
           })
           .then(() => {
             navigation.replace('RegisCompleted');
@@ -69,7 +71,7 @@ const InputVehicle = ({navigation}) => {
   return (
     <SafeAreaView style={styles.page}>
       <Header
-        title="Tambah Kendaraan"
+        title="Rincian Kendaraan"
         onBack={() => navigation.navigate('AddVehicle')}
       />
       <View style={styles.detailsContainer}>
