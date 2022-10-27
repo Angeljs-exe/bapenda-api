@@ -10,9 +10,7 @@ const NewsSamsatCard = ({item, navigation}) => {
         <View style={styles.newsSamsat}>
           <Image style={styles.imgNewsSamsat} source={{uri: item?.imageUrl}} />
           <View style={styles.newsTitleContainer}>
-            <Text style={styles.newsTitle} numberOfLines={1}>
-              {item?.title}
-            </Text>
+            <Text style={styles.newsTitle}>{item?.title}</Text>
             <Text style={styles.newsDate}>{item?.date}</Text>
             <TouchableOpacity
               activeOpacity={0.5}
@@ -76,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.Poppins.regular,
     color: '#242424',
-    width: 210,
+    width: 200,
     flex: 1,
   },
   newsDate: {
