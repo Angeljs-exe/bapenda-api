@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Image,
@@ -10,21 +10,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, Header, Loading} from '../../components';
-import {fonts} from '../../assets';
+import { Button, Header, Loading } from '../../components';
+import { fonts } from '../../assets';
 import AddImageVehicle from './AddImageVehicle';
-import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import PaymentCode from './PaymentCode';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 // import {launchImageLibrary} from 'react-native-image-picker';
-import {baseUrl} from '../../utils/config';
+import { baseUrl } from '../../utils/config';
 import axios from 'axios';
-import {getData} from '../../utils';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {showMessage} from 'react-native-flash-message';
+import { getData } from '../../utils';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { showMessage } from 'react-native-flash-message';
 // import {launchImageLibrary} from 'react-native-image-picker';
 
-const DetailsVehicle = ({navigation, route}) => {
+const DetailsVehicle = ({ navigation, route }) => {
   const selectedVehicle = route.params.dataItem;
   let [myValue, setMyValue] = useState('');
   const [photo, setPhoto] = useState(selectedVehicle?.fotoKendaraan);
@@ -165,7 +165,7 @@ const DetailsVehicle = ({navigation, route}) => {
                 <TouchableOpacity
                   style={styles.imageContainer}
                   onPress={() => changeImage()}>
-                  <Image style={styles.image} source={{uri: photo}} />
+                  <Image style={styles.image} source={{ uri: photo }} />
                 </TouchableOpacity>
               ) : (
                 <View style={styles.addImageContainer}>
@@ -192,7 +192,7 @@ const DetailsVehicle = ({navigation, route}) => {
                 </Text>
                 <View style={styles.paymentStatusContainer}>
                   <Text style={styles.titlePayment}>
-                    Rp {selectedVehicle?.PembayaranTerakhir}
+                    Rp {selectedVehicle?.PembayaranTerakhir.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
                   </Text>
                   <View style={styles.wrapperPaymentStatus}>
                     {/* <Text style={styles.titlePaymentStatus}>Belum dibayar</Text> */}
@@ -231,11 +231,9 @@ const DetailsVehicle = ({navigation, route}) => {
                   <View style={styles.dataVehicle}>
                     <Text style={styles.titleDataVehicle}>NOMOR POLISI</Text>
                     <Text style={styles.titleOutputVehicle}>
-                      {`${
-                        selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
-                      } ${selectedVehicle?.NRKB?.match(/\d+/g)} ${
-                        selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
-                      }`}
+                      {`${selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[0]
+                        } ${selectedVehicle?.NRKB?.match(/\d+/g)} ${selectedVehicle?.NRKB?.match(/[a-zA-Z]+/g)?.[1]
+                        }`}
                     </Text>
                   </View>
                   <View style={styles.line} />
