@@ -33,8 +33,17 @@ const PersonalData = ({
     name: '',
     nik: '',
     email: '',
-    phoneNumber: '',
   });
+
+  let [numberPhone, setNumberPhone] = useState('');
+  let check = numberPhone.substring(0, 1);
+  let added = numberPhone.substring(1, 13);
+
+  if (check === '0') {
+    numberPhone = `${selectedCountry.dial_code}${added}`;
+  } else {
+    numberPhone = `${selectedCountry.dial_code}${numberPhone}`;
+  }
 
   const submitAPI = () => {
     axios
@@ -42,7 +51,7 @@ const PersonalData = ({
         nama: `${form.name}`,
         nik: `${form.nik}`,
         email: `${form.email ? form.email : gEmail}`,
-        noTlp: `${form.phoneNumber ? form.phoneNumber : phoneNumber}`,
+        noTlp: `${numberPhone ? numberPhone : phoneNumber}`,
         published: true,
         uid: `${uid}`,
         token: `${pushNotifToken}`,
@@ -54,7 +63,7 @@ const PersonalData = ({
           name: form.name,
           nik: form.nik,
           email: form.email ? form.email : gEmail,
-          phoneNumber: form.phoneNumber ? form.phoneNumber : phoneNumber,
+          phoneNumber: numberPhone ? numberPhone : phoneNumber,
           uid: uid,
           id: res.data.id,
           token: `${pushNotifToken}`,
@@ -149,12 +158,7 @@ const PersonalData = ({
                       </TouchableOpacity>
                       <InputNumberPhone
                         placeholder={'Masukkan Nomor Telepon Anda'}
-                        onChangeText={text =>
-                          setForm(
-                            'phoneNumber',
-                            selectedCountry?.dial_code + text,
-                          )
-                        }
+                        onChangeText={text => setNumberPhone(text)}
                       />
                     </View>
                   </View>
